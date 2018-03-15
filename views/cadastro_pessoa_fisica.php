@@ -116,11 +116,11 @@ if (isset($_SESSION['sucesso'])) {
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="fixo">Telefone (fixo)</label>
-                                    <input type="text" name="fixo" id="fixo" class="form-control mask-telefone"/>
+                                    <input type="text" name="fixo" id="fixo" class="form-control mask-telefone" placeholder="(00) 0000-0000"/>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="celular">Celular</label>
-                                    <input type="text" name="celular" id="celular" class="form-control mask-celular"/>
+                                    <input type="text" name="celular" id="celular" class="form-control mask-celular" placeholder="(00) 00000-0000"/>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -144,7 +144,7 @@ if (isset($_SESSION['sucesso'])) {
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="cep">CEP</label>
-                                    <input type="text" name="cep" id="cep" class="form-control mask-cep"/>
+                                    <input type="text" name="cep" id="cep" class="form-control mask-cep" placeholder="00000-000"/>
                                 </div>
                             </div>
                         </div>
