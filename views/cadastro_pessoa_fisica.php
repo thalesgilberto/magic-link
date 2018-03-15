@@ -65,8 +65,8 @@ if (isset($_SESSION['sucesso'])) {
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-5">
-                                    <label for="cpf">CPF*</label>
-                                    <input type="text" name="cpf" id="cpf" class="form-control mask-cpf" placeholder="000.000.000-00" required="required"/>
+                                    <label for="cpf_cnpj">CPF*</label>
+                                    <input type="text" name="cpf_cnpj" id="cpf_cnpj" class="form-control mask-cpf" placeholder="000.000.000-00" required="required"/>
                                 </div>
                                 <div class="form-group col-md-7">
                                     <label for="email">Email*</label>

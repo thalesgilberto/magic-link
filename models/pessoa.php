@@ -185,7 +185,7 @@ class Pessoa {
         }
     }
 
-    public function cadastrar_usuario() {
+    public function cadastrar_pessoa() {
         $db = new DB();
         $pessoa = new Pessoa();
         $link = $db->DBconnect();
