@@ -1,11 +1,12 @@
 <?php
+require_once 'config.php';
 
 class Telefone {
 
     private $id_pessoa;
     private $celular;
-    private $fixo; 
-    
+    private $fixo;
+
     public function getId_pessoa() {
         return $this->id_pessoa;
     }
@@ -36,13 +37,18 @@ class Telefone {
     public function cadastrar_telefone_pessoa() {
         $db = new DB();
         $link = $db->DBconnect();
-        
-        $query = "INSERT INTO (id_pessoa, celular, fixo)"
-                . "VALUES (".$this->id_pessoa.",'".$this->celular."','".$this->fixo."')";
-        if(mysqli_query($link, $query)){
+
+        $query_id_pessoa = "SELECT id_pessoa FROM Pessoa WHERE cpf_cnpj='" . $this->id_pessoa . "'";
+        $resultado = mysqli_query($link, $query_id_pessoa);
+        $id = mysqli_fetch_array($resultado);
+
+        $query = "INSERT INTO Telefone(id_pessoa, celular, fixo)"
+                . "VALUES(" . $id['id_pessoa'] . ",'" . $this->celular . "','" . $this->fixo . "')";
+
+        if (mysqli_query($link, $query)) {
             $db->DBclose($link);
             return true;
-        }else{
+        } else {
             $db->DBclose($link);
             return false;
         }

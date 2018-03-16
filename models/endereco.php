@@ -1,5 +1,5 @@
 <?php
-
+require_once 'config.php';
 class Endereco{
     private $id_pessoa;
     private $endereco;
