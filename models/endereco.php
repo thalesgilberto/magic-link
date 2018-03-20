@@ -1,13 +1,16 @@
 <?php
+
 require_once 'config.php';
-class Endereco{
+
+class Endereco {
+
     private $id_pessoa;
     private $endereco;
     private $bairro;
     private $numero;
     private $cidade_id;
     private $cep;
-    
+
     public function getId_pessoa() {
         return $this->id_pessoa;
     }
@@ -61,4 +64,26 @@ class Endereco{
         $this->cep = $cep;
         return $this;
     }
+
+    public function cadastrar_endereco_pessoa() {
+        $db = new DB();
+        $link = $db->DBconnect();
+
+        $query_id_pessoa = "SELECT id_pessoa FROM Pessoa WHERE cpf_cnpj='" . $this->id_pessoa . "'";
+        $resultado = mysqli_query($link, $query_id_pessoa);
+        $id = mysqli_fetch_array($resultado);
+
+        $query = "INSERT INTO Endereco(id_pessoa, endereco, bairro, cidade_id, cep)"
+                . "VALUES(" . $id['id_pessoa'] . ",'" . $this->endereco . "','" . $this->bairro . "'"
+                . "," . $this->cidade_id . ",'" . $this->cep . "')";
+
+        if (mysqli_query($link, $query)) {
+            $db->DBclose($link);
+            return true;
+        } else {
+            $db->DBclose($link);
+            return false;
+        }
+    }
+
 }

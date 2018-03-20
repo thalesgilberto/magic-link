@@ -38,13 +38,22 @@ if ($_POST['celular'] != null || $_POST['fixo'] != null) {
     $telefone->setFixo(preg_replace("/[^0-9]/", "", $_POST['fixo']));
 }
 
+if ($_POST['endereco'] != null || $_POST['bairro'] != null || $_POST['numero'] != null || $_POST['cep'] != null) {
+    $endereco = new Endereco();
+    $endereco->setId_pessoa($pessoa->getCpf_cnpj());
+    $endereco->setEndereco($_POST['endereco']);
+    $endereco->setBairro($_POST['bairro']);
+    $endereco->setNumero($_POST['numero']);
+    $endereco->setCep(preg_replace("/[^0-9]/", "", $_POST['cep']));
+}
+
 if ($pessoa->cadastrar_pessoa()) {
 
     if (isset($telefone)) {
         $telefone->cadastrar_telefone_pessoa();
     }
     if (isset($endereco)) {
-        
+        $endereco->cadastrar_endereco_pessoa();
     }
     move_uploaded_file($arquivo, $destino);
     if ($_POST['flg_pessoa_juridica'] == 0) {
