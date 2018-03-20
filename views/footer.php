@@ -21,6 +21,7 @@
 <script src="../scripts/js/adminlte.min.js"></script>
 <!-- Masked Input -->
 <script src="../scripts/js/jquery.maskedinput.min.js"></script>
+<script src="../scripts/js/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function(){
        $(".mask-cpf").mask("999.999.999-99"); 

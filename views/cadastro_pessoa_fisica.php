@@ -140,7 +140,8 @@ if (isset($_SESSION['sucesso'])) {
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="cidade">Cidade</label>
-                                    <input type="text" name="cidade" id="cidade" class="form-control"/>
+                                    <input type="text" name="buscar_cidade" id="buscar_cidade" class="form-control"/>
+                                    <input type="hidden" name="cidade" id="cidade" class="form-control"/>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="cep">CEP</label>
@@ -205,6 +206,44 @@ include 'footer.php';
             $("#acomplemet").attr("aria-expanded", "false");
             $("#complementos").removeClass("active");
 
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#buscar_cidade").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '../controller/autocomplete_cidades.php',
+                    type: "POST",
+                    dataType: "json",
+                    data: {term: request.term},
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return {label: item[1] + " " + "(" + item[2] + ")", val: item[0]};
+                        }));
+                    }
+                });
+            },
+            search: function (event, i) {
+                $(this).addClass('loader');
+            },
+            response: function (event, i) {
+                $(this).removeClass('loader');
+            },
+            select: function (event, i) {
+                $("#cidade").val(i.item.val);
+                $(this).removeClass('loader');
+            },
+            change: function (event, ui) {
+                $(this).removeClass('loader');
+                if (ui.item === null) {
+                    $(this).val('');
+                    $('#cidade').val('');
+
+                }
+            }
         });
     });
 </script>
