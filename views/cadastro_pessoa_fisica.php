@@ -231,6 +231,10 @@ include 'footer.php';
             },
             response: function (event, i) {
                 $(this).removeClass('loader');
+                if(!i.content.length){
+                    var semresultado = {label:"Nenhum resultado encontrado", value:""};
+                    i.content.push(semresultado);
+                }
             },
             select: function (event, i) {
                 $("#cidade").val(i.item.val);
