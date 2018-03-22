@@ -30,32 +30,24 @@ if (isset($_FILES['img_user']['name']) && $_FILES['img_user']['error'] == 0) {
     $pessoa->setImg_user($novoNomeArquivo);
 }
 
-if ($_POST['celular'] != null || $_POST['fixo'] != null) {
-    $telefone = new Telefone();
-    //Usa o cpf_cnpj para obter o id da pessoa;
-    $telefone->setId_pessoa($pessoa->getCpf_cnpj());
-    $telefone->setCelular(preg_replace("/[^0-9]/", "", $_POST['celular']));
-    $telefone->setFixo(preg_replace("/[^0-9]/", "", $_POST['fixo']));
-}
+$telefone = new Telefone();
+//Usa o cpf_cnpj para obter o id da pessoa;
+$telefone->setId_pessoa($pessoa->getCpf_cnpj());
+$telefone->setCelular(preg_replace("/[^0-9]/", "", $_POST['celular']));
+$telefone->setFixo(preg_replace("/[^0-9]/", "", $_POST['fixo']));
 
-if ($_POST['endereco'] != null || $_POST['bairro'] != null || $_POST['numero'] != null || $_POST['cep'] != null) {
-    $endereco = new Endereco();
-    $endereco->setId_pessoa($pessoa->getCpf_cnpj());
-    $endereco->setEndereco($_POST['endereco']);
-    $endereco->setBairro($_POST['bairro']);
-    $endereco->setNumero($_POST['numero']);
-    $endereco->setCep(preg_replace("/[^0-9]/", "", $_POST['cep']));
-}
+$endereco = new Endereco();
+$endereco->setId_pessoa($pessoa->getCpf_cnpj());
+$endereco->setEndereco($_POST['endereco']);
+$endereco->setBairro($_POST['bairro']);
+$endereco->setNumero($_POST['numero']);
+$endereco->setCidade_id($_POST['cidade']);
+$endereco->setCep(preg_replace("/[^0-9]/", "", $_POST['cep']));
 
-if ($pessoa->cadastrar_pessoa()) {
-
-    if (isset($telefone)) {
-        $telefone->cadastrar_telefone_pessoa();
+if ($pessoa->cadastrar_pessoa() && $telefone->cadastrar_telefone_pessoa() && $endereco->cadastrar_endereco_pessoa()) {
+    if (isset($arquivo)) {
+        move_uploaded_file($arquivo, $destino);
     }
-    if (isset($endereco)) {
-        $endereco->cadastrar_endereco_pessoa();
-    }
-    move_uploaded_file($arquivo, $destino);
     if ($_POST['flg_pessoa_juridica'] == 0) {
         header("Location: ../views/cadastro_pessoa_fisica.php");
     }
