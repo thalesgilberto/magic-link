@@ -10,7 +10,7 @@ if($pessoa->listar_usuario()){
 
 }
 else{
-    $_SESSION['login-erro'] = "Erro ao listar usuários";
+    "<h1>Erro ao listar usuários</h1>";
     
  
 }
