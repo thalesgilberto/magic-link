@@ -3,6 +3,9 @@ require '../controller/seguranca.php';
 require '../models/pessoa.php';
 include 'header.php';
 $pessoa = new Pessoa();
+if(isset($_POST['id_pessoa']) && $_POST['id_pessoa'] != null){
+    
+}
 ?>
 <div class="content-header">
     <h1>

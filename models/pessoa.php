@@ -135,34 +135,33 @@ class Pessoa {
         $this->data_cadastro = $data_cadastro;
     }
 
-    
     public function selectList($colunaValor, $colunaTexto, $nomeTabela) {
         $db = new DB();
         $link = $db->DBconnect();
-        
-        $query = "SELECT ".$colunaValor." value ,".$colunaTexto." text FROM ".$nomeTabela;
+
+        $query = "SELECT " . $colunaValor . " value ," . $colunaTexto . " text FROM " . $nomeTabela;
         $resultado = mysqli_query($link, $query);
-        
-        foreach ($resultado as $opicoes){
-            echo "<option value=".$opicoes['value'].">".$opicoes['text']."</option>";
+
+        foreach ($resultado as $opicoes) {
+            echo "<option value=" . $opicoes['value'] . ">" . $opicoes['text'] . "</option>";
         }
     }
-    
-    public function cpf_cnpj_email_verificarIgual($cpf_cnpj, $email){
+
+    public function cpf_cnpj_email_verificarIgual($cpf_cnpj, $email) {
         $db = new DB();
         $link = $db->DBconnect();
-        
-        $query = "SELECT cpf_cnpj, email FROM Pessoa WHERE cpf_cnpj='".$cpf_cnpj."' OR email='".$email."'";
+
+        $query = "SELECT cpf_cnpj, email FROM Pessoa WHERE cpf_cnpj='" . $cpf_cnpj . "' OR email='" . $email . "'";
         $resultado = mysqli_query($link, $query);
         $dados = mysqli_fetch_array($resultado);
-        
-        if(empty($dados)){
+
+        if (empty($dados)) {
             return true;
-        }else{
+        } else {
             return false;
-        }       
-    }    
-    
+        }
+    }
+
     public function validar_usuario() {
         $db = new DB();
         $link = $db->DBconnect();
@@ -205,7 +204,7 @@ class Pessoa {
                 $db->DBclose($link);
                 return false;
             }
-        }else{
+        } else {
             $_SESSION['erro'] = "Cpf, Cnpj ou E-mail invalidos pois já estão cadastrados!";
             $db->DBclose($link);
             return false;
@@ -215,44 +214,38 @@ class Pessoa {
     public function excluir_usuario() {
         $db = new DB();
         $link = $db->DBconnect();
-        
-     //Teste ==>
+
+        //Teste ==>
         $id = $_GET["id_pessoa"];
         $query = "Delete from Pessoa where id_pessoa = $id";
-        
-            if (mysqli_query($link, $query)) {
-                $db->DBclose($link);
-                return true;
-            } else {
-                $db->DBclose($link);
-                return false;
-            }
-        
+
+        if (mysqli_query($link, $query)) {
+            $db->DBclose($link);
+            return true;
+        } else {
+            $db->DBclose($link);
+            return false;
+        }
     }
 
     public function listar_usuario() {
         $db = new DB();
         $link = $db->DBconnect();
-        $query = mysqli_query($link, "select * from Pessoa ORDER BY 'id_pessoa'");
+        $query = mysqli_query($link, "SELECT P.*, N.descricao descricao_nivel_usuario FROM magiclink.Pessoa P "
+                . "INNER JOIN Nivel_usuario N ON (P.id_nivel_usuario = N.id_nivel_usuario)");
         $rows = mysqli_num_rows($query);
-        while($row = mysqli_fetch_array($query)){  
-            $data =new DateTime($row["data_nascimento"]);
-            $data2 = $data->diff(new DateTime());
+        while ($row = mysqli_fetch_array($query)) {
             echo '<tr>  
-                    <td>'.$row["nome"].'</td>  
-                    <td>'.$row["email"].'</td>  
-                    <td>'.$data2->y.'</td>  
-                    <td>'.$row["id_nivel_usuario"].'</td>  
+                    <td>' . $row["nome"] . '</td>  
+                    <td>' . $row["email"] . '</td>  
+                    <td>' . @date('d/m/Y', strtotime($row["data_nascimento"])) . '</td>  
+                    <td>' . $row["descricao_nivel_usuario"] . '</td>  
                     <td>
-                        <a class="btn btn-app" href="#" ><i class="fa fa-search-plus"></i><font style="vertical-align: inherit;">Visualizar</font>      
-                        <a class="btn btn-app" href="#" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-edit"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Editar</font></font></a>
+                        <a class="btn btn-sm btn-default" href="#" title="Detalhes"><i class="fa fa-search-plus"></i></a>     
+                        <a class="btn btn-sm btn-success" href="#" title="Editar"><i class="fa fa-edit"></i></a>
                     </td>  
-                 </tr>'; 
-            //Inclusão da view que chama o modal Editar:
-            
-            include '../views/editar.php';
+                 </tr>';
         }
     }
-        
-        
+
 }

@@ -13,6 +13,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <link rel="stylesheet" href="../scripts/css/bootstrap.min.css">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="../scripts/bower_components/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../scripts/css/ionicons.min.css">
         <!-- Theme style -->
         <link rel="stylesheet" href="../scripts/css/AdminLTE.min.css">
         <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -21,8 +22,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <link rel="stylesheet" href="../scripts/css/skins/skin-blue.min.css">
         <link rel="stylesheet" href="../scripts/css/jquery-ui.min.css">
         <link rel="stylesheet" href="../scripts/css/style.css">
-        <!-- DataTables -->
-        
+        <!-- DataTables -->  
         <link rel="stylesheet" href="../scripts/css/dataTables.bootstrap.min.css" />  
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
