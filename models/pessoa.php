@@ -215,8 +215,11 @@ class Pessoa {
     public function excluir_usuario() {
         $db = new DB();
         $link = $db->DBconnect();
-        if (isset($_SESSION['id_pessoa'])) {
-            $query = "Delete from Pessoa where id_pessoa =" . $_SESSION['id_pessoa'];
+        
+     //Teste ==>
+        $id = $_GET["id_pessoa"];
+        $query = "Delete from Pessoa where id_pessoa = $id";
+        
             if (mysqli_query($link, $query)) {
                 $db->DBclose($link);
                 return true;
@@ -224,14 +227,31 @@ class Pessoa {
                 $db->DBclose($link);
                 return false;
             }
-        }
+        
     }
 
     public function listar_usuario() {
         $db = new DB();
         $link = $db->DBconnect();
-        $query = mysqli_query($link, "select * from Pessoa ORDER BY 'id_usuario'");
+        $query = mysqli_query($link, "select * from Pessoa ORDER BY 'id_pessoa'");
         $rows = mysqli_num_rows($query);
+        while($row = mysqli_fetch_array($query))  
+                          {  $data =new DateTime($row["data_nascimento"]);
+                             $data5 = $data->diff(new DateTime());
+                               echo '  
+                               <tr>  
+                                    <td>'.$row["nome"].'</td>  
+                                    <td>'.$row["email"].'</td>  
+                                    <td>'.$data5->y.'</td>  
+                                    <td>'.$row["id_nivel_usuario"].'</td>  
+                                    <td>
+                                        <a class="btn btn-app"><i class="fa fa-search-plus"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Visualizar</font></font></a>
+                                        <a class="btn btn-app"><i class="fa fa-edit"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Editar</font></font></a>
+                                    </td>  
+                               </tr>  
+                               ';  
+                          }
+        }
+        
+        
     }
-
-}

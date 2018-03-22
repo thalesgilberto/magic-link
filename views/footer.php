@@ -22,6 +22,9 @@
 <!-- Masked Input -->
 <script src="../scripts/js/jquery.maskedinput.min.js"></script>
 <script src="../scripts/js/jquery-ui.min.js"></script>
+<!--DataTable-->
+<script src="../scripts/js/jquery.dataTables.min.js"></script>
+<script src="../scripts/js/dataTables.bootstrap.min.js"></script>  
 <script>
     $(document).ready(function(){
        $(".mask-cpf").mask("999.999.999-99"); 
@@ -30,6 +33,11 @@
        $(".mask-telefone").mask("(99) 9999-9999");
     });
 </script>
+ <script>  
+ $(document).ready(function(){  
+      $('#employee_data').DataTable();  
+ });  
+ </script>  
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the

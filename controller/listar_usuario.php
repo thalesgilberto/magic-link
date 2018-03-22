@@ -1,8 +1,16 @@
 <?php
+require '../models/pessoa.php';
+$pessoa = new Pessoa();
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//Teste
 
+if($pessoa->listar_usuario()){
+    
+    header("Location: ../views/listar.php");
+
+}
+else{
+    $_SESSION['login-erro'] = "Erro ao listar usuários";
+    
+ 
+}

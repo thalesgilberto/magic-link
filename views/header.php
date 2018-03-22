@@ -21,6 +21,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <link rel="stylesheet" href="../scripts/css/skins/skin-blue.min.css">
         <link rel="stylesheet" href="../scripts/css/jquery-ui.min.css">
         <link rel="stylesheet" href="../scripts/css/style.css">
+        <!-- DataTables -->
+        
+        <link rel="stylesheet" href="../scripts/css/dataTables.bootstrap.min.css" />  
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -155,6 +158,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <li class="header text-center">Configurações</li>
                         <!-- Optionally, you can add icons to the links -->
                         <li class="active"><a href="home.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                        <li >
+                            <a href="listar.php"><i class="fa  fa-list-ul"></i> <span>Listar Pessoa</span>
+                            </a>
+                        </li>
                         <li class="treeview">
                             <a href="#"><i class="fa fa-user-plus"></i> <span>Cadastro de Pessoa</span>
                                 <span class="pull-right-container">
