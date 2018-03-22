@@ -157,15 +157,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header text-center">Configurações</li>
                         <!-- Optionally, you can add icons to the links -->
-<<<<<<< HEAD
+
                         <li class="active"><a href="home.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
                         <li >
                             <a href="listar.php"><i class="fa  fa-list-ul"></i> <span>Listar Pessoa</span>
                             </a>
                         </li>
-=======
-                        <li class=""><a href="home.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
->>>>>>> origin/master
+
+                 
                         <li class="treeview">
                             <a href="#"><i class="fa fa-user-plus"></i> <span>Cadastro de Pessoa</span>
                                 <span class="pull-right-container">
