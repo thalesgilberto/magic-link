@@ -235,23 +235,24 @@ class Pessoa {
         $link = $db->DBconnect();
         $query = mysqli_query($link, "select * from Pessoa ORDER BY 'id_pessoa'");
         $rows = mysqli_num_rows($query);
-        while($row = mysqli_fetch_array($query))  
-                          {  $data =new DateTime($row["data_nascimento"]);
-                             $data5 = $data->diff(new DateTime());
-                               echo '  
-                               <tr>  
-                                    <td>'.$row["nome"].'</td>  
-                                    <td>'.$row["email"].'</td>  
-                                    <td>'.$data5->y.'</td>  
-                                    <td>'.$row["id_nivel_usuario"].'</td>  
-                                    <td>
-                                        <a class="btn btn-app"><i class="fa fa-search-plus"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Visualizar</font></font></a>
-                                        <a class="btn btn-app"><i class="fa fa-edit"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Editar</font></font></a>
-                                    </td>  
-                               </tr>  
-                               ';  
-                          }
+        while($row = mysqli_fetch_array($query)){  
+            $data =new DateTime($row["data_nascimento"]);
+            $data2 = $data->diff(new DateTime());
+            echo '<tr>  
+                    <td>'.$row["nome"].'</td>  
+                    <td>'.$row["email"].'</td>  
+                    <td>'.$data2->y.'</td>  
+                    <td>'.$row["id_nivel_usuario"].'</td>  
+                    <td>
+                        <a class="btn btn-app" href="#" ><i class="fa fa-search-plus"></i><font style="vertical-align: inherit;">Visualizar</font>      
+                        <a class="btn btn-app" href="#" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-edit"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Editar</font></font></a>
+                    </td>  
+                 </tr>'; 
+            //Inclusão da view que chama o modal Editar:
+            
+            include '../views/editar.php';
         }
-        
-        
     }
+        
+        
+}
