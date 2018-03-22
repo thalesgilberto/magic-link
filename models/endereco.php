@@ -73,9 +73,9 @@ class Endereco {
         $resultado = mysqli_query($link, $query_id_pessoa);
         $id = mysqli_fetch_array($resultado);
 
-        $query = "INSERT INTO Endereco(id_pessoa, endereco, bairro, cidade_id, cep)"
-                . "VALUES(" . $id['id_pessoa'] . ",'" . $this->endereco . "','" . $this->bairro . "'"
-                . "," . $this->cidade_id . ",'" . $this->cep . "')";
+        $query = "INSERT INTO Endereco(id_pessoa, endereco, bairro, numero,cidade_id, cep)"
+                . "VALUES(" . $id['id_pessoa'] . ",'" . $this->endereco . "','" . $this->bairro . "',"
+                . $this->numero . "," . $this->cidade_id . ",'" . $this->cep . "')";
 
         if (mysqli_query($link, $query)) {
             $db->DBclose($link);

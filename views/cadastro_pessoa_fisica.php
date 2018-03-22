@@ -88,8 +88,9 @@ if (isset($_SESSION['sucesso'])) {
                                     </select>
                                 </div>
                             </div>
+                            <input type="hidden" value="0" name="flg_pessoa_juridica"/>
                             <div class="form-row">
-                                <div class="form-group col-md-2">
+                                <div class="form-group col-md-12">
                                     <label for="img_user">Foto de Perfil</label>
                                     <div class="" id="divImg" style="height: 100px; width: 100px">
                                         <a href="#" id="removerImg" title="Remover imagem" class="btn btn-xs"><i class="fa fa-remove"></i></a>
@@ -100,7 +101,6 @@ if (isset($_SESSION['sucesso'])) {
                                     <input type="file" class="btn-file" name="img_user" id="img_user"/>
                                 </div>
                             </div>
-                            <input type="hidden" value="0" name="flg_pessoa_juridica"/>
                         </div>
                     </div>
                     <div class="box-footer ">
@@ -115,37 +115,37 @@ if (isset($_SESSION['sucesso'])) {
                         <div class="col-md-12">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="fixo">Telefone (fixo)</label>
-                                    <input type="text" name="fixo" id="fixo" class="form-control mask-telefone" placeholder="(00) 0000-0000"/>
+                                    <label for="fixo">Telefone (fixo)*</label>
+                                    <input type="text" name="fixo" id="fixo" class="form-control mask-telefone" placeholder="(00) 0000-0000" required="required"/>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="celular">Celular</label>
-                                    <input type="text" name="celular" id="celular" class="form-control mask-celular" placeholder="(00) 00000-0000"/>
+                                    <label for="celular">Celular*</label>
+                                    <input type="text" name="celular" id="celular" class="form-control mask-celular" placeholder="(00) 00000-0000" required="required"/>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="endereco">Endereço</label>
-                                    <input type="text" name="endereco" id="endereco" class="form-control"/>
+                                    <label for="endereco">Endereço*</label>
+                                    <input type="text" name="endereco" id="endereco" class="form-control" required="required"/>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="bairro">Bairro</label>
-                                    <input type="text" name="bairro" id="bairro" class="form-control"/>
+                                    <label for="bairro">Bairro*</label>
+                                    <input type="text" name="bairro" id="bairro" class="form-control" required="required"/>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="numero">N°</label>
-                                    <input type="number" name="numero" id="numero" class="form-control"/>
+                                    <label for="numero">N°*</label>
+                                    <input type="number" name="numero" id="numero" class="form-control" required="required"/>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="cidade">Cidade</label>
-                                    <input type="text" name="buscar_cidade" id="buscar_cidade" class="form-control"/>
+                                    <label for="cidade">Cidade*</label>
+                                    <input type="text" name="buscar_cidade" id="buscar_cidade" class="form-control" required="required"/>
                                     <input type="hidden" name="cidade" id="cidade" class="form-control"/>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="cep">CEP</label>
-                                    <input type="text" name="cep" id="cep" class="form-control mask-cep" placeholder="00000-000"/>
+                                    <label for="cep">CEP*</label>
+                                    <input type="text" name="cep" id="cep" class="form-control mask-cep" placeholder="00000-000" required="required"/>
                                 </div>
                             </div>
                         </div>
@@ -159,6 +159,7 @@ if (isset($_SESSION['sucesso'])) {
             </div>
             <!-- /.tab-content -->
         </div>
+    </div>
 </form>
 <?php
 include 'footer.php';
@@ -231,8 +232,8 @@ include 'footer.php';
             },
             response: function (event, i) {
                 $(this).removeClass('loader');
-                if(!i.content.length){
-                    var semresultado = {label:"Nenhum resultado encontrado", value:""};
+                if (!i.content.length) {
+                    var semresultado = {label: "Nenhum resultado encontrado", value: ""};
                     i.content.push(semresultado);
                 }
             },

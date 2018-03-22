@@ -27,8 +27,8 @@ session_start();
     <body class="hold-transition login-page" >
         <div class="login-box">
             <div class="login-logo">
-<!--                <a href="#"><b>Magic</b> LINK</a>-->
-                <img src="img/logo1.png" style="height: 200px"/>
+                <!--                <a href="#"><b>Magic</b> LINK</a>-->
+                <img src="img/logo_magic.png" style="height: 200px"/>
             </div>
             <!-- /.login-logo -->
             <div class="login-box-body">
