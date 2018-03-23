@@ -2,10 +2,16 @@
 require '../controller/seguranca.php';
 include 'header.php';
 ?>
-
+<div class="content-header">
+    <h1>
+        Lista de Usuários
+        <small>Cadastro</small>
+    </h1>
+</div>
+<br/>
 <div class="box">  
     <div class="box-header">
-        <h4 class="box-title">Lista de Usuários</h4>  
+        
     </div>
     <div class="box-body">
         <div class="table">  
@@ -19,11 +25,9 @@ include 'header.php';
                         <td></td>  
                     </tr>  
                 </thead> 
-                
                     <?php
                     include '../controller/listar_usuario.php';
-                    ?> 
-               
+                    ?>               
             </table>  
         </div>  
     </div>
@@ -31,3 +35,9 @@ include 'header.php';
 
 <?php
 include 'footer.php';
+?>
+<script>  
+ $(document).ready(function(){  
+      $('#employee_data').DataTable();  
+ });  
+ </script>  
