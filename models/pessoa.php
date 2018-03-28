@@ -1,5 +1,4 @@
 <?php
-
 require_once 'config.php';
 
 class Pessoa {
@@ -233,18 +232,25 @@ class Pessoa {
         $link = $db->DBconnect();
         $query = mysqli_query($link, "SELECT P.*, N.descricao descricao_nivel_usuario FROM magiclink.Pessoa P "
                 . "INNER JOIN Nivel_usuario N ON (P.id_nivel_usuario = N.id_nivel_usuario)");
-        $rows = mysqli_num_rows($query);
+        $row = mysqli_num_rows($query);
         while ($row = mysqli_fetch_array($query)) {
-            echo '<tr>  
-                    <td>' . $row["nome"] . '</td>  
-                    <td>' . $row["email"] . '</td>  
-                    <td>' . @date('d/m/Y', strtotime($row["data_nascimento"])) . '</td>  
-                    <td>' . $row["descricao_nivel_usuario"] . '</td>  
-                    <td>
-                        <a class="btn btn-sm btn-default" href="#" title="Detalhes"><i class="fa fa-search-plus"></i></a>     
-                        <a class="btn btn-sm btn-success" href="#" title="Editar"><i class="fa fa-edit"></i></a>
-                    </td>  
-                 </tr>';
+            if ($row["flg_pessoa_juridica"] == 0) {
+                $ulr = "../views/cadastro_pessoa_fisica.php?id=".$row["id_pessoa"];
+            } else {
+                $ulr = "../views/cadastro_pessoa_juridica.php?id=".$row["id_pessoa"];
+            }
+            echo "<tr> 
+                    <td>" . $row["nome"] . "</td>  
+                    <td>" . $row["email"] . "</td>  
+                    <td>" . @date('d/m/Y', strtotime($row["data_nascimento"])) . "</td>  
+                    <td>" . $row["descricao_nivel_usuario"] . "</td>  
+                    <td>"
+            ?>
+            <a class="btn btn-sm btn-default" href="#" title="Detalhes"><i class="fa fa-search-plus"></i></a>
+            <a class="btn btn-sm btn-success" href="<?=$ulr?>" title="Editar"><i class="fa fa-edit"></i></a>
+            <?php
+            "</td>  
+                 </tr>";
         }
     }
 

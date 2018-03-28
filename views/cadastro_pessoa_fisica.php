@@ -15,6 +15,11 @@ if(isset($_POST['id_pessoa']) && $_POST['id_pessoa'] != null){
 </div>
 <br/>
 <?php
+if(isset($_GET["id"])){
+    echo 'aqui chegou o id = '.$_GET["id"];
+}
+?>
+<?php
 if (isset($_SESSION["erro"])) {
     ?>
     <div class="alert alert-danger alert-dismissible">

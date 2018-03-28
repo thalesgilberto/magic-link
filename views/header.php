@@ -158,7 +158,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <li class="header text-center">Configurações</li>
                         <!-- Optionally, you can add icons to the links -->
 
-                        <li class="active"><a href="home.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                        <li class=""><a href="home.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
                         <li >
                             <a href="listar.php"><i class="fa  fa-list-ul"></i> <span>Listar Pessoa</span>
                             </a>
