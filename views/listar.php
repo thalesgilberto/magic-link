@@ -38,6 +38,26 @@ include 'footer.php';
 ?>
 <script>  
  $(document).ready(function(){  
-      $('#employee_data').DataTable();  
+      $('#employee_data').DataTable({
+          "oLanguage": {
+              "sProcessing": "Processando...",
+              "sLengthMenu": "Mostrar _MENU_ registros",
+              "sZeroRecords": "Nenhum registro correspondente encontrado",
+              "sEmptyTable": "Não há dados para serem mostrados",
+              "sLoadingRecords": "Carregando...",
+              "sInfo": "Mostrando de _START_ a _END_ de _TOTAL_ registros",
+              "sInfotEmpty": "Mostrando 0 até 0 de 0 registros",
+              "sInfoFiltered": "(filtro aplicado em _MAX_ registros)",
+              "sInfoThousands": ".",
+              "sSearch": "Pesquisar:",
+              "sUrl": "",
+                "oPaginate": {
+                    "sFirst": "Primeiro",
+                    "sPrevious": "Anterior",
+                    "sNext": "Próximo",
+                    "sLast": "Último"
+                }
+          }
+      });  
  });  
  </script>  
