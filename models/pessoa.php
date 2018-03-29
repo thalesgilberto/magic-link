@@ -225,17 +225,16 @@ class Pessoa {
             $db->DBclose($link);
             return false;
         }
-    }
-
+    }  
+    
     public function listar_usuario() {
         $db = new DB();
         $link = $db->DBconnect();
-        $query = mysqli_query($link, "SELECT P.*, N.descricao descricao_nivel_usuario FROM magiclink.Pessoa P "
-                . "INNER JOIN Nivel_usuario N ON (P.id_nivel_usuario = N.id_nivel_usuario)");
-        $row = mysqli_num_rows($query);
-        while ($row = mysqli_fetch_array($query)) {
+        $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P ");
+       
+        foreach ($query as $row) {
             if ($row["flg_pessoa_juridica"] == 0) {
-                $ulr = "../views/cadastro_pessoa_fisica.php?id=".$row["id_pessoa"];
+                $ulr = "../views/editar_pessoa_fisica.php?id=".$row["id_pessoa"];
             } else {
                 $ulr = "../views/cadastro_pessoa_juridica.php?id=".$row["id_pessoa"];
             }
@@ -243,7 +242,7 @@ class Pessoa {
                     <td>" . $row["nome"] . "</td>  
                     <td>" . $row["email"] . "</td>  
                     <td>" . @date('d/m/Y', strtotime($row["data_nascimento"])) . "</td>  
-                    <td>" . $row["descricao_nivel_usuario"] . "</td>  
+                   
                     <td>"
             ?>
             <a class="btn btn-sm btn-default" href="#" title="Detalhes"><i class="fa fa-search-plus"></i></a>
@@ -252,6 +251,18 @@ class Pessoa {
             "</td>  
                  </tr>";
         }
+    }
+    
+    public function mostrar_dados_pessoa($id){
+        $db = new DB();
+        $link = $db->DBconnect();
+        $query = "SELECT P.*, T.*, E.*, concat(C.nome,' (',ES.uf,')') cidade FROM magiclink.Pessoa P "
+                . "INNER JOIN Telefone T ON (P.id_pessoa = T.id_pessoa) INNER JOIN Endereco E ON (P.id_pessoa = E.id_pessoa) "
+                . "INNER JOIN Cidade C ON (E.cidade_id = C.id_cidade) INNER JOIN Estado ES ON (C.id_estado = ES.id_estado) "
+                . "WHERE P.id_pessoa = ".$id;
+        $resultado = mysqli_query($link, $query);
+        $dados = mysqli_fetch_array($resultado);
+        return $dados;        
     }
 
 }

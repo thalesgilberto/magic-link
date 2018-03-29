@@ -18,11 +18,10 @@ include 'header.php';
             <table id="employee_data" class="table table-striped table-responsive">  
                 <thead>  
                     <tr>  
-                        <td style="font-weight: bold">Nome</td>  
-                        <td style="font-weight: bold">Email</td>  
-                        <td style="font-weight: bold">Data de Nascimento</td>  
-                        <td style="font-weight: bold">Nível de Usuário</td>  
-                        <td></td>  
+                        <th style="font-weight: bold">Nome</th>  
+                        <th style="font-weight: bold">Email</th>  
+                        <th style="font-weight: bold">Data de Nascimento</th>  
+                        <th></th>  
                     </tr>  
                 </thead> 
                     <?php

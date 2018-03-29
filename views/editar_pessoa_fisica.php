@@ -6,10 +6,17 @@ include 'header.php';
 <div class="content-header">
     <h1>
         Pessoa Fisica
-        <small>Cadastro</small>
+        <small>Editar</small>
     </h1>
 </div>
 <br/>
+<?php
+if (isset($_GET["id"])) {
+    $pessoa = new Pessoa();
+
+    $dados = $pessoa->mostrar_dados_pessoa($_GET["id"]);
+}
+?>
 <?php
 if (isset($_SESSION["erro"])) {
     ?>
@@ -47,29 +54,40 @@ if (isset($_SESSION['sucesso'])) {
                             <div class="form-row">
                                 <div class="form-group col-md-5">
                                     <label for="nome">Nome*</label>
-                                    <input type="text" name="nome" id="nome" class="form-control" required="required"/>
+                                    <input type="text" name="nome" value="<?= @$dados["nome"] ?>" id="nome" class="form-control" required="required"/>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="data_nascimento">Data de Nascimento*</label>
-                                    <input type="date" name="data_nascimento" id="data_nascimento" class="form-control" required="required"/>
+                                    <input type="date" name="data_nascimento" value="<?= @$dados["data_nascimento"] ?>" id="data_nascimento" class="form-control" required="required"/>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="sexo">Sexo*</label>
                                     <select class="form-control" name="sexo" id="sexo" required="required">
                                         <option value="">Selecione</option>
-                                        <option value="M">Masculino</option>
+                                        <?php
+                                        if(@$dados["sexo"] == "M"){
+                                        ?>
+                                        <option selected value="M">Masculino</option>
                                         <option value="F">Feminino</option>
+                                        <?php
+                                        }else{
+                                            ?>
+                                        <option value="M">Masculino</option>
+                                        <option selected value="F">Feminino</option>
+                                        <?php
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-5">
                                     <label for="cpf_cnpj">CPF*</label>
-                                    <input type="text" name="cpf_cnpj" id="cpf_cnpj" class="form-control mask-cpf" placeholder="000.000.000-00" required="required"/>
+                                    <input type="text" name="cpf_cnpj" value="<?= @$dados["cpf_cnpj"] ?>" id="cpf_cnpj" class="form-control mask-cpf" placeholder="000.000.000-00" required="required"/>
                                 </div>
                                 <div class="form-group col-md-7">
                                     <label for="email">Email*</label>
-                                    <input type="email" name="email" id="email" class="form-control" placeholder="exemplo@exemplo.com" required="required"/>
+                                    <input type="email" name="email" value="<?= @$dados["email"] ?>" id="email" class="form-control" placeholder="exemplo@exemplo.com" required="required"/>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -77,13 +95,7 @@ if (isset($_SESSION['sucesso'])) {
                                     <label for="senha">Senha*</label>
                                     <input type="password" name="senha" id="senha" class="form-control" required="required"/>
                                 </div>
-<!--                                <div class="form-group col-md-7">
-                                    <label for="id_nivel_usuario">Nível de Usuário*</label>
-                                    <select class="form-control" name="id_nivel_usuario" id="id_nivel_usuario" required="required">
-                                        <option value="">Selecione</option>
-                                        
-                                    </select>
-                                </div>-->
+
                             </div>
                             <input type="hidden" value="0" name="flg_pessoa_juridica"/>
                             <div class="form-row">
@@ -91,7 +103,7 @@ if (isset($_SESSION['sucesso'])) {
                                     <label for="img_user">Foto de Perfil</label>
                                     <div class="" id="divImg" style="height: 100px; width: 100px">
                                         <a href="#" id="removerImg" title="Remover imagem" class="btn btn-xs"><i class="fa fa-remove"></i></a>
-                                        <img src="../img/default.jpg" id="imagepreview" style="height: 100px; width: 100px"/>
+                                        <img src="<?= @$dados["img_user"] == "" || @$dados["img_user"] == null?"../img/default.jpg":"../img/".$dados["img_user"]  ?>" id="imagepreview" style="height: 100px; width: 100px"/>
                                     </div>
                                     <br/>
                                     <br/>
@@ -113,36 +125,36 @@ if (isset($_SESSION['sucesso'])) {
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="fixo">Telefone (fixo)*</label>
-                                    <input type="text" name="fixo" id="fixo" class="form-control mask-telefone" placeholder="(00) 0000-0000" required="required"/>
+                                    <input type="text" name="fixo" id="fixo" value="<?= @$dados["fixo"] ?>" class="form-control mask-telefone" placeholder="(00) 0000-0000" required="required"/>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="celular">Celular*</label>
-                                    <input type="text" name="celular" id="celular" class="form-control mask-celular" placeholder="(00) 00000-0000" required="required"/>
+                                    <input type="text" name="celular" value="<?= @$dados["celular"] ?>" id="celular" class="form-control mask-celular" placeholder="(00) 00000-0000" required="required"/>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="endereco">Endereço*</label>
-                                    <input type="text" name="endereco" id="endereco" class="form-control" required="required"/>
+                                    <input type="text" name="endereco" value="<?= @$dados["endereco"] ?>" id="endereco" class="form-control" required="required"/>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="bairro">Bairro*</label>
-                                    <input type="text" name="bairro" id="bairro" class="form-control" required="required"/>
+                                    <input type="text" name="bairro" id="bairro"  value="<?= @$dados["bairro"] ?>" class="form-control" required="required"/>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="numero">N°*</label>
-                                    <input type="number" name="numero" id="numero" class="form-control" required="required"/>
+                                    <input type="number" name="numero" id="numero"  value="<?= @$dados["numero"] ?>" class="form-control" required="required"/>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="cidade">Cidade*</label>
-                                    <input type="text" name="buscar_cidade" id="buscar_cidade" class="form-control" required="required"/>
-                                    <input type="hidden" name="cidade" id="cidade" class="form-control"/>
+                                    <input type="text" name="buscar_cidade"  value="<?= @$dados["cidade"] ?>" id="buscar_cidade" class="form-control" required="required"/>
+                                    <input type="hidden" name="cidade" id="cidade"  value="<?= @$dados["cidade_id"] ?>" class="form-control"/>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="cep">CEP*</label>
-                                    <input type="text" name="cep" id="cep" class="form-control mask-cep" placeholder="00000-000" required="required"/>
+                                    <input type="text" name="cep" id="cep"  value="<?= @$dados["cep"] ?>" class="form-control mask-cep" placeholder="00000-000" required="required"/>
                                 </div>
                             </div>
                         </div>
