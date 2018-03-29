@@ -85,5 +85,20 @@ class Endereco {
             return false;
         }
     }
+    
+    public function editar_endereco_pessoa() {
+        $db = new DB();
+        $link = $db->DBconnect();
+        $query = "UPDATE Endereco SET endereco = '".$this->endereco."', bairro = '".$this->bairro."', "
+                . "numero = ".$this->numero." , cidade_id = ".$this->cidade_id." , cep = '".$this->cep."'  "
+                . "WHERE id_pessoa = ".$this->id_pessoa;
+        if (mysqli_query($link, $query)) {
+            $db->DBclose($link);
+            return true;
+        } else {
+            $db->DBclose($link);
+            return false;
+        }
+    }
 
 }

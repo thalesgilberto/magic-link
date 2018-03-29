@@ -6,7 +6,7 @@ include 'header.php';
 <div class="content-header">
     <h1>
         Pessoa Fisica
-        <small>Editar</small>
+        <small>Editar cadastro</small>
     </h1>
 </div>
 <br/>
@@ -40,7 +40,7 @@ if (isset($_SESSION['sucesso'])) {
     unset($_SESSION["sucesso"]);
 }
 ?>
-<form enctype="multipart/form-data" action="../controller/cadastrar_pessoa.php" method="POST">
+<form enctype="multipart/form-data" action="../controller/editar_pessoa.php" method="POST">
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li id="lidados" class="active"><a href="#dados-principais" data-toggle="tab">Dados Principais</a></li>
@@ -54,6 +54,7 @@ if (isset($_SESSION['sucesso'])) {
                             <div class="form-row">
                                 <div class="form-group col-md-5">
                                     <label for="nome">Nome*</label>
+                                    <input type="hidden" name="id_pessoa" value="<?= @$dados["id_pessoa"] ?>"/>
                                     <input type="text" name="nome" value="<?= @$dados["nome"] ?>" id="nome" class="form-control" required="required"/>
                                 </div>
                                 <div class="form-group col-md-4">
@@ -89,13 +90,6 @@ if (isset($_SESSION['sucesso'])) {
                                     <label for="email">Email*</label>
                                     <input type="email" name="email" value="<?= @$dados["email"] ?>" id="email" class="form-control" placeholder="exemplo@exemplo.com" required="required"/>
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-5">
-                                    <label for="senha">Senha*</label>
-                                    <input type="password" name="senha" id="senha" class="form-control" required="required"/>
-                                </div>
-
                             </div>
                             <input type="hidden" value="0" name="flg_pessoa_juridica"/>
                             <div class="form-row">
@@ -197,7 +191,7 @@ include 'footer.php';
         $("#removerImg").click(function (event) {
             event.preventDefault();
             $("#img_user").val('');
-            $("#imagepreview").attr('src', '../img/default.jpg');
+            $("#imagepreview").attr('src', '../img/<?= @$dados["img_user"] == "" || @$dados["img_user"] == null?"../img/default.jpg":"../img/".$dados["img_user"]  ?>');
         });
 
         $("#proximo").click(function () {

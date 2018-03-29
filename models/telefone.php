@@ -1,4 +1,5 @@
 <?php
+
 require_once 'config.php';
 
 class Telefone {
@@ -45,6 +46,20 @@ class Telefone {
         $query = "INSERT INTO Telefone(id_pessoa, celular, fixo)"
                 . "VALUES(" . $id['id_pessoa'] . ",'" . $this->celular . "','" . $this->fixo . "')";
 
+        if (mysqli_query($link, $query)) {
+            $db->DBclose($link);
+            return true;
+        } else {
+            $db->DBclose($link);
+            return false;
+        }
+    }
+
+    public function editar_telefone_pessoa() {
+        $db = new DB();
+        $link = $db->DBconnect();
+        $query = "UPDATE Telefone SET celular = '" . $this->celular . "', fixo = '" . $this->fixo . "' "
+                . "WHERE id_pessoa = " . $this->id_pessoa;
         if (mysqli_query($link, $query)) {
             $db->DBclose($link);
             return true;

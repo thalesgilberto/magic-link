@@ -145,7 +145,8 @@ class Pessoa {
             echo "<option value=" . $opicoes['value'] . ">" . $opicoes['text'] . "</option>";
         }
     }
-
+    
+    //Terminar essa parte kkkkk Socorro!
     public function cpf_cnpj_email_verificarIgual($cpf_cnpj, $email) {
         $db = new DB();
         $link = $db->DBconnect();
@@ -164,13 +165,11 @@ class Pessoa {
     public function validar_usuario() {
         $db = new DB();
         $link = $db->DBconnect();
-        $query = "SELECT id_pessoa, nome, email, id_nivel_usuario, img_user FROM Pessoa "
+        $query = "SELECT id_pessoa, nome, email, img_user FROM Pessoa "
                 . "WHERE email='" . $this->email . "' AND senha='" . $this->senha . "' limit 1";
         $resultado = mysqli_query($link, $query);
         $dados = mysqli_fetch_array($resultado);
-
         if (!empty($dados)) {
-            $_SESSION['id_nivel_usuario'] = $dados["id_nivel_usuario"];
             $_SESSION['nome'] = $dados["nome"];
             $_SESSION['id_pessoa'] = $dados["id_pessoa"];
             $_SESSION['email'] = $dados['email'];
@@ -210,6 +209,32 @@ class Pessoa {
         }
     }
 
+    public function editar_pessoa() {
+        $db = new DB();
+        $pessoa = new Pessoa();
+        $link = $db->DBconnect();
+        if ($pessoa->cpf_cnpj_email_verificarIgual($this->cpf_cnpj, $this->email)) {
+            if ($this->flg_pessoa_juridica == 0) {
+                $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', data_nascimento = '" . $this->data_nascimento . "', sexo = '" . $this->sexo . "', "
+                        . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', flg_pessoa_juridica = " . $this->flg_pessoa_juridica . ", "
+                        . "img_user = '" . $this->img_user . "' "
+                        . "WHERE id_pessoa = " . $this->id_pessoa;
+            }
+            if (mysqli_query($link, $query)) {
+                $db->DBclose($link);
+                $_SESSION['sucesso'] = "Dados cadastrados com sucesso!";
+                return true;
+            } else {
+                $db->DBclose($link);
+                return false;
+            }
+        } else {
+            $_SESSION['erro'] = "Cpf, Cnpj ou E-mail invalidos pois já estão cadastrados!";
+            $db->DBclose($link);
+            return false;
+        }
+    }
+
     public function excluir_usuario() {
         $db = new DB();
         $link = $db->DBconnect();
@@ -225,18 +250,18 @@ class Pessoa {
             $db->DBclose($link);
             return false;
         }
-    }  
-    
+    }
+
     public function listar_usuario() {
         $db = new DB();
         $link = $db->DBconnect();
         $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P ");
-       
+
         foreach ($query as $row) {
             if ($row["flg_pessoa_juridica"] == 0) {
-                $ulr = "../views/editar_pessoa_fisica.php?id=".$row["id_pessoa"];
+                $ulr = "../views/editar_pessoa_fisica.php?id=" . $row["id_pessoa"];
             } else {
-                $ulr = "../views/cadastro_pessoa_juridica.php?id=".$row["id_pessoa"];
+                $ulr = "../views/cadastro_pessoa_juridica.php?id=" . $row["id_pessoa"];
             }
             echo "<tr> 
                     <td>" . $row["nome"] . "</td>  
@@ -246,23 +271,23 @@ class Pessoa {
                     <td>"
             ?>
             <a class="btn btn-sm btn-default" href="#" title="Detalhes"><i class="fa fa-search-plus"></i></a>
-            <a class="btn btn-sm btn-success" href="<?=$ulr?>" title="Editar"><i class="fa fa-edit"></i></a>
+            <a class="btn btn-sm btn-success" href="<?= $ulr ?>" title="Editar"><i class="fa fa-edit"></i></a>
             <?php
             "</td>  
                  </tr>";
         }
     }
-    
-    public function mostrar_dados_pessoa($id){
+
+    public function mostrar_dados_pessoa($id) {
         $db = new DB();
         $link = $db->DBconnect();
         $query = "SELECT P.*, T.*, E.*, concat(C.nome,' (',ES.uf,')') cidade FROM magiclink.Pessoa P "
                 . "INNER JOIN Telefone T ON (P.id_pessoa = T.id_pessoa) INNER JOIN Endereco E ON (P.id_pessoa = E.id_pessoa) "
                 . "INNER JOIN Cidade C ON (E.cidade_id = C.id_cidade) INNER JOIN Estado ES ON (C.id_estado = ES.id_estado) "
-                . "WHERE P.id_pessoa = ".$id;
+                . "WHERE P.id_pessoa = " . $id;
         $resultado = mysqli_query($link, $query);
         $dados = mysqli_fetch_array($resultado);
-        return $dados;        
+        return $dados;
     }
 
 }
