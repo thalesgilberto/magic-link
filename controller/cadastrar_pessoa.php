@@ -48,7 +48,9 @@ if ($pessoa->cadastrar_pessoa() && $telefone->cadastrar_telefone_pessoa() && $en
         move_uploaded_file($arquivo, $destino);
     }
     if ($_POST['flg_pessoa_juridica'] == 0) {
-        header("Location: ../views/cadastro_pessoa_fisica.php");
+        $id_pessoa = $_SESSION["id_usuario_cadastrado"];
+        unset($_SESSION["id_usuario_cadastrado"]);
+        header("Location: ../views/editar_pessoa_fisica.php?id=".$id_pessoa);
     }
 } else {
     header("Location: ../views/cadastro_pessoa_fisica.php");

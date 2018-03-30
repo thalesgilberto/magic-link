@@ -213,6 +213,9 @@ class Pessoa {
                         . $this->senha . "','" . $this->img_user . "','" . $this->data_cadastro . "')";
             }
             if (mysqli_query($link, $query)) {
+                $query_id_pessoa = "SELECT id_pessoa FROM Pessoa WHERE cpf_cnpj ='". $this->cpf_cnpj."' limit 1";
+                $id_pessoa = mysqli_fetch_array(mysqli_query($link, $query_id_pessoa));
+                $_SESSION["id_usuario_cadastrado"]=$id_pessoa["id_pessoa"];
                 $db->DBclose($link);
                 $_SESSION['sucesso'] = "Dados cadastrados com sucesso!";
                 return true;

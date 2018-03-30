@@ -44,7 +44,7 @@ if (isset($_SESSION['sucesso'])) {
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li id="lidados" class="active"><a href="#dados-principais" data-toggle="tab">Dados Principais</a></li>
-            <li id="licomplement" ><a id="acomplemet" href="#complementos" data-toggle="tab">Complementos</a></li>
+            <li id="licomplement" ><a id="acomplemet" href="#acessos" data-toggle="tab">Acessos do usuário</a></li>
         </ul>
         <div class="tab-content">
             <div class="active tab-pane" id="dados-principais">
@@ -52,12 +52,12 @@ if (isset($_SESSION['sucesso'])) {
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-row">
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-6">
                                     <label for="nome">Nome*</label>
                                     <input type="hidden" name="id_pessoa" value="<?= @$dados["id_pessoa"] ?>"/>
                                     <input type="text" name="nome" value="<?= @$dados["nome"] ?>" id="nome" class="form-control" required="required"/>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3">
                                     <label for="data_nascimento">Data de Nascimento*</label>
                                     <input type="date" name="data_nascimento" value="<?= @$dados["data_nascimento"] ?>" id="data_nascimento" class="form-control" required="required"/>
                                 </div>
@@ -82,40 +82,15 @@ if (isset($_SESSION['sucesso'])) {
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-6">
                                     <label for="cpf_cnpj">CPF*</label>
                                     <input type="text" name="cpf_cnpj" value="<?= @$dados["cpf_cnpj"] ?>" id="cpf_cnpj" class="form-control mask-cpf" placeholder="000.000.000-00" required="required"/>
                                 </div>
-                                <div class="form-group col-md-7">
+                                <div class="form-group col-md-6">
                                     <label for="email">Email*</label>
                                     <input type="email" name="email" value="<?= @$dados["email"] ?>" id="email" class="form-control" placeholder="exemplo@exemplo.com" required="required"/>
                                 </div>
                             </div>
-                            <input type="hidden" value="0" name="flg_pessoa_juridica"/>
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="img_user">Foto de Perfil</label>
-                                    <div class="" id="divImg" style="height: 100px; width: 100px">
-                                        <a href="#" id="removerImg" title="Remover imagem" class="btn btn-xs"><i class="fa fa-remove"></i></a>
-                                        <img src="<?= @$dados["img_user"] == "" || @$dados["img_user"] == null?"../img/default.jpg":"../img/".$dados["img_user"]  ?>" id="imagepreview" style="height: 100px; width: 100px"/>
-                                    </div>
-                                    <br/>
-                                    <br/>
-                                    <input type="file" class="btn-file" name="img_user" id="img_user"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="box-footer ">
-                        <button type="button" id="proximo" class="btn btn-default pull-right">Proxímo</button>
-                    </div>
-                </div>
-            </div>
-            <!-- /.tab-pane -->
-            <div class="tab-pane" id="complementos">
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-12">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="fixo">Telefone (fixo)*</label>
@@ -149,6 +124,37 @@ if (isset($_SESSION['sucesso'])) {
                                 <div class="form-group col-md-3">
                                     <label for="cep">CEP*</label>
                                     <input type="text" name="cep" id="cep"  value="<?= @$dados["cep"] ?>" class="form-control mask-cep" placeholder="00000-000" required="required"/>
+                                </div>
+                            </div>
+                            <input type="hidden" value="0" name="flg_pessoa_juridica"/>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="img_user">Foto de Perfil</label>
+                                    <div class="" id="divImg" style="height: 100px; width: 100px">
+                                        <a href="#" id="removerImg" title="Remover imagem" class="btn btn-xs"><i class="fa fa-remove"></i></a>
+                                        <img src="<?= @$dados["img_user"] == "" || @$dados["img_user"] == null?"../img/default.jpg":"../img/".$dados["img_user"]  ?>" id="imagepreview" style="height: 100px; width: 100px"/>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <input type="file" class="btn-file" name="img_user" id="img_user"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer ">
+                        <button type="button" id="proximo" class="btn btn-default pull-right">Proxímo</button>
+                    </div>
+                </div>
+            </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="acessos">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="fixo">Telefone (fixo)*</label>
+                                    <input type="text" name="fixo" id="fixo" value="<?= @$dados["fixo"] ?>" class="form-control mask-telefone" placeholder="(00) 0000-0000" required="required"/>
                                 </div>
                             </div>
                         </div>
@@ -199,7 +205,7 @@ include 'footer.php';
             $("#dados-principais").removeClass("active");
             $("#licomplement").addClass("active");
             $("#acomplemet").attr("aria-expanded", "true");
-            $("#complementos").addClass("active");
+            $("#acessos").addClass("active");
 
         });
 
@@ -208,7 +214,7 @@ include 'footer.php';
             $("#dados-principais").addClass("active");
             $("#licomplement").removeClass("active");
             $("#acomplemet").attr("aria-expanded", "false");
-            $("#complementos").removeClass("active");
+            $("#acessos").removeClass("active");
 
         });
     });
