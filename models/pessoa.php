@@ -14,7 +14,6 @@ class Pessoa {
     private $inscricao_municipal;
     private $flg_pessoa_juridica;
     private $senha;
-    private $id_nivel_usuario;
     private $img_user;
     private $data_cadastro;
 
@@ -145,7 +144,7 @@ class Pessoa {
             echo "<option value=" . $opicoes['value'] . ">" . $opicoes['text'] . "</option>";
         }
     }
-    
+
     //Terminar essa parte kkkkk Socorro!
     public function cpf_cnpj_email_verificarIgual($cpf_cnpj, $email) {
         $db = new DB();
@@ -154,11 +153,30 @@ class Pessoa {
         $query = "SELECT cpf_cnpj, email FROM Pessoa WHERE cpf_cnpj='" . $cpf_cnpj . "' OR email='" . $email . "'";
         $resultado = mysqli_query($link, $query);
         $dados = mysqli_fetch_array($resultado);
-
         if (empty($dados)) {
             return true;
         } else {
             return false;
+        }
+    }
+    
+    public function cpf_cnpj_email_verificarIgual_Editar($cpf_cnpj, $email, $id_pessoa) {
+        $db = new DB();
+        $link = $db->DBconnect();
+        $query = "SELECT cpf_cnpj, email FROM Pessoa WHERE id_pessoa = ".$id_pessoa;
+        $resultado = mysqli_query($link, $query);
+        $dados = mysqli_fetch_array($resultado);
+        if($dados["cpf_cnpj"] == $cpf_cnpj && $dados["email"] == $email){
+            return true;
+        }else{
+            $query_cpf_cnpj_email = "SELECT cpf_cnpj, email FROM Pessoa WHERE cpf_cnpj = ".$cpf_cnpj." OR email = '".$email."' ";
+            $result = mysqli_query($link, $query_cpf_cnpj_email);
+            $dados_verificar = mysqli_fetch_array($result);
+            if(empty($dados_verificar)){
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 
@@ -189,10 +207,10 @@ class Pessoa {
         if ($pessoa->cpf_cnpj_email_verificarIgual($this->cpf_cnpj, $this->email)) {
             if ($this->flg_pessoa_juridica == 0) {
                 $query = "INSERT INTO Pessoa (nome,data_nascimento,sexo,cpf_cnpj,"
-                        . "email,flg_pessoa_juridica,senha,id_nivel_usuario,img_user,data_cadastro)"
+                        . "email,flg_pessoa_juridica,senha,img_user,data_cadastro)"
                         . " VALUES('" . $this->nome . "','" . $this->data_nascimento . "','" . $this->sexo . "','"
                         . $this->cpf_cnpj . "','" . $this->email . "'," . $this->flg_pessoa_juridica . ",'"
-                        . $this->senha . "'," . $this->id_nivel_usuario . ",'" . $this->img_user . "','" . $this->data_cadastro . "')";
+                        . $this->senha . "','" . $this->img_user . "','" . $this->data_cadastro . "')";
             }
             if (mysqli_query($link, $query)) {
                 $db->DBclose($link);
@@ -213,7 +231,7 @@ class Pessoa {
         $db = new DB();
         $pessoa = new Pessoa();
         $link = $db->DBconnect();
-        if ($pessoa->cpf_cnpj_email_verificarIgual($this->cpf_cnpj, $this->email)) {
+        if ($pessoa->cpf_cnpj_email_verificarIgual_Editar($this->cpf_cnpj, $this->email, $this->id_pessoa)) {
             if ($this->flg_pessoa_juridica == 0) {
                 $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', data_nascimento = '" . $this->data_nascimento . "', sexo = '" . $this->sexo . "', "
                         . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', flg_pessoa_juridica = " . $this->flg_pessoa_juridica . ", "

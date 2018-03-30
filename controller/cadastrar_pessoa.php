@@ -15,7 +15,6 @@ if ($_POST['flg_pessoa_juridica'] == 0) {
     $pessoa->setCpf_cnpj(preg_replace("/[^0-9]/", "", $_POST['cpf_cnpj']));
     $pessoa->setEmail($_POST['email']);
     $pessoa->setSenha(sha1($_POST['senha']));
-    $pessoa->setId_nivel_usuario($_POST['id_nivel_usuario']);
     $pessoa->setFlg_pessoa_juridica($_POST['flg_pessoa_juridica']);
     $pessoa->setData_cadastro(date("Y/m/d H:i:s"));
 }

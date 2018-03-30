@@ -15,7 +15,6 @@ if ($_POST['flg_pessoa_juridica'] == 0) {
     $pessoa->setSexo($_POST['sexo']);
     $pessoa->setCpf_cnpj(preg_replace("/[^0-9]/", "", $_POST['cpf_cnpj']));
     $pessoa->setEmail($_POST['email']);
-    $pessoa->setId_nivel_usuario($_POST['id_nivel_usuario']);
     $pessoa->setFlg_pessoa_juridica($_POST['flg_pessoa_juridica']);
 }
 
@@ -43,13 +42,13 @@ $endereco->setNumero($_POST['numero']);
 $endereco->setCidade_id($_POST['cidade']);
 $endereco->setCep(preg_replace("/[^0-9]/", "", $_POST['cep']));
 
-if ($pessoa->editar_pessoa()){ //&& $telefone->editar_telefone_pessoa() && $endereco->editar_telefone_pessoa()) {
+if ($pessoa->editar_pessoa() && $telefone->editar_telefone_pessoa() && $endereco->editar_endereco_pessoa()) {
     if (isset($arquivo)) {
         move_uploaded_file($arquivo, $destino);
     }
     if ($_POST['flg_pessoa_juridica'] == 0) {
-        header("Location: ../views/cadastro_pessoa_fisica.php");
+        header("Location: ../views/editar_pessoa_fisica.php?id=".$_POST["id_pessoa"]."");
     }
 } else {
-    header("Location: ../views/cadastro_pessoa_fisica.php");
+    header("Location: ../views/editar_pessoa_fisica.php?id=".$_POST["id_pessoa"]."");
 }
