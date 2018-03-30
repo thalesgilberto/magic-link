@@ -233,10 +233,17 @@ class Pessoa {
         $link = $db->DBconnect();
         if ($pessoa->cpf_cnpj_email_verificarIgual_Editar($this->cpf_cnpj, $this->email, $this->id_pessoa)) {
             if ($this->flg_pessoa_juridica == 0) {
-                $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', data_nascimento = '" . $this->data_nascimento . "', sexo = '" . $this->sexo . "', "
+                if($this->img_user == "" || $this->img_user == null){
+                    $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', data_nascimento = '" . $this->data_nascimento . "', sexo = '" . $this->sexo . "', "
+                        . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', flg_pessoa_juridica = " . $this->flg_pessoa_juridica . " "
+                        . "WHERE id_pessoa = " . $this->id_pessoa;
+                }else{
+                    $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', data_nascimento = '" . $this->data_nascimento . "', sexo = '" . $this->sexo . "', "
                         . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', flg_pessoa_juridica = " . $this->flg_pessoa_juridica . ", "
                         . "img_user = '" . $this->img_user . "' "
                         . "WHERE id_pessoa = " . $this->id_pessoa;
+                }
+                
             }
             if (mysqli_query($link, $query)) {
                 $db->DBclose($link);
@@ -306,6 +313,20 @@ class Pessoa {
         $resultado = mysqli_query($link, $query);
         $dados = mysqli_fetch_array($resultado);
         return $dados;
+    }
+    
+    public function verificar_img_existe_user(){
+        $db =  new DB();
+        $link = $db->DBconnect();        
+        $query = "SELECT img_user FROM Pessoa WHERE id_pessoa = ".$this->id_pessoa;
+        $resultado = mysqli_query($link, $query);
+        $dados = mysqli_fetch_array($resultado);
+        if($dados["img_user"] == "" || $dados["img_user"] == null){
+            return null;
+        }else{
+            return $dados["img_user"];
+        }
+        
     }
 
 }

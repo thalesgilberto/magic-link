@@ -19,13 +19,26 @@ if ($_POST['flg_pessoa_juridica'] == 0) {
 }
 
 if (isset($_FILES['img_user']['name']) && $_FILES['img_user']['error'] == 0) {
-    $arquivo = $_FILES['img_user']['tmp_name'];
-    $nomeArquivo = $_FILES['img_user']['name'];
-    $extensao = strrchr($nomeArquivo, '.');
-    $extensao = strtolower($extensao);
-    $novoNomeArquivo = md5(microtime()) . $extensao;
-    $destino = '../img/' . $novoNomeArquivo;
-    $pessoa->setImg_user($novoNomeArquivo);
+    $img_exite = $pessoa->verificar_img_existe_user();
+    if (empty($img_exite)) {
+        $arquivo = $_FILES['img_user']['tmp_name'];
+        $nomeArquivo = $_FILES['img_user']['name'];
+        $extensao = strrchr($nomeArquivo, '.');
+        $extensao = strtolower($extensao);
+        $novoNomeArquivo = md5(microtime()) . $extensao;
+        $destino = '../img/' . $novoNomeArquivo;
+        $pessoa->setImg_user($novoNomeArquivo);
+    } else {
+        if (unlink("../img/" . $img_exite)) {
+            $arquivo = $_FILES['img_user']['tmp_name'];
+            $nomeArquivo = $_FILES['img_user']['name'];
+            $extensao = strrchr($nomeArquivo, '.');
+            $extensao = strtolower($extensao);
+            $novoNomeArquivo = md5(microtime()) . $extensao;
+            $destino = '../img/' . $novoNomeArquivo;
+            $pessoa->setImg_user($novoNomeArquivo);
+        }
+    }
 }
 
 $telefone = new Telefone();
@@ -47,8 +60,8 @@ if ($pessoa->editar_pessoa() && $telefone->editar_telefone_pessoa() && $endereco
         move_uploaded_file($arquivo, $destino);
     }
     if ($_POST['flg_pessoa_juridica'] == 0) {
-        header("Location: ../views/editar_pessoa_fisica.php?id=".$_POST["id_pessoa"]."");
+        header("Location: ../views/editar_pessoa_fisica.php?id=" . $_POST["id_pessoa"] . "");
     }
 } else {
-    header("Location: ../views/editar_pessoa_fisica.php?id=".$_POST["id_pessoa"]."");
-}
+    header("Location: ../views/editar_pessoa_fisica.php?id=" . $_POST["id_pessoa"] . "");
+}    
