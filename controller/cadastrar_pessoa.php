@@ -17,6 +17,17 @@ if ($_POST['flg_pessoa_juridica'] == 0) {
     $pessoa->setSenha(sha1($_POST['senha']));
     $pessoa->setFlg_pessoa_juridica($_POST['flg_pessoa_juridica']);
     $pessoa->setData_cadastro(date("Y/m/d H:i:s"));
+}else{
+    $pessoa = new Pessoa();
+    $pessoa->setNome($_POST['nome']);
+    $pessoa->setNome_fantasia($_POST['nome_fantasia']);
+    $pessoa->setCpf_cnpj(preg_replace("/[^0-9]/", "", $_POST['cpf_cnpj']));
+    $pessoa->setEmail($_POST['email']);
+    $pessoa->setInscricao_estadual(preg_replace("/[^0-9]/","",$_POST['inscricao_estadual']));
+    $pessoa->setInscricao_municipal(preg_replace("/[^0-9]/","",$_POST['inscricao_municipal']));
+    $pessoa->setSenha(sha1($_POST['senha']));
+    $pessoa->setFlg_pessoa_juridica($_POST['flg_pessoa_juridica']);
+    $pessoa->setData_cadastro(date("Y/m/d H:i:s"));
 }
 
 if (isset($_FILES['img_user']['name']) && $_FILES['img_user']['error'] == 0) {

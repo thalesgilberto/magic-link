@@ -121,9 +121,15 @@ if (isset($_SESSION['sucesso'])) {
                                     <input type="text" name="buscar_cidade"  value="<?= @$dados["cidade"] ?>" id="buscar_cidade" class="form-control" required="required"/>
                                     <input type="hidden" name="cidade" id="cidade"  value="<?= @$dados["cidade_id"] ?>" class="form-control"/>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-6">
                                     <label for="cep">CEP*</label>
                                     <input type="text" name="cep" id="cep"  value="<?= @$dados["cep"] ?>" class="form-control mask-cep" placeholder="00000-000" required="required"/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="senha">Senha de Acesso</label>
+                                    <input type="password" name="senha" id="senha" class="form-control"/>
                                 </div>
                             </div>
                             <input type="hidden" value="0" name="flg_pessoa_juridica"/>

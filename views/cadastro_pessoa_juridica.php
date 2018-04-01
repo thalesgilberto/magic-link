@@ -5,7 +5,7 @@ include 'header.php';
 ?>
 <div class="content-header">
     <h1>
-        Pessoa Fisica
+        Pessoa Jurídica
         <small>Cadastro</small>
     </h1>
 </div>
@@ -25,7 +25,7 @@ if (isset($_SESSION["erro"])) {
 <form enctype="multipart/form-data" action="../controller/cadastrar_pessoa.php" method="POST">
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li id="lidados" class="active"><a href="#dados-principais" data-toggle="tab">Dados da pessoa</a></li>
+            <li id="lidados" class="active"><a href="#dados-principais" data-toggle="tab">Dados da empresa</a></li>
         </ul>
         <div class="tab-content">
             <div class="active tab-pane" id="dados-principais">
@@ -34,30 +34,31 @@ if (isset($_SESSION["erro"])) {
                         <div class="col-md-12">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="nome">Nome*</label>
+                                    <label for="nome">Razão social*</label>
                                     <input type="text" name="nome" id="nome" class="form-control" required="required"/>
                                 </div>
-                                <div class="form-group col-md-3">
-                                    <label for="data_nascimento">Data de Nascimento*</label>
-                                    <input type="date" name="data_nascimento" id="data_nascimento" class="form-control" required="required"/>
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <label for="sexo">Sexo*</label>
-                                    <select class="form-control" name="sexo" id="sexo" required="required">
-                                        <option value="">Selecione</option>
-                                        <option value="M">Masculino</option>
-                                        <option value="F">Feminino</option>
-                                    </select>
+                                <div class="form-group col-md-6">
+                                    <label for="nome">Nome fantasia*</label>
+                                    <input type="text" name="nome_fantasia" id="nome_fantasia" class="form-control" required="required"/>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="cpf_cnpj">CPF*</label>
+                                    <label for="cpf_cnpj">CNPJ*</label>
                                     <input type="text" name="cpf_cnpj" id="cpf_cnpj" class="form-control mask-cpf" placeholder="000.000.000-00" required="required"/>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="email">Email*</label>
                                     <input type="email" name="email" id="email" class="form-control" placeholder="exemplo@exemplo.com" required="required"/>
+                                </div>
+                            </div><div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="nome">Inscrição estadual*</label>
+                                    <input type="text" name="inscricao_estadual" id="inscricao_estadual" class="form-control mask-insc-estadual" placeholder="000.000.00-0" required="required"/>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="nome">Inscrição municipal*</label>
+                                    <input type="text" name="inscricao_municipal" id="inscricao_municipal" class="form-control mask-insc-municipal" placeholder="000.000.00-0" required="required"/>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -90,7 +91,7 @@ if (isset($_SESSION["erro"])) {
                                     <input type="text" name="buscar_cidade" id="buscar_cidade" class="form-control" />
                                     <input type="hidden" name="cidade" id="cidade" class="form-control" value="222"/>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-6">
                                     <label for="cep">CEP*</label>
                                     <input type="text" name="cep" id="cep" class="form-control mask-cep" placeholder="00000-000" required="required"/>
                                 </div>
@@ -101,7 +102,7 @@ if (isset($_SESSION["erro"])) {
                                     <input type="password" name="senha" id="senha" class="form-control" required="required"/>
                                 </div>
                             </div>
-                            <input type="hidden" value="0" name="flg_pessoa_juridica"/>
+                            <input type="hidden" value="1" name="flg_pessoa_juridica"/>
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label for="img_user">Foto de Perfil</label>

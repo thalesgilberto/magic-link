@@ -14,10 +14,11 @@ include 'header.php';
         
     </div>
     <div class="box-body">
-        <div class="table">  
+        <div class="table" style="max-width: 100%; height: auto; overflow-x:scroll">  
             <table id="employee_data" class="table table-striped table-responsive">  
                 <thead>  
                     <tr>  
+                        <th style="font-weight: bold">#</th>
                         <th style="font-weight: bold">Nome</th>  
                         <th style="font-weight: bold">Email</th>  
                         <th style="font-weight: bold">Data de Nascimento</th>  

@@ -16,6 +16,11 @@ if ($_POST['flg_pessoa_juridica'] == 0) {
     $pessoa->setCpf_cnpj(preg_replace("/[^0-9]/", "", $_POST['cpf_cnpj']));
     $pessoa->setEmail($_POST['email']);
     $pessoa->setFlg_pessoa_juridica($_POST['flg_pessoa_juridica']);
+    if ($_POST['senha'] != "" || $_POST['senha'] != null) {
+        $pessoa->setSenha(sha1($_POST['senha']));
+    }else{
+        $pessoa->setSenha($_POST['senha']);
+    }
 }
 
 if (isset($_FILES['img_user']['name']) && $_FILES['img_user']['error'] == 0) {

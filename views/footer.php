@@ -31,6 +31,8 @@
        $(".mask-cep").mask("99999-999");
        $(".mask-celular").mask("(99) 99999-9999");
        $(".mask-telefone").mask("(99) 9999-9999");
+       $(".mask-insc-estadual").mask("999.999.99-9");
+       $(".mask-insc-municipal").mask("999.999.99-9");
     });
 </script>
 

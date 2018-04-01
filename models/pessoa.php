@@ -159,22 +159,22 @@ class Pessoa {
             return false;
         }
     }
-    
+
     public function cpf_cnpj_email_verificarIgual_Editar($cpf_cnpj, $email, $id_pessoa) {
         $db = new DB();
         $link = $db->DBconnect();
-        $query = "SELECT cpf_cnpj, email FROM Pessoa WHERE id_pessoa = ".$id_pessoa;
+        $query = "SELECT cpf_cnpj, email FROM Pessoa WHERE id_pessoa = " . $id_pessoa;
         $resultado = mysqli_query($link, $query);
         $dados = mysqli_fetch_array($resultado);
-        if($dados["cpf_cnpj"] == $cpf_cnpj && $dados["email"] == $email){
+        if ($dados["cpf_cnpj"] == $cpf_cnpj && $dados["email"] == $email) {
             return true;
-        }else{
-            $query_cpf_cnpj_email = "SELECT cpf_cnpj, email FROM Pessoa WHERE cpf_cnpj = ".$cpf_cnpj." OR email = '".$email."' ";
+        } else {
+            $query_cpf_cnpj_email = "SELECT cpf_cnpj, email FROM Pessoa WHERE cpf_cnpj = " . $cpf_cnpj . " OR email = '" . $email . "' ";
             $result = mysqli_query($link, $query_cpf_cnpj_email);
             $dados_verificar = mysqli_fetch_array($result);
-            if(empty($dados_verificar)){
+            if (empty($dados_verificar)) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
@@ -211,11 +211,17 @@ class Pessoa {
                         . " VALUES('" . $this->nome . "','" . $this->data_nascimento . "','" . $this->sexo . "','"
                         . $this->cpf_cnpj . "','" . $this->email . "'," . $this->flg_pessoa_juridica . ",'"
                         . $this->senha . "','" . $this->img_user . "','" . $this->data_cadastro . "')";
+            } else {
+                $query = "INSERT INTO Pessoa (nome,nome_fantasia,cpf_cnpj,inscricao_estadual,inscricao_municipal"
+                        . "email,flg_pessoa_juridica,senha,img_user,data_cadastro)"
+                        . " VALUES('" . $this->nome . "','" . $this->nome_fantasia . "','" . $this->cpf_cnpj . "','"
+                        . $this->inscricao_estadual . "','" . $this->inscricao_municipal . "','" . $this->email . "',"
+                        . $this->flg_pessoa_juridica . ",'" . $this->senha . "','" . $this->img_user . "','" . $this->data_cadastro . "')";
             }
             if (mysqli_query($link, $query)) {
-                $query_id_pessoa = "SELECT id_pessoa FROM Pessoa WHERE cpf_cnpj ='". $this->cpf_cnpj."' limit 1";
+                $query_id_pessoa = "SELECT id_pessoa FROM Pessoa WHERE cpf_cnpj ='" . $this->cpf_cnpj . "' limit 1";
                 $id_pessoa = mysqli_fetch_array(mysqli_query($link, $query_id_pessoa));
-                $_SESSION["id_usuario_cadastrado"]=$id_pessoa["id_pessoa"];
+                $_SESSION["id_usuario_cadastrado"] = $id_pessoa["id_pessoa"];
                 $db->DBclose($link);
                 $_SESSION['sucesso'] = "Dados cadastrados com sucesso!";
                 return true;
@@ -236,17 +242,32 @@ class Pessoa {
         $link = $db->DBconnect();
         if ($pessoa->cpf_cnpj_email_verificarIgual_Editar($this->cpf_cnpj, $this->email, $this->id_pessoa)) {
             if ($this->flg_pessoa_juridica == 0) {
-                if($this->img_user == "" || $this->img_user == null){
+                if ((empty($this->img_user)) && ($this->senha === "" || $this->senha === null)) {
                     $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', data_nascimento = '" . $this->data_nascimento . "', sexo = '" . $this->sexo . "', "
-                        . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', flg_pessoa_juridica = " . $this->flg_pessoa_juridica . " "
-                        . "WHERE id_pessoa = " . $this->id_pessoa;
-                }else{
-                    $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', data_nascimento = '" . $this->data_nascimento . "', sexo = '" . $this->sexo . "', "
-                        . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', flg_pessoa_juridica = " . $this->flg_pessoa_juridica . ", "
-                        . "img_user = '" . $this->img_user . "' "
-                        . "WHERE id_pessoa = " . $this->id_pessoa;
+                            . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', flg_pessoa_juridica = " . $this->flg_pessoa_juridica . " "
+                            . "WHERE id_pessoa = " . $this->id_pessoa;
+                } else {
+                    if (($this->img_user != null) && ($this->senha === "" || $this->senha === null)) {
+                        $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', data_nascimento = '" . $this->data_nascimento . "', sexo = '" . $this->sexo . "', "
+                                . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', flg_pessoa_juridica = " . $this->flg_pessoa_juridica . ", "
+                                . "img_user = '" . $this->img_user . "' "
+                                . "WHERE id_pessoa = " . $this->id_pessoa;
+                    } else {
+                        if ((empty($this->img_user)) && ($this->senha != "" || $this->senha != null)) {
+                            $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', data_nascimento = '" . $this->data_nascimento . "', sexo = '" . $this->sexo . "', "
+                                    . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', flg_pessoa_juridica = " . $this->flg_pessoa_juridica . ", "
+                                    . "senha = '" . $this->senha . "' "
+                                    . "WHERE id_pessoa = " . $this->id_pessoa;
+                        } else {
+                            if (($this->img_user != null) && ($this->senha != "" || $this->senha != null)) {
+                                $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', data_nascimento = '" . $this->data_nascimento . "', sexo = '" . $this->sexo . "', "
+                                        . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', flg_pessoa_juridica = " . $this->flg_pessoa_juridica . ", "
+                                        . "senha = '" . $this->senha . "', img_user = '" . $this->img_user . "' "
+                                        . "WHERE id_pessoa = " . $this->id_pessoa;
+                            }
+                        }
+                    }
                 }
-                
             }
             if (mysqli_query($link, $query)) {
                 $db->DBclose($link);
@@ -283,7 +304,7 @@ class Pessoa {
     public function listar_usuario() {
         $db = new DB();
         $link = $db->DBconnect();
-        $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P ");
+        $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P ORDER BY P.id_pessoa");
 
         foreach ($query as $row) {
             if ($row["flg_pessoa_juridica"] == 0) {
@@ -292,6 +313,7 @@ class Pessoa {
                 $ulr = "../views/cadastro_pessoa_juridica.php?id=" . $row["id_pessoa"];
             }
             echo "<tr> 
+                    <td>" . $row["id_pessoa"] . "</td>
                     <td>" . $row["nome"] . "</td>  
                     <td>" . $row["email"] . "</td>  
                     <td>" . @date('d/m/Y', strtotime($row["data_nascimento"])) . "</td>  
@@ -317,19 +339,18 @@ class Pessoa {
         $dados = mysqli_fetch_array($resultado);
         return $dados;
     }
-    
-    public function verificar_img_existe_user(){
-        $db =  new DB();
-        $link = $db->DBconnect();        
-        $query = "SELECT img_user FROM Pessoa WHERE id_pessoa = ".$this->id_pessoa;
+
+    public function verificar_img_existe_user() {
+        $db = new DB();
+        $link = $db->DBconnect();
+        $query = "SELECT img_user FROM Pessoa WHERE id_pessoa = " . $this->id_pessoa;
         $resultado = mysqli_query($link, $query);
         $dados = mysqli_fetch_array($resultado);
-        if($dados["img_user"] == "" || $dados["img_user"] == null){
+        if ($dados["img_user"] == "" || $dados["img_user"] == null) {
             return null;
-        }else{
+        } else {
             return $dados["img_user"];
         }
-        
     }
 
 }
