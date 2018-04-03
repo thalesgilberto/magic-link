@@ -47,7 +47,6 @@ if (isset($_FILES['img_user']['name']) && $_FILES['img_user']['error'] == 0) {
 }
 
 $telefone = new Telefone();
-//Usa o cpf_cnpj para obter o id da pessoa;
 $telefone->setId_pessoa($_POST['id_pessoa']);
 $telefone->setCelular(preg_replace("/[^0-9]/", "", $_POST['celular']));
 $telefone->setFixo(preg_replace("/[^0-9]/", "", $_POST['fixo']));

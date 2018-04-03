@@ -157,12 +157,7 @@ if (isset($_SESSION['sucesso'])) {
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="fixo">Telefone (fixo)*</label>
-                                    <input type="text" name="fixo" id="fixo" value="<?= @$dados["fixo"] ?>" class="form-control mask-telefone" placeholder="(00) 0000-0000" required="required"/>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                     <div class="box-footer ">

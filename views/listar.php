@@ -5,7 +5,7 @@ include 'header.php';
 <div class="content-header">
     <h1>
         Lista de Usuários
-        <small>Cadastro</small>
+        <small>Usuários Cadastrados</small>
     </h1>
 </div>
 <br/>

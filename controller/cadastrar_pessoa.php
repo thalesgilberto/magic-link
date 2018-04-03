@@ -41,13 +41,12 @@ if (isset($_FILES['img_user']['name']) && $_FILES['img_user']['error'] == 0) {
 }
 
 $telefone = new Telefone();
-//Usa o cpf_cnpj para obter o id da pessoa;
-$telefone->setId_pessoa($pessoa->getCpf_cnpj());
+//$telefone->setId_pessoa($pessoa->getCpf_cnpj());
 $telefone->setCelular(preg_replace("/[^0-9]/", "", $_POST['celular']));
 $telefone->setFixo(preg_replace("/[^0-9]/", "", $_POST['fixo']));
 
 $endereco = new Endereco();
-$endereco->setId_pessoa($pessoa->getCpf_cnpj());
+//$endereco->setId_pessoa($pessoa->getCpf_cnpj());
 $endereco->setEndereco($_POST['endereco']);
 $endereco->setBairro($_POST['bairro']);
 $endereco->setNumero($_POST['numero']);
@@ -62,6 +61,10 @@ if ($pessoa->cadastrar_pessoa() && $telefone->cadastrar_telefone_pessoa() && $en
         $id_pessoa = $_SESSION["id_usuario_cadastrado"];
         unset($_SESSION["id_usuario_cadastrado"]);
         header("Location: ../views/editar_pessoa_fisica.php?id=".$id_pessoa);
+    } else {
+        $id_pessoa = $_SESSION["id_usuario_cadastrado"];
+        unset($_SESSION["id_usuario_cadastrado"]);
+        header("Location: ../views/editar_pessoa_juridica.php?id=".$id_pessoa);
     }
 } else {
     header("Location: ../views/cadastro_pessoa_fisica.php");

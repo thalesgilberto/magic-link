@@ -38,14 +38,12 @@ class Telefone {
     public function cadastrar_telefone_pessoa() {
         $db = new DB();
         $link = $db->DBconnect();
-
-        $query_id_pessoa = "SELECT id_pessoa FROM Pessoa WHERE cpf_cnpj='" . $this->id_pessoa . "'";
-        $resultado = mysqli_query($link, $query_id_pessoa);
-        $id = mysqli_fetch_array($resultado);
-
+//        $query_id_pessoa = "SELECT id_pessoa FROM Pessoa WHERE cpf_cnpj='" . $this->id_pessoa . "'";
+//        $resultado = mysqli_query($link, $query_id_pessoa);
+//        $id = mysqli_fetch_array($resultado);
+        $id_pessoa = $_SESSION["id_usuario_cadastrado"];
         $query = "INSERT INTO Telefone(id_pessoa, celular, fixo)"
-                . "VALUES(" . $id['id_pessoa'] . ",'" . $this->celular . "','" . $this->fixo . "')";
-
+                . "VALUES(" . $id_pessoa . ",'" . $this->celular . "','" . $this->fixo . "')";
         if (mysqli_query($link, $query)) {
             $db->DBclose($link);
             return true;

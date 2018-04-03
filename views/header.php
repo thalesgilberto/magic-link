@@ -10,6 +10,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <title>Magic LINK</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <link rel="icon" href="../img/logo_magic.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="../img/logo_magic.ico" type="image/x-icon" />
         <link rel="stylesheet" href="../scripts/css/bootstrap.min.css">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="../scripts/bower_components/font-awesome/css/font-awesome.min.css">
@@ -118,7 +120,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <!--Menu Footer-->
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                            <a href="#" class="btn btn-default btn-flat">Perfil</a>
                                         </div>
                                         <div class="pull-right">
                                             <a href="../index.php" class="btn btn-default btn-flat">
@@ -164,7 +166,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                         </li>
 
-                 
+
                         <li class="treeview">
                             <a href="#"><i class="fa fa-user-plus"></i> <span>Cadastro de Pessoa</span>
                                 <span class="pull-right-container">
@@ -173,7 +175,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="cadastro_pessoa_fisica.php"><i class="fa fa-circle-o"></i>Pessoa Fisica</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o"></i>Pessoa Juridica</a></li>
+                                <li><a href="cadastro_pessoa_juridica.php"><i class="fa fa-circle-o"></i>Pessoa Jurídica</a></li>
                             </ul>
                         </li>
                         <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>

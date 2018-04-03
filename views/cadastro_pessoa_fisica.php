@@ -87,8 +87,8 @@ if (isset($_SESSION["erro"])) {
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="cidade">Cidade*</label>
-                                    <input type="text" name="buscar_cidade" id="buscar_cidade" class="form-control" />
-                                    <input type="hidden" name="cidade" id="cidade" class="form-control" value="222"/>
+                                    <input type="text" name="buscar_cidade" id="buscar_cidade" class="form-control" required="required"/>
+                                    <input type="hidden" name="cidade" id="cidade" class="form-control" value=""/>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="cep">CEP*</label>

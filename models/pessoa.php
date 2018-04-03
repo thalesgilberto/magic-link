@@ -145,8 +145,8 @@ class Pessoa {
         }
     }
 
-    //Terminar essa parte kkkkk Socorro!
-    public function cpf_cnpj_email_verificarIgual($cpf_cnpj, $email) {
+    
+    public function cpf_cnpj_email_verificarIgual_Cadastrar($cpf_cnpj, $email) {
         $db = new DB();
         $link = $db->DBconnect();
 
@@ -160,17 +160,37 @@ class Pessoa {
         }
     }
 
-    public function cpf_cnpj_email_verificarIgual_Editar($cpf_cnpj, $email, $id_pessoa) {
+    public function cpf_cnpj_verificarIgual_Editar($cpf_cnpj, $id_pessoa) {
         $db = new DB();
         $link = $db->DBconnect();
-        $query = "SELECT cpf_cnpj, email FROM Pessoa WHERE id_pessoa = " . $id_pessoa;
+        $query = "SELECT cpf_cnpj FROM Pessoa WHERE id_pessoa = " . $id_pessoa;
         $resultado = mysqli_query($link, $query);
         $dados = mysqli_fetch_array($resultado);
-        if ($dados["cpf_cnpj"] == $cpf_cnpj && $dados["email"] == $email) {
+        if ($dados["cpf_cnpj"] == $cpf_cnpj ) {
             return true;
         } else {
-            $query_cpf_cnpj_email = "SELECT cpf_cnpj, email FROM Pessoa WHERE cpf_cnpj = " . $cpf_cnpj . " OR email = '" . $email . "' ";
+            $query_cpf_cnpj = "SELECT cpf_cnpj FROM Pessoa WHERE cpf_cnpj = '" . $cpf_cnpj . "' ";
             $result = mysqli_query($link, $query_cpf_cnpj_email);
+            $dados_verificar = mysqli_fetch_array($result);
+            if (empty($dados_verificar)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    
+    public function email_verificarIgual_Editar($email, $id_pessoa) {
+        $db = new DB();
+        $link = $db->DBconnect();
+        $query = "SELECT email FROM Pessoa WHERE id_pessoa = " . $id_pessoa;
+        $resultado = mysqli_query($link, $query);
+        $dados = mysqli_fetch_array($resultado);
+        if ($dados["email"] == $email) {
+            return true;
+        } else {
+            $query_email = "SELECT email FROM Pessoa WHERE email = '" . $email . "' ";
+            $result = mysqli_query($link, $query_email);
             $dados_verificar = mysqli_fetch_array($result);
             if (empty($dados_verificar)) {
                 return true;
@@ -204,7 +224,7 @@ class Pessoa {
         $db = new DB();
         $pessoa = new Pessoa();
         $link = $db->DBconnect();
-        if ($pessoa->cpf_cnpj_email_verificarIgual($this->cpf_cnpj, $this->email)) {
+        if ($pessoa->cpf_cnpj_email_verificarIgual_Cadastrar($this->cpf_cnpj, $this->email)) {
             if ($this->flg_pessoa_juridica == 0) {
                 $query = "INSERT INTO Pessoa (nome,data_nascimento,sexo,cpf_cnpj,"
                         . "email,flg_pessoa_juridica,senha,img_user,data_cadastro)"
@@ -212,7 +232,7 @@ class Pessoa {
                         . $this->cpf_cnpj . "','" . $this->email . "'," . $this->flg_pessoa_juridica . ",'"
                         . $this->senha . "','" . $this->img_user . "','" . $this->data_cadastro . "')";
             } else {
-                $query = "INSERT INTO Pessoa (nome,nome_fantasia,cpf_cnpj,inscricao_estadual,inscricao_municipal"
+                $query = "INSERT INTO Pessoa (nome,nome_fantasia,cpf_cnpj,inscricao_estadual,inscricao_municipal,"
                         . "email,flg_pessoa_juridica,senha,img_user,data_cadastro)"
                         . " VALUES('" . $this->nome . "','" . $this->nome_fantasia . "','" . $this->cpf_cnpj . "','"
                         . $this->inscricao_estadual . "','" . $this->inscricao_municipal . "','" . $this->email . "',"
@@ -226,6 +246,7 @@ class Pessoa {
                 $_SESSION['sucesso'] = "Dados cadastrados com sucesso!";
                 return true;
             } else {
+                $_SESSION['erro'] = "Ocorreu algum erro!";
                 $db->DBclose($link);
                 return false;
             }
@@ -240,7 +261,7 @@ class Pessoa {
         $db = new DB();
         $pessoa = new Pessoa();
         $link = $db->DBconnect();
-        if ($pessoa->cpf_cnpj_email_verificarIgual_Editar($this->cpf_cnpj, $this->email, $this->id_pessoa)) {
+        if (($pessoa->cpf_cnpj_verificarIgual_Editar($this->cpf_cnpj, $this->id_pessoa))&&($pessoa->email_verificarIgual_Editar($this->email, $this->id_pessoa))) {
             if ($this->flg_pessoa_juridica == 0) {
                 if ((empty($this->img_user)) && ($this->senha === "" || $this->senha === null)) {
                     $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', data_nascimento = '" . $this->data_nascimento . "', sexo = '" . $this->sexo . "', "
@@ -274,6 +295,7 @@ class Pessoa {
                 $_SESSION['sucesso'] = "Dados cadastrados com sucesso!";
                 return true;
             } else {
+                $_SESSION['erro'] = "Ocorreu algum erro!";
                 $db->DBclose($link);
                 return false;
             }
@@ -310,7 +332,7 @@ class Pessoa {
             if ($row["flg_pessoa_juridica"] == 0) {
                 $ulr = "../views/editar_pessoa_fisica.php?id=" . $row["id_pessoa"];
             } else {
-                $ulr = "../views/cadastro_pessoa_juridica.php?id=" . $row["id_pessoa"];
+                $ulr = "../views/editar_pessoa_juridica.php?id=" . $row["id_pessoa"];
             }
             echo "<tr> 
                     <td>" . $row["id_pessoa"] . "</td>
