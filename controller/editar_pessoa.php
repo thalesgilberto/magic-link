@@ -6,19 +6,32 @@ require_once '../models/telefone.php';
 require_once '../models/endereco.php';
 
 date_default_timezone_set('America/Bahia');
-
+$pessoa = new Pessoa();
 if ($_POST['flg_pessoa_juridica'] == 0) {
-    $pessoa = new Pessoa();
     $pessoa->setId_pessoa($_POST['id_pessoa']);
     $pessoa->setNome($_POST['nome']);
     $pessoa->setData_nascimento($_POST['data_nascimento']);
     $pessoa->setSexo($_POST['sexo']);
     $pessoa->setCpf_cnpj(preg_replace("/[^0-9]/", "", $_POST['cpf_cnpj']));
     $pessoa->setEmail($_POST['email']);
+    $pessoa->setFlg_pessoa_juridica($_POST['flg_pessoa_juridica']); 
+    if ($_POST['senha'] != "" || $_POST['senha'] != null) {
+        $pessoa->setSenha(sha1($_POST['senha']));
+    } else {
+        $pessoa->setSenha($_POST['senha']);
+    }
+} else {
+    $pessoa->setId_pessoa($_POST['id_pessoa']);
+    $pessoa->setNome($_POST['nome']);
+    $pessoa->setNome_fantasia($_POST['nome_fantasia']);
+    $pessoa->setCpf_cnpj(preg_replace("/[^0-9]/", "", $_POST['cpf_cnpj']));
+    $pessoa->setEmail($_POST['email']);
+    $pessoa->setInscricao_estadual(preg_replace("/[^0-9]/", "", $_POST['inscricao_estadual']));
+    $pessoa->setInscricao_municipal(preg_replace("/[^0-9]/", "", $_POST['inscricao_municipal']));
     $pessoa->setFlg_pessoa_juridica($_POST['flg_pessoa_juridica']);
     if ($_POST['senha'] != "" || $_POST['senha'] != null) {
         $pessoa->setSenha(sha1($_POST['senha']));
-    }else{
+    } else {
         $pessoa->setSenha($_POST['senha']);
     }
 }
@@ -65,7 +78,13 @@ if ($pessoa->editar_pessoa() && $telefone->editar_telefone_pessoa() && $endereco
     }
     if ($_POST['flg_pessoa_juridica'] == 0) {
         header("Location: ../views/editar_pessoa_fisica.php?id=" . $_POST["id_pessoa"] . "");
+    }else{
+        header("Location: ../views/editar_pessoa_juridica.php?id=" . $_POST["id_pessoa"] . "");   
     }
 } else {
-    header("Location: ../views/editar_pessoa_fisica.php?id=" . $_POST["id_pessoa"] . "");
+     if ($_POST['flg_pessoa_juridica'] == 0) {
+        header("Location: ../views/editar_pessoa_fisica.php?id=" . $_POST["id_pessoa"] . "");
+    }else{
+        header("Location: ../views/editar_pessoa_juridica.php?id=" . $_POST["id_pessoa"] . "");   
+    }
 }    

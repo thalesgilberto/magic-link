@@ -6,10 +6,16 @@ include 'header.php';
 <div class="content-header">
     <h1>
         Pessoa Jurídica
-        <small>Cadastro</small>
+        <small>Editar cadastro</small>
     </h1>
 </div>
 <br/>
+<?php
+if (isset($_GET["id"])) {
+    $pessoa = new Pessoa();
+    $dados = $pessoa->mostrar_dados_pessoa($_GET["id"]);
+}
+?>
 <?php
 if (isset($_SESSION["erro"])) {
     ?>
@@ -21,11 +27,23 @@ if (isset($_SESSION["erro"])) {
     <?php
     unset($_SESSION["erro"]);
 }
+
+if (isset($_SESSION['sucesso'])) {
+    ?>
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-check"></i> Concluído!</h4>
+        <?= $_SESSION['sucesso'] ?>
+    </div>
+    <?php
+    unset($_SESSION["sucesso"]);
+}
 ?>
-<form enctype="multipart/form-data" action="../controller/cadastrar_pessoa.php" method="POST">
+<form enctype="multipart/form-data" action="../controller/editar_pessoa.php" method="POST">
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li id="lidados" class="active"><a href="#dados-principais" data-toggle="tab">Dados da empresa</a></li>
+            <li id="lidados" class="active"><a href="#dados-principais" data-toggle="tab">Dados Principais</a></li>
+            <li id="licomplement" ><a id="acomplemet" href="#acessos" data-toggle="tab">Acessos do usuário</a></li>
         </ul>
         <div class="tab-content">
             <div class="active tab-pane" id="dados-principais">
@@ -35,71 +53,72 @@ if (isset($_SESSION["erro"])) {
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="nome">Razão social*</label>
-                                    <input type="text" name="nome" id="nome" class="form-control" required="required"/>
+                                    <input type="hidden" name="id_pessoa" value="<?= @$dados["id_pessoa"] ?>"/>
+                                    <input type="text" name="nome" id="nome" class="form-control" value="<?= @$dados["nome"] ?>" required="required"/>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="nome">Nome fantasia*</label>
-                                    <input type="text" name="nome_fantasia" id="nome_fantasia" class="form-control" required="required"/>
+                                    <input type="text" name="nome_fantasia" id="nome_fantasia" class="form-control" value="<?= @$dados["nome_fantasia"] ?>" required="required"/>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="cpf_cnpj">CNPJ*</label>
-                                    <input type="text" name="cpf_cnpj" id="cpf_cnpj" class="form-control mask-cnpj" placeholder="00.000.000/0000-00" required="required"/>
+                                    <input type="text" name="cpf_cnpj" id="cpf_cnpj" class="form-control mask-cnpj" placeholder="00.000.000/0000-00" value="<?= @$dados["cpf_cnpj"] ?>" required="required"/>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="email">Email*</label>
-                                    <input type="email" name="email" id="email" class="form-control" placeholder="exemplo@exemplo.com" required="required"/>
+                                    <input type="email" name="email" id="email" class="form-control" placeholder="exemplo@exemplo.com" value="<?= @$dados["email"] ?>" required="required"/>
                                 </div>
                             </div><div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="nome">Inscrição estadual*</label>
-                                    <input type="text" name="inscricao_estadual" id="inscricao_estadual" class="form-control mask-insc-estadual" placeholder="000.000.00-0" required="required"/>
+                                    <input type="text" name="inscricao_estadual" id="inscricao_estadual" class="form-control mask-insc-estadual" placeholder="000.000.00-0" value="<?= @$dados["inscricao_estadual"] ?>" required="required"/>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="nome">Inscrição municipal*</label>
-                                    <input type="text" name="inscricao_municipal" id="inscricao_municipal" class="form-control mask-insc-municipal" placeholder="000.000.00-0" required="required"/>
+                                    <input type="text" name="inscricao_municipal" id="inscricao_municipal" class="form-control mask-insc-municipal" placeholder="000.000.00-0" value="<?= @$dados["inscricao_municipal"] ?>" required="required"/>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="fixo">Telefone (fixo)*</label>
-                                    <input type="text" name="fixo" id="fixo" class="form-control mask-telefone" placeholder="(00) 0000-0000" required="required"/>
+                                    <input type="text" name="fixo" id="fixo" class="form-control mask-telefone" placeholder="(00) 0000-0000" value="<?= @$dados["fixo"] ?>" required="required"/>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="celular">Celular*</label>
-                                    <input type="text" name="celular" id="celular" class="form-control mask-celular" placeholder="(00) 00000-0000" required="required"/>
+                                    <input type="text" name="celular" id="celular" class="form-control mask-celular" placeholder="(00) 00000-0000" value="<?= @$dados["celular"] ?>" required="required"/>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="endereco">Endereço*</label>
-                                    <input type="text" name="endereco" id="endereco" class="form-control" required="required"/>
+                                    <input type="text" name="endereco" id="endereco" class="form-control" value="<?= @$dados["endereco"] ?>" required="required"/>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="bairro">Bairro*</label>
-                                    <input type="text" name="bairro" id="bairro" class="form-control" required="required"/>
+                                    <input type="text" name="bairro" id="bairro" class="form-control" value="<?= @$dados["bairro"] ?>" required="required"/>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="numero">N°*</label>
-                                    <input type="number" name="numero" id="numero" class="form-control" required="required"/>
+                                    <input type="number" name="numero" id="numero" class="form-control" value="<?= @$dados["numero"] ?>" required="required"/>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="cidade">Cidade*</label>
-                                    <input type="text" name="buscar_cidade" id="buscar_cidade" class="form-control" required="required"/>
+                                    <input type="text" name="buscar_cidade" id="buscar_cidade" class="form-control" value="<?= @$dados["cidade"] ?>" required="required"/>
                                     <input type="hidden" name="cidade" id="cidade" class="form-control"/>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="cep">CEP*</label>
-                                    <input type="text" name="cep" id="cep" class="form-control mask-cep" placeholder="00000-000" required="required"/>
+                                    <input type="text" name="cep" id="cep" class="form-control mask-cep" placeholder="00000-000" value="<?= @$dados["cep"] ?>" required="required"/>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="senha">Senha de Acesso*</label>
-                                    <input type="password" name="senha" id="senha" class="form-control" required="required"/>
+                                    <label for="senha">Senha de Acesso</label>
+                                    <input type="password" name="senha" id="senha" class="form-control"/>
                                 </div>
                             </div>
                             <input type="hidden" value="1" name="flg_pessoa_juridica"/>
@@ -118,10 +137,26 @@ if (isset($_SESSION["erro"])) {
                         </div>
                     </div>
                     <div class="box-footer ">
-                        <button type="submit" class="btn btn-primary pull-right">Cadastrar</button>
+                        <button type="button" id="proximo" class="btn btn-default pull-right">Proxímo</button>
                     </div>
                 </div>
             </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="acessos">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            
+                        </div>
+                    </div>
+                    <div class="box-footer ">
+                        <button type="button" id="voltar" class="btn btn-default pull-left">Voltar</button>
+                        <button type="submit" class="btn btn-primary pull-right">Cadastrar</button>
+                    </div>
+                </div>
+                <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
         </div>
     </div>
 </form>
@@ -152,7 +187,25 @@ include 'footer.php';
         $("#removerImg").click(function (event) {
             event.preventDefault();
             $("#img_user").val('');
-            $("#imagepreview").attr('src', '../img/default.jpg');
+            $("#imagepreview").attr('src', '../img/<?= @$dados["img_user"] == "" || @$dados["img_user"] == null?"../img/default.jpg":"../img/".$dados["img_user"]  ?>');
+        });
+
+        $("#proximo").click(function () {
+            $("#lidados").removeClass("active");
+            $("#dados-principais").removeClass("active");
+            $("#licomplement").addClass("active");
+            $("#acomplemet").attr("aria-expanded", "true");
+            $("#acessos").addClass("active");
+
+        });
+
+        $("#voltar").click(function () {
+            $("#lidados").addClass("active");
+            $("#dados-principais").addClass("active");
+            $("#licomplement").removeClass("active");
+            $("#acomplemet").attr("aria-expanded", "false");
+            $("#acessos").removeClass("active");
+
         });
     });
 </script>

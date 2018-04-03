@@ -68,9 +68,6 @@ class Endereco {
     public function cadastrar_endereco_pessoa() {
         $db = new DB();
         $link = $db->DBconnect();
-//        $query_id_pessoa = "SELECT id_pessoa FROM Pessoa WHERE cpf_cnpj='" . $this->id_pessoa . "'";
-//        $resultado = mysqli_query($link, $query_id_pessoa);
-//        $id = mysqli_fetch_array($resultado);
         $id_pessoa = $_SESSION["id_usuario_cadastrado"];
         $query = "INSERT INTO Endereco(id_pessoa, endereco, bairro, numero,cidade_id, cep)"
                 . "VALUES(" . $id_pessoa . ",'" . $this->endereco . "','" . $this->bairro . "',"
@@ -98,5 +95,4 @@ class Endereco {
             return false;
         }
     }
-
 }

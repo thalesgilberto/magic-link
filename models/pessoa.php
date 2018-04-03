@@ -133,23 +133,9 @@ class Pessoa {
         $this->data_cadastro = $data_cadastro;
     }
 
-    public function selectList($colunaValor, $colunaTexto, $nomeTabela) {
-        $db = new DB();
-        $link = $db->DBconnect();
-
-        $query = "SELECT " . $colunaValor . " value ," . $colunaTexto . " text FROM " . $nomeTabela;
-        $resultado = mysqli_query($link, $query);
-
-        foreach ($resultado as $opicoes) {
-            echo "<option value=" . $opicoes['value'] . ">" . $opicoes['text'] . "</option>";
-        }
-    }
-
-    
     public function cpf_cnpj_email_verificarIgual_Cadastrar($cpf_cnpj, $email) {
         $db = new DB();
         $link = $db->DBconnect();
-
         $query = "SELECT cpf_cnpj, email FROM Pessoa WHERE cpf_cnpj='" . $cpf_cnpj . "' OR email='" . $email . "'";
         $resultado = mysqli_query($link, $query);
         $dados = mysqli_fetch_array($resultado);
@@ -160,17 +146,31 @@ class Pessoa {
         }
     }
 
-    public function cpf_cnpj_verificarIgual_Editar($cpf_cnpj, $id_pessoa) {
+    public function insc_municipal_estadual_verificarIgual_Cadastrar($inscricao_estadual, $inscricao_municipal) {
         $db = new DB();
         $link = $db->DBconnect();
-        $query = "SELECT cpf_cnpj FROM Pessoa WHERE id_pessoa = " . $id_pessoa;
+        $query = "SELECT inscricao_estadual, inscricao_municipal FROM Pessoa WHERE inscricao_estadual='" . $inscricao_estadual . "' "
+                . "OR inscricao_municipal = '" . $inscricao_municipal . "'";
         $resultado = mysqli_query($link, $query);
         $dados = mysqli_fetch_array($resultado);
-        if ($dados["cpf_cnpj"] == $cpf_cnpj ) {
+        if (empty($dados)) {
             return true;
         } else {
-            $query_cpf_cnpj = "SELECT cpf_cnpj FROM Pessoa WHERE cpf_cnpj = '" . $cpf_cnpj . "' ";
-            $result = mysqli_query($link, $query_cpf_cnpj_email);
+            return false;
+        }
+    }
+
+    public function insc_municipal_verificarIgual_Editar($inscricao_municipal, $id_pessoa) {
+        $db = new DB();
+        $link = $db->DBconnect();
+        $query = "SELECT inscricao_municipal FROM Pessoa WHERE id_pessoa = " . $id_pessoa;
+        $resultado = mysqli_query($link, $query);
+        $dados = mysqli_fetch_array($resultado);
+        if ($dados["inscricao_municipal"] == $inscricao_municipal) {
+            return true;
+        } else {
+            $query_inscricao_municipal = "SELECT inscricao_municipal FROM Pessoa WHERE inscricao_municipal = '" . $inscricao_municipal . "' ";
+            $result = mysqli_query($link, $query_inscricao_municipal);
             $dados_verificar = mysqli_fetch_array($result);
             if (empty($dados_verificar)) {
                 return true;
@@ -179,7 +179,47 @@ class Pessoa {
             }
         }
     }
-    
+
+    public function insc_estadual_verificarIgual_Editar($inscricao_estadual, $id_pessoa) {
+        $db = new DB();
+        $link = $db->DBconnect();
+        $query = "SELECT inscricao_estadual FROM Pessoa WHERE id_pessoa = " . $id_pessoa;
+        $resultado = mysqli_query($link, $query);
+        $dados = mysqli_fetch_array($resultado);
+        if ($dados["inscricao_estadual"] == $inscricao_estadual) {
+            return true;
+        } else {
+            $query_inscricao_estadual = "SELECT inscricao_estadual FROM Pessoa WHERE inscricao_estadual = '" . $inscricao_estadual . "' ";
+            $result = mysqli_query($link, $query_inscricao_estadual);
+            $dados_verificar = mysqli_fetch_array($result);
+            if (empty($dados_verificar)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public function cpf_cnpj_verificarIgual_Editar($cpf_cnpj, $id_pessoa) {
+        $db = new DB();
+        $link = $db->DBconnect();
+        $query = "SELECT cpf_cnpj FROM Pessoa WHERE id_pessoa = " . $id_pessoa;
+        $resultado = mysqli_query($link, $query);
+        $dados = mysqli_fetch_array($resultado);
+        if ($dados["cpf_cnpj"] == $cpf_cnpj) {
+            return true;
+        } else {
+            $query_cpf_cnpj = "SELECT cpf_cnpj FROM Pessoa WHERE cpf_cnpj = '" . $cpf_cnpj . "' ";
+            $result = mysqli_query($link, $query_cpf_cnpj);
+            $dados_verificar = mysqli_fetch_array($result);
+            if (empty($dados_verificar)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     public function email_verificarIgual_Editar($email, $id_pessoa) {
         $db = new DB();
         $link = $db->DBconnect();
@@ -232,11 +272,17 @@ class Pessoa {
                         . $this->cpf_cnpj . "','" . $this->email . "'," . $this->flg_pessoa_juridica . ",'"
                         . $this->senha . "','" . $this->img_user . "','" . $this->data_cadastro . "')";
             } else {
-                $query = "INSERT INTO Pessoa (nome,nome_fantasia,cpf_cnpj,inscricao_estadual,inscricao_municipal,"
-                        . "email,flg_pessoa_juridica,senha,img_user,data_cadastro)"
-                        . " VALUES('" . $this->nome . "','" . $this->nome_fantasia . "','" . $this->cpf_cnpj . "','"
-                        . $this->inscricao_estadual . "','" . $this->inscricao_municipal . "','" . $this->email . "',"
-                        . $this->flg_pessoa_juridica . ",'" . $this->senha . "','" . $this->img_user . "','" . $this->data_cadastro . "')";
+                if ($pessoa->insc_municipal_estadual_verificarIgual_Cadastrar($this->inscricao_estadual, $this->inscricao_municipal)) {
+                    $query = "INSERT INTO Pessoa (nome,nome_fantasia,cpf_cnpj,inscricao_estadual,inscricao_municipal,"
+                            . "email,flg_pessoa_juridica,senha,img_user,data_cadastro)"
+                            . " VALUES('" . $this->nome . "','" . $this->nome_fantasia . "','" . $this->cpf_cnpj . "','"
+                            . $this->inscricao_estadual . "','" . $this->inscricao_municipal . "','" . $this->email . "',"
+                            . $this->flg_pessoa_juridica . ",'" . $this->senha . "','" . $this->img_user . "','" . $this->data_cadastro . "')";
+                } else {
+                    $_SESSION['erro'] = "Inscrição estadual ou Inscrição municipal invalidos pois já estão cadastrados!";
+                    $db->DBclose($link);
+                    return false;
+                }
             }
             if (mysqli_query($link, $query)) {
                 $query_id_pessoa = "SELECT id_pessoa FROM Pessoa WHERE cpf_cnpj ='" . $this->cpf_cnpj . "' limit 1";
@@ -261,33 +307,64 @@ class Pessoa {
         $db = new DB();
         $pessoa = new Pessoa();
         $link = $db->DBconnect();
-        if (($pessoa->cpf_cnpj_verificarIgual_Editar($this->cpf_cnpj, $this->id_pessoa))&&($pessoa->email_verificarIgual_Editar($this->email, $this->id_pessoa))) {
+        if (($pessoa->cpf_cnpj_verificarIgual_Editar($this->cpf_cnpj, $this->id_pessoa)) && ($pessoa->email_verificarIgual_Editar($this->email, $this->id_pessoa))) {
             if ($this->flg_pessoa_juridica == 0) {
                 if ((empty($this->img_user)) && ($this->senha === "" || $this->senha === null)) {
                     $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', data_nascimento = '" . $this->data_nascimento . "', sexo = '" . $this->sexo . "', "
-                            . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', flg_pessoa_juridica = " . $this->flg_pessoa_juridica . " "
+                            . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "' "
                             . "WHERE id_pessoa = " . $this->id_pessoa;
                 } else {
                     if (($this->img_user != null) && ($this->senha === "" || $this->senha === null)) {
                         $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', data_nascimento = '" . $this->data_nascimento . "', sexo = '" . $this->sexo . "', "
-                                . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', flg_pessoa_juridica = " . $this->flg_pessoa_juridica . ", "
-                                . "img_user = '" . $this->img_user . "' "
+                                . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', img_user = '" . $this->img_user . "' "
                                 . "WHERE id_pessoa = " . $this->id_pessoa;
                     } else {
                         if ((empty($this->img_user)) && ($this->senha != "" || $this->senha != null)) {
                             $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', data_nascimento = '" . $this->data_nascimento . "', sexo = '" . $this->sexo . "', "
-                                    . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', flg_pessoa_juridica = " . $this->flg_pessoa_juridica . ", "
-                                    . "senha = '" . $this->senha . "' "
+                                    . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', senha = '" . $this->senha . "' "
                                     . "WHERE id_pessoa = " . $this->id_pessoa;
                         } else {
                             if (($this->img_user != null) && ($this->senha != "" || $this->senha != null)) {
                                 $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', data_nascimento = '" . $this->data_nascimento . "', sexo = '" . $this->sexo . "', "
-                                        . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', flg_pessoa_juridica = " . $this->flg_pessoa_juridica . ", "
-                                        . "senha = '" . $this->senha . "', img_user = '" . $this->img_user . "' "
+                                        . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', senha = '" . $this->senha . "', img_user = '" . $this->img_user . "' "
                                         . "WHERE id_pessoa = " . $this->id_pessoa;
                             }
                         }
                     }
+                }
+            } else {
+                if (($pessoa->insc_estadual_verificarIgual_Editar($this->inscricao_estadual, $this->id_pessoa)) && ($pessoa->insc_municipal_verificarIgual_Editar($this->inscricao_municipal, $this->id_pessoa))) {
+                    if ((empty($this->img_user)) && ($this->senha === "" || $this->senha === null)) {
+                        $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', nome_fantasia = '" . $this->nome_fantasia . "', "
+                                . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', inscricao_estadual = '" . $this->inscricao_estadual . "', "
+                                . "inscricao_municipal = '" . $this->inscricao_municipal . "' "
+                                . "WHERE id_pessoa = " . $this->id_pessoa;
+                    } else {
+                        if (($this->img_user != null) && ($this->senha === "" || $this->senha === null)) {
+                            $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', nome_fantasia = '" . $this->nome_fantasia . "', "
+                                    . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', inscricao_estadual = '" . $this->inscricao_estadual . "', "
+                                    . "inscricao_municipal = '" . $this->inscricao_municipal . "', img_user = '" . $this->img_user . "' "
+                                    . "WHERE id_pessoa = " . $this->id_pessoa;
+                        } else {
+                            if ((empty($this->img_user)) && ($this->senha != "" || $this->senha != null)) {
+                                $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', nome_fantasia = '" . $this->nome_fantasia . "', "
+                                        . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', inscricao_estadual = '" . $this->inscricao_estadual . "', "
+                                        . "inscricao_municipal = '" . $this->inscricao_municipal . "', senha = '" . $this->senha . "' "
+                                        . "WHERE id_pessoa = " . $this->id_pessoa;
+                            } else {
+                                if (($this->img_user != null) && ($this->senha != "" || $this->senha != null)) {
+                                    $query = "UPDATE Pessoa SET nome ='" . $this->nome . "', nome_fantasia = '" . $this->nome_fantasia . "', "
+                                            . "cpf_cnpj = '" . $this->cpf_cnpj . "', email = '" . $this->email . "', inscricao_estadual = '" . $this->inscricao_estadual . "', "
+                                            . "inscricao_municipal = '" . $this->inscricao_municipal . "', senha = '" . $this->senha . "', img_user = '" . $this->img_user . "' "
+                                            . "WHERE id_pessoa = " . $this->id_pessoa;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    $_SESSION['erro'] = "Inscrição estadual ou Inscrição municipal invalidos pois já estão cadastrados!";
+                    $db->DBclose($link);
+                    return false;
                 }
             }
             if (mysqli_query($link, $query)) {

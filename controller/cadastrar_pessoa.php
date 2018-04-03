@@ -6,9 +6,8 @@ require_once '../models/telefone.php';
 require_once '../models/endereco.php';
 
 date_default_timezone_set('America/Bahia');
-
-if ($_POST['flg_pessoa_juridica'] == 0) {
-    $pessoa = new Pessoa();
+$pessoa = new Pessoa();
+if ($_POST['flg_pessoa_juridica'] == 0) {   
     $pessoa->setNome($_POST['nome']);
     $pessoa->setData_nascimento($_POST['data_nascimento']);
     $pessoa->setSexo($_POST['sexo']);
@@ -18,7 +17,6 @@ if ($_POST['flg_pessoa_juridica'] == 0) {
     $pessoa->setFlg_pessoa_juridica($_POST['flg_pessoa_juridica']);
     $pessoa->setData_cadastro(date("Y/m/d H:i:s"));
 }else{
-    $pessoa = new Pessoa();
     $pessoa->setNome($_POST['nome']);
     $pessoa->setNome_fantasia($_POST['nome_fantasia']);
     $pessoa->setCpf_cnpj(preg_replace("/[^0-9]/", "", $_POST['cpf_cnpj']));
@@ -64,8 +62,9 @@ if ($pessoa->cadastrar_pessoa() && $telefone->cadastrar_telefone_pessoa() && $en
     } else {
         $id_pessoa = $_SESSION["id_usuario_cadastrado"];
         unset($_SESSION["id_usuario_cadastrado"]);
-        header("Location: ../views/editar_pessoa_juridica.php?id=".$id_pessoa);
+        echo "Cadastrador com Sucesso";
+//        header("Location: ../views/editar_pessoa_juridica.php?id=".$id_pessoa);
     }
 } else {
-    header("Location: ../views/cadastro_pessoa_fisica.php");
+    header("Location: ../views/cadastro_pessoa_juridica.php");
 }
