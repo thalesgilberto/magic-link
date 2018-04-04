@@ -43,7 +43,6 @@ if (isset($_SESSION['sucesso'])) {
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li id="lidados" class="active"><a href="#dados-principais" data-toggle="tab">Dados Principais</a></li>
-            <li id="licomplement" ><a id="acomplemet" href="#acessos" data-toggle="tab">Acessos do usuário</a></li>
         </ul>
         <div class="tab-content">
             <div class="active tab-pane" id="dados-principais">
@@ -137,24 +136,9 @@ if (isset($_SESSION['sucesso'])) {
                         </div>
                     </div>
                     <div class="box-footer ">
-                        <button type="button" id="proximo" class="btn btn-default pull-right">Proxímo</button>
+                        <button type="submit" class="btn btn-primary pull-right">Salvar</button>
                     </div>
                 </div>
-            </div>
-            <!-- /.tab-pane -->
-            <div class="tab-pane" id="acessos">
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            
-                        </div>
-                    </div>
-                    <div class="box-footer ">
-                        <button type="button" id="voltar" class="btn btn-default pull-left">Voltar</button>
-                        <button type="submit" class="btn btn-primary pull-right">Cadastrar</button>
-                    </div>
-                </div>
-                <!-- /.tab-pane -->
             </div>
             <!-- /.tab-content -->
         </div>

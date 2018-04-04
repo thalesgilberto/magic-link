@@ -4,8 +4,8 @@ include 'header.php';
 ?>
 <div class="content-header">
     <h1>
-        Lista de Usuários
-        <small>Usuários Cadastrados</small>
+        Lista de Clientes
+        <small>Pessoa Física</small>
     </h1>
 </div>
 <br/>
@@ -26,7 +26,7 @@ include 'header.php';
                     </tr>  
                 </thead> 
                     <?php
-                    include '../controller/listar_usuario.php';
+                    include '../controller/listar_pessoa_fisica.php';
                     ?>               
             </table>  
         </div>  

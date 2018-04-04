@@ -5,7 +5,7 @@ include 'header.php';
 ?>
 <div class="content-header">
     <h1>
-        Pessoa Fisica
+        Funcionário
         <small>Cadastro</small>
     </h1>
 </div>
@@ -56,7 +56,7 @@ if (isset($_SESSION["erro"])) {
                                     <input type="text" name="cpf_cnpj" id="cpf_cnpj" class="form-control mask-cpf" placeholder="000.000.000-00" required="required"/>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="email">Email*</label>
+                                    <label for="email">Email para Acesso*</label>
                                     <input type="email" name="email" id="email" class="form-control" placeholder="exemplo@exemplo.com" required="required"/>
                                 </div>
                             </div>
@@ -87,7 +87,7 @@ if (isset($_SESSION["erro"])) {
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="cidade">Cidade*</label>
-                                    <input type="text" name="buscar_cidade" id="buscar_cidade" class="form-control" />
+                                    <input type="text" name="buscar_cidade" id="buscar_cidade" class="form-control"/>
                                     <input type="hidden" name="cidade" id="cidade" class="form-control" value="222"/>
                                 </div>
                                 <div class="form-group col-md-3">
@@ -101,7 +101,7 @@ if (isset($_SESSION["erro"])) {
                                     <input type="password" name="senha" id="senha" class="form-control" required="required"/>
                                 </div>
                             </div>
-                            <input type="hidden" value="0" name="flg_pessoa_juridica"/>
+                            <input type="hidden" value="1" name="flg_funcionario"/>
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label for="img_user">Foto de Perfil</label>
