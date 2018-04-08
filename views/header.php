@@ -193,7 +193,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <li><a href="listar_funcionario.php"><i class="fa fa-circle-o"></i>Listar Funcionários</a></li>
                                 <li><a href="cadastro_funcionario.php"><i class="fa fa-user-plus"></i>Cadastrar Funcionário</a></li>
                             </ul>
-                        </li>                    
+                        </li>   
+                         <li class="treeview">
+                            <a href="#"><i class="fa  fa-pie-chart"></i> <span> Gerar Relatórios</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="relatorios/cliente_pf.php" target="_blank"><i class="fa fa-circle-o"></i>Cliente (Físico)</a></li>
+                                <li><a href="relatorios/cliente_pj.php" target="_blank"><i class="fa fa-circle-o"></i>Cliente (Jurídico)</a></li>
+                                <li><a href="relatorios/funcionarios.php" target="_blank"><i class="fa fa-circle-o"></i>Funcionários</a></li>
+                            </ul>
+                        </li>   
                         <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
                     </ul>
                     <!-- /.sidebar-menu -->
