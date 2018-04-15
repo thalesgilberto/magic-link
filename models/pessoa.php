@@ -427,7 +427,7 @@ class Pessoa {
                  </tr>";
         }
     }
-    
+
     public function listar_pessoa_juridica() {
         $db = new DB();
         $link = $db->DBconnect();
@@ -454,15 +454,15 @@ class Pessoa {
                  </tr>";
         }
     }
-    
+
     public function listar_funcionario() {
         $db = new DB();
         $link = $db->DBconnect();
         $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_funcionario = 1 ORDER BY P.id_pessoa");
 
         foreach ($query as $row) {
-            if ($row["flg_pessoa_juridica"] == 0) {
-                $ulr = "../views/editar_pessoa_fisica.php?id=" . $row["id_pessoa"];
+            if ($row["flg_funcionario"] != 0) {
+                $ulr = "../views/editar_funcionario.php?id=" . $row["id_pessoa"];
             } else {
                 $ulr = "../views/editar_pessoa_juridica.php?id=" . $row["id_pessoa"];
             }
@@ -507,4 +507,29 @@ class Pessoa {
         }
     }
 
+    public function listar_acessos_controle($id_pessoa) {
+        $db = new DB();
+        $link = $db->DBconnect();
+        $query_controle = "SELECT * FROM Controle";
+        $resultado = mysqli_query($link, $query_controle);
+        $dados = mysqli_fetch_all($resultado);
+
+        $query_acessos = "SELECT id_controle FROM Controle_pessoa WHERE id_pessoa = " . $id_pessoa;
+        $resultado_acesso = mysqli_query($link, $query_acessos);
+        $dados_acesso = mysqli_fetch_all($resultado_acesso);
+
+        foreach ($dados as $item) {
+            if (!empty($dados_acesso)) {
+                foreach ($dados_acesso as $item_acesso) {
+                    if ($item[0] == $item_acesso[0]) {
+                        echo "<input checked type=\"checkbox\" name=\"controle[]\" value=\"" . $item[0] . "\" >  <span>" . $item[1] . "</span> <br>";
+                    } else {
+                        echo "<input  type=\"checkbox\" id=\"controle\" name=\"controle[]\" value=\"" . $item[0] . "\" >  <span>" . $item[1] . "</span> <br>";
+                    }
+                }
+            } else {
+                echo "<input  type=\"checkbox\" name=\"controle[]\" value=\"" . $item[0] . "\" >  <span>" . $item[1] . "</span> <br>";
+            }
+        }
+    }
 }

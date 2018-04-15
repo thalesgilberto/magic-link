@@ -11,6 +11,7 @@ include 'header.php';
 </div>
 <br/>
 <?php
+$controle_pesoa = new Controle_pessoa();
 if (isset($_GET["id"])) {
     $pessoa = new Pessoa();
 
@@ -66,16 +67,16 @@ if (isset($_SESSION['sucesso'])) {
                                     <select class="form-control" name="sexo" id="sexo" required="required">
                                         <option value="">Selecione</option>
                                         <?php
-                                        if(@$dados["sexo"] == "M"){
-                                        ?>
-                                        <option selected value="M">Masculino</option>
-                                        <option value="F">Feminino</option>
-                                        <?php
-                                        }else{
+                                        if (@$dados["sexo"] == "M") {
                                             ?>
-                                        <option value="M">Masculino</option>
-                                        <option selected value="F">Feminino</option>
-                                        <?php
+                                            <option selected value="M">Masculino</option>
+                                            <option value="F">Feminino</option>
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <option value="M">Masculino</option>
+                                            <option selected value="F">Feminino</option>
+                                            <?php
                                         }
                                         ?>
                                     </select>
@@ -138,7 +139,7 @@ if (isset($_SESSION['sucesso'])) {
                                     <label for="img_user">Foto de Perfil</label>
                                     <div class="" id="divImg" style="height: 100px; width: 100px">
                                         <a href="#" id="removerImg" title="Remover imagem" class="btn btn-xs"><i class="fa fa-remove"></i></a>
-                                        <img src="<?= @$dados["img_user"] == "" || @$dados["img_user"] == null?"../img/default.jpg":"../img/".$dados["img_user"]  ?>" id="imagepreview" style="height: 100px; width: 100px"/>
+                                        <img src="<?= @$dados["img_user"] == "" || @$dados["img_user"] == null ? "../img/default.jpg" : "../img/" . $dados["img_user"] ?>" id="imagepreview" style="height: 100px; width: 100px"/>
                                     </div>
                                     <br/>
                                     <br/>
@@ -157,12 +158,12 @@ if (isset($_SESSION['sucesso'])) {
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
-                            
+                            <?= $pessoa->listar_acessos_controle($_GET["id"]) ?>
                         </div>
                     </div>
                     <div class="box-footer ">
                         <button type="button" id="voltar" class="btn btn-default pull-left">Voltar</button>
-                        <button type="submit" class="btn btn-primary pull-right">Cadastrar</button>
+                        <button type="submit" class="btn btn-primary pull-right">Salvar</button>
                     </div>
                 </div>
                 <!-- /.tab-pane -->
@@ -198,7 +199,7 @@ include 'footer.php';
         $("#removerImg").click(function (event) {
             event.preventDefault();
             $("#img_user").val('');
-            $("#imagepreview").attr('src', '../img/<?= @$dados["img_user"] == "" || @$dados["img_user"] == null?"../img/default.jpg":"../img/".$dados["img_user"]  ?>');
+            $("#imagepreview").attr('src', '../img/<?= @$dados["img_user"] == "" || @$dados["img_user"] == null ? "../img/default.jpg" : "../img/" . $dados["img_user"] ?>');
         });
 
         $("#proximo").click(function () {

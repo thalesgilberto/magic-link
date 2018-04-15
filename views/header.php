@@ -162,25 +162,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         <li class=""><a href="home.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
                         <li class="treeview">
-                            <a href="#"><i class="fa fa-list-ul"></i> <span>Listar Clientes</span>
+                            <a href="#">
+                                <i class="fa fa-users"></i> <span>Clientes</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="listar_pessoa_fisica.php"><i class="fa fa-circle-o"></i>Pessoa Fisica</a></li>
-                                <li><a href="listar_pessoa_juridica.php"><i class="fa fa-circle-o"></i>Pessoa Jurídica</a></li>
-                            </ul>
-                        </li>
-                        <li class="treeview">
-                            <a href="#"><i class="fa fa-users"></i> <span>Cadastrar Clientes</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="cadastro_pessoa_fisica.php"><i class="fa fa-circle-o"></i>Pessoa Fisica</a></li>
-                                <li><a href="cadastro_pessoa_juridica.php"><i class="fa fa-circle-o"></i>Pessoa Jurídica</a></li>
+                                <li class="treeview">
+                                    <a href="#"><i class="fa fa-list"></i> Listar Clientes
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="listar_pessoa_fisica.php"><i class="fa fa-circle-o"></i>Pessoa Fisica</a></li>
+                                        <li><a href="listar_pessoa_juridica.php"><i class="fa fa-circle-o"></i>Pessoa Jurídica</a></li>
+                                    </ul>
+                                </li>
+                                <li class="treeview">
+                                    <a href="#"><i class="fa fa-user-plus"></i> Cadastrar Clientes
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="cadastro_pessoa_fisica.php"><i class="fa fa-circle-o"></i>Pessoa Física</a></li>
+                                        <li><a href="cadastro_pessoa_juridica.php"><i class="fa fa-circle-o"></i>Pessoa Jurídica</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
                         <li class="treeview">
@@ -190,11 +200,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="listar_funcionario.php"><i class="fa fa-circle-o"></i>Listar Funcionários</a></li>
+                                <li><a href="listar_funcionario.php"><i class="fa fa-list"></i>Listar Funcionários</a></li>
                                 <li><a href="cadastro_funcionario.php"><i class="fa fa-user-plus"></i>Cadastrar Funcionário</a></li>
                             </ul>
                         </li>   
-                         <li class="treeview">
+                        <li class="treeview">
                             <a href="#"><i class="fa  fa-pie-chart"></i> <span> Gerar Relatórios</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
