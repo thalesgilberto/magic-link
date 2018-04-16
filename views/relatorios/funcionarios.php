@@ -27,7 +27,7 @@
                     }
 
                     th, td {
-                        padding: 15px;
+                        padding: 10px;
                     }</style>';
 	$html .= '</tr>';
 	$html .= '</thead>';
