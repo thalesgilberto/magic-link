@@ -4,6 +4,7 @@ session_start();
 require_once '../models/pessoa.php';
 require_once '../models/telefone.php';
 require_once '../models/endereco.php';
+require_once '../models/controle_pessoa.php';
 
 date_default_timezone_set('America/Bahia');
 $pessoa = new Pessoa();
@@ -14,9 +15,9 @@ if ((isset($_POST['flg_pessoa_juridica']) && $_POST['flg_pessoa_juridica'] == 0)
     $pessoa->setSexo($_POST['sexo']);
     $pessoa->setCpf_cnpj(preg_replace("/[^0-9]/", "", $_POST['cpf_cnpj']));
     $pessoa->setEmail($_POST['email']);
-    if(isset($_POST['flg_pessoa_juridica'])) {
+    if (isset($_POST['flg_pessoa_juridica'])) {
         $pessoa->setFlg_pessoa_juridica($_POST['flg_pessoa_juridica']);
-    }else if ($_POST['flg_funcionario']){
+    } else if ($_POST['flg_funcionario']) {
         $pessoa->setFlg_funcionario($_POST['flg_funcionario']);
     }
     if ($_POST['senha'] != "" || $_POST['senha'] != null) {
@@ -40,7 +41,6 @@ if ((isset($_POST['flg_pessoa_juridica']) && $_POST['flg_pessoa_juridica'] == 0)
     } else {
         $pessoa->setSenha($_POST['senha']);
     }
-    
 }
 
 if (isset($_FILES['img_user']['name']) && $_FILES['img_user']['error'] == 0) {
@@ -70,6 +70,7 @@ $telefone = new Telefone();
 $telefone->setId_pessoa($_POST['id_pessoa']);
 $telefone->setCelular(preg_replace("/[^0-9]/", "", $_POST['celular']));
 $telefone->setFixo(preg_replace("/[^0-9]/", "", $_POST['fixo']));
+
 $endereco = new Endereco();
 $endereco->setId_pessoa($_POST['id_pessoa']);
 $endereco->setEndereco($_POST['endereco']);
@@ -78,6 +79,13 @@ $endereco->setNumero($_POST['numero']);
 $endereco->setCidade_id($_POST['cidade']);
 $endereco->setCep(preg_replace("/[^0-9]/", "", $_POST['cep']));
 
+if ($_POST['flg_funcionario'] == 1) {
+    $controle_pessoa = new Controle_pessoa();
+    $controle_pessoa->setId_controle($_POST['controle']);
+    $controle_pessoa->setId_pessoa($_POST['id_pessoa']);
+    $controle_pessoa->setId_pessoa_registro($_SESSION['id_pessoa']);
+    $controle_pessoa->setData_registro(date("Y/m/d H:i:s"));
+}
 if ($pessoa->editar_pessoa() && $telefone->editar_telefone_pessoa() && $endereco->editar_endereco_pessoa()) {
     if (isset($arquivo)) {
         move_uploaded_file($arquivo, $destino);

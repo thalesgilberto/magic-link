@@ -1,6 +1,7 @@
 <?php
 require '../controller/seguranca.php';
 require '../models/pessoa.php';
+require '../models/controle_pessoa.php';
 include 'header.php';
 ?>
 <div class="content-header">
@@ -11,7 +12,7 @@ include 'header.php';
 </div>
 <br/>
 <?php
-$controle_pesoa = new Controle_pessoa();
+$controle_pessoa = new Controle_pessoa();
 if (isset($_GET["id"])) {
     $pessoa = new Pessoa();
 
@@ -158,7 +159,7 @@ if (isset($_SESSION['sucesso'])) {
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <?= $pessoa->listar_acessos_controle($_GET["id"]) ?>
+                            <?= $controle_pessoa->listar_acessos_controle($_GET["id"]) ?>
                         </div>
                     </div>
                     <div class="box-footer ">

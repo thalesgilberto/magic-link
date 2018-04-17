@@ -1,7 +1,9 @@
 <?php
+
 require_once 'config.php';
 
 class Controle_pessoa {
+    
     private $id_pessoa;
     private $id_controle;
     private $id_pessoa_registro;
@@ -47,7 +49,7 @@ class Controle_pessoa {
         
     }
     
-    public function listar_acessos_controle($id_pessoa) {
+    public function  listar_acessos_controle($id_pessoa) {
         $db = new DB();
         $link = $db->DBconnect();
         $query_controle = "SELECT * FROM Controle";
