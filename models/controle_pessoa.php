@@ -3,12 +3,12 @@
 require_once 'config.php';
 
 class Controle_pessoa {
-    
+
     private $id_pessoa;
     private $id_controle;
     private $id_pessoa_registro;
     private $data_registro;
-    
+
     public function getId_pessoa() {
         return $this->id_pessoa;
     }
@@ -45,11 +45,41 @@ class Controle_pessoa {
         return $this;
     }
 
-    public function cadastrar_acesso_pessoa($id_pessoa, $id_controle, $id_pessoa_registro, $data_registro){
-        
+    public function cadastrar_acesso_pessoa() {
+        $db = new DB();
+        $link = $db->DBconnect();
+        $query_exite_pessoa = "SELECT DISTINCT id_pessoa FROM Controle_pessoa WHERE id_pessoa = " . $this->id_pessoa;
+        $resultado = mysqli_query($link, $query_exite_pessoa);
+        $dados = mysqli_fetch_array($resultado);
+        if (empty($dados)) {
+            foreach ($this->id_controle as $item) {
+                $query = "INSERT INTO Controle_pessoa (id_pessoa, id_controle, id_pessoa_registro, data_registro) "
+                        . "VALUES (" . $this->id_pessoa . "," . $item . "," . $this->id_pessoa_registro . ",'" . $this->data_registro . "')";
+                mysqli_query($link, $query);
+            }
+        } else {
+            $query_excluir_acesso = "DELETE FROM Controle_pessoa WHERE id_pessoa =" . $this->id_pessoa . " ";
+            if (mysqli_query($link, $query_excluir_acesso)) {
+                foreach ($this->id_controle as $item) {
+                    $query = "INSERT INTO Controle_pessoa (id_pessoa, id_controle, id_pessoa_registro, data_registro) "
+                            . "VALUES (" . $this->id_pessoa . "," . $item . "," . $this->id_pessoa_registro . ",'" . $this->data_registro . "')";
+                    mysqli_query($link, $query);
+                }
+            }
+        }
+        $db->DBclose($link);
     }
-    
-    public function  listar_acessos_controle($id_pessoa) {
+
+    private function in_array_r($valor, $array, $strict = false) {
+        foreach ($array as $item) {
+            if (($strict ? $item === $valor : $item == $valor) || (is_array($item) && $this->in_array_r($valor, $item, $strict))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function listar_acessos_controle($id_pessoa) {
         $db = new DB();
         $link = $db->DBconnect();
         $query_controle = "SELECT * FROM Controle";
@@ -60,18 +90,15 @@ class Controle_pessoa {
         $resultado_acesso = mysqli_query($link, $query_acessos);
         $dados_acesso = mysqli_fetch_all($resultado_acesso);
 
-        foreach ($dados as $item) {
-            if (!empty($dados_acesso)) {
-                foreach ($dados_acesso as $item_acesso) {
-                    if ($item[0] == $item_acesso[0]) {
-                        echo "<input checked type=\"checkbox\" name=\"controle[]\" value=\"" . $item[0] . "\" >  <span>" . $item[1] . "</span> <br>";
-                    } else {
-                        echo "<input  type=\"checkbox\" id=\"controle\" name=\"controle[]\" value=\"" . $item[0] . "\" >  <span>" . $item[1] . "</span> <br>";
-                    }
-                }
+        for ($i = 0; $i < count($dados); $i++) {
+            if ($this->in_array_r($dados[$i][0], $dados_acesso)) {
+                echo "<input checked type=\"checkbox\" id=\"controle\" name=\"controle[]\" value=\"" . $dados[$i][0] . "\" > <span>" . $dados[$i][1] . "</span> <br>";
             } else {
-                echo "<input  type=\"checkbox\" name=\"controle[]\" value=\"" . $item[0] . "\" >  <span>" . $item[1] . "</span> <br>";
+                echo "<input type=\"checkbox\" id=\"controle\" name=\"controle[]\" value=\"" . $dados[$i][0] . "\" > <span>" . $dados[$i][1] . "</span> <br>";
             }
         }
+
+        $db->DBclose($link);
     }
+
 }

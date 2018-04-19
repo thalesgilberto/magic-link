@@ -145,7 +145,7 @@ if (isset($_SESSION['sucesso'])) {
                                     <br/>
                                     <br/>
                                     <input type="file" class="btn-file" name="img_user" id="img_user"/>
-                                </div>
+                                </div>                               
                             </div>
                         </div>
                     </div>

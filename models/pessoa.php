@@ -240,7 +240,6 @@ class Pessoa {
             }
         }
     }
-
     public function validar_usuario() {
         $db = new DB();
         $link = $db->DBconnect();
@@ -426,6 +425,7 @@ class Pessoa {
             "</td>  
                  </tr>";
         }
+        $db->DBclose($link);
     }
 
     public function listar_pessoa_juridica() {
@@ -453,6 +453,7 @@ class Pessoa {
             "</td>  
                  </tr>";
         }
+        $db->DBclose($link);
     }
 
     public function listar_funcionario() {
@@ -480,6 +481,7 @@ class Pessoa {
             "</td>  
                  </tr>";
         }
+        $db->DBclose($link);
     }
 
     public function mostrar_dados_pessoa($id) {
@@ -491,6 +493,7 @@ class Pessoa {
                 . "WHERE P.id_pessoa = " . $id;
         $resultado = mysqli_query($link, $query);
         $dados = mysqli_fetch_array($resultado);
+        $db->DBclose($link);
         return $dados;
     }
 
@@ -501,8 +504,10 @@ class Pessoa {
         $resultado = mysqli_query($link, $query);
         $dados = mysqli_fetch_array($resultado);
         if ($dados["img_user"] == "" || $dados["img_user"] == null) {
+            $db->DBclose($link);
             return null;
         } else {
+            $db->DBclose($link);
             return $dados["img_user"];
         }
     }

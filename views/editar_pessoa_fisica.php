@@ -12,8 +12,8 @@ include 'header.php';
 <br/>
 <?php
 if (isset($_GET["id"])) {
+    
     $pessoa = new Pessoa();
-
     $dados = $pessoa->mostrar_dados_pessoa($_GET["id"]);
 }
 ?>

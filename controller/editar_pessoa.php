@@ -25,8 +25,6 @@ if ((isset($_POST['flg_pessoa_juridica']) && $_POST['flg_pessoa_juridica'] == 0)
     } else {
         $pessoa->setSenha($_POST['senha']);
     }
-    echo var_dump($_POST["controle"]);
-    exit();
 } else if ($_POST['flg_pessoa_juridica'] == 1) {
     $pessoa->setId_pessoa($_POST['id_pessoa']);
     $pessoa->setNome($_POST['nome']);
@@ -79,7 +77,7 @@ $endereco->setNumero($_POST['numero']);
 $endereco->setCidade_id($_POST['cidade']);
 $endereco->setCep(preg_replace("/[^0-9]/", "", $_POST['cep']));
 
-if ($_POST['flg_funcionario'] == 1) {
+if (isset($_POST['flg_funcionario']) && $_POST['flg_funcionario'] == 1) {
     $controle_pessoa = new Controle_pessoa();
     $controle_pessoa->setId_controle($_POST['controle']);
     $controle_pessoa->setId_pessoa($_POST['id_pessoa']);
@@ -90,9 +88,12 @@ if ($pessoa->editar_pessoa() && $telefone->editar_telefone_pessoa() && $endereco
     if (isset($arquivo)) {
         move_uploaded_file($arquivo, $destino);
     }
+    if (isset($_POST['flg_funcionario']) && $_POST['flg_funcionario'] == 1) {
+        $controle_pessoa->cadastrar_acesso_pessoa();
+    }
     if (isset($_POST['flg_pessoa_juridica']) && $_POST['flg_pessoa_juridica'] == 0) {
         header("Location: ../views/editar_pessoa_fisica.php?id=" . $_POST["id_pessoa"] . "");
-    } else if ($_POST['flg_pessoa_juridica'] == 1) {
+    } else if (isset($_POST['flg_pessoa_juridica']) && $_POST['flg_pessoa_juridica'] == 1) {
         header("Location: ../views/editar_pessoa_juridica.php?id=" . $_POST["id_pessoa"] . "");
     }
     if (isset($_POST['flg_funcionario']) && $_POST['flg_funcionario'] == 1) {
