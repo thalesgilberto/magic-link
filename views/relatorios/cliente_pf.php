@@ -23,7 +23,6 @@
       }
    </style>
    
-	
    <table>
     <thead>
         <tr>
@@ -50,52 +49,38 @@
             
             }
             ?>
-			
-            
-        
-	
-	
-	
-	
-	
+		
 	</tbody>
         </table>
-<footer>
-    <br><div align="center">Este relatório foi gerado no dia
-        <?php
-        setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
-        date_default_timezone_set('America/Sao_Paulo');
-        $data = strftime("%d/%m/%Y ás %T");
-        echo $data;
-        
-        ?>   
-        </div>
-</footer> 
 
-       
-<?php
-    
-    //ob_start();
+<?php  
+
 use Dompdf\Dompdf;
+
     $html = ob_get_contents();
-    ob_end_clean();
-    include '../../pdf/src/FontMetrics.php';
+   
+    
     include_once "../../pdf/autoload.inc.php";
    
     $dompdf = new DOMPDF();
+    
+    
     // Carrega seu HTML
-    $dompdf->load_html('<div><div style="float:left"><img src="../../img/logo_magic.png" style="width: 20%;"></div>
+    $dompdf->load_html('<div><div style="float:left"><img src="../img/logo_magic.png" style="width: 20%;"></div>
 		<h1 style="text-align: center;">Relatório de Clientes</h1>
-                <h3 style="text-align: center;">Pessoa Fìsica</h3></div><br>'.$html);
+                <h3 style="text-align: center;">Pessoa Física</h3></div><br>
+                '.$html);
     $dompdf->set_base_path("../");
     $dompdf->set_paper("A4");
     $dompdf->set_paper("A4");
-  $pdf = $dompdf->render();
-  $canvas = $dompdf->get_canvas(); 
-   
-  $canvas->page_text(510, 792, "Pág. {PAGE_NUM}/{PAGE_COUNT}", "helvetica", 12, array(0,0,0)); //header
-  $canvas->page_text(240, 820, "Copyright © ". date('Y') ." - Magic Link", "helvetica", 9, array(0,0,0));//footer
-  $canvas->page_text(30, 792, "Usuário: ". $_SESSION['nome']." ", "helvetica", 12, array(0,0,0));//footer
+    $pdf = $dompdf->render();
+    $canvas = $dompdf->get_canvas(); 
+    setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+        date_default_timezone_set('America/Sao_Paulo');
+
+    $canvas->page_text(510, 792, "Pág. {PAGE_NUM}/{PAGE_COUNT}", "helvetica", 12, array(0,0,0)); //header
+    $canvas->page_text(170, 820, "Este relatório foi gerado no dia ". $data = strftime("%d/%m/%Y ás %T"), "helvetica", 12, array(0,0,0));//footer
+    $canvas->page_text(30, 792, "Usuário: ".$_SESSION["nome"], "helvetica", 12, array(0,0,0));//footer
     
     
     
@@ -106,4 +91,5 @@ use Dompdf\Dompdf;
     //$dompdf->stream("relatorio-pf.pdf"); //realiza o download
     
   
+
 ?>

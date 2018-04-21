@@ -3,76 +3,94 @@
     session_start();
     
     include '../../models/pessoa.php';
-    
+  ?>  
    
-    $html = '<table>';	
-	$html .= '<thead >';
-	$html .= '<tr>';
-	$html .= '<th>ID</th>';
-	$html .= '<th>Nome</th>';
-	$html .= '<th>Email</th>';
-	$html .= '<th>CNPJ</th>';
-        
-        //Css da Tabela
-	$html .= '<style>table, td, th {    
-                        border: 1px solid #ddd;
-                        text-align: left;
-                    }
-                    tr:nth-child(even){background-color: #f2f2f2;}
+   <style>
+      table, td, th {    
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+      tr:nth-child(even){
+        background-color: #f2f2f2;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
 
-                    table {
-                        border-collapse: collapse;
-                        width: 100%;
-                    }
-
-                    th, td {
-                        padding: 10px;
-                    }</style>';
-	$html .= '</tr>';
-	$html .= '</thead>';
-	$html .= '<tbody>';
-	
-	$db = new DB();
+      th, td {
+        padding: 5px;
+      }
+   </style>
+   
+   <table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>CNPJ</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+            
+            <?php 
+            $db = new DB();
         $link = $db->DBconnect();
         $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_pessoa_juridica = 1 ORDER BY P.id_pessoa");
 
+            while($row = mysqli_fetch_assoc($query)){
+            echo  "<tr><td>".$row['id_pessoa']; "</td></tr>";
+            echo  "<td>".$row['nome'] . "</td>";
+	    echo  "<td>".$row['email'] . "</td>";
+            echo  "<td>".$row['cpf_cnpj'] . "</td>";
+            
+            
+            }
+            ?>
 	
-	while($row = mysqli_fetch_assoc($query)){
-		$html .= '<tr><td>'.$row['id_pessoa'] . "</td>";
-		$html .= '<td>'.$row['nome'] . "</td>";
-		$html .= '<td>'.$row['email'] . "</td>";
-		$html .= '<td>'.$row['cpf_cnpj'] . "</td>";
-			
-	}
-	
-	$html .= '</tbody>';
-	$html .= '</table';
+	</tbody>
+        </table>
 
-$arquivo = "ComponenteCurricular.pdf";
-//referenciar o DomPDF com namespace
-	use Dompdf\Dompdf;
+       
+<?php
+    
+use Dompdf\Dompdf;
 
-	// include autoloader
-	require_once("../../pdf/autoload.inc.php");
+    $html = ob_get_contents();
+   
+    
+    include_once "../../pdf/autoload.inc.php";
+   
+    $dompdf = new DOMPDF();
+    
+    
+    // Carrega seu HTML
+    $dompdf->load_html('<div><div style="float:left"><img src="../img/logo_magic.png" style="width: 20%;"></div>
+		<h1 style="text-align: center;">Relatório de Clientes</h1>
+                <h3 style="text-align: center;">Pessoa Jurídica</h3></div><br>
+                '.$html);
+    $dompdf->set_base_path("../");
+    $dompdf->set_paper("A4");
+    $dompdf->set_paper("A4");
+    $pdf = $dompdf->render();
+    $canvas = $dompdf->get_canvas(); 
+    setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+        date_default_timezone_set('America/Sao_Paulo');
 
-	//Criando a Instancia
-	$dompdf = new DOMPDF();
-	
-	// Carrega seu HTML
-	$dompdf->load_html('<div><div style="float:left"><img src="../../img/logo_magic.png" style="width: 20%;"/></div>
-			<h1 style="text-align: center;">Relatório de Clientes</h1>
-                        <h3 style="text-align: center;">Pessoa Jurídica</h3></div><br>
-			'. $html .'
-		');
+    $canvas->page_text(510, 792, "Pág. {PAGE_NUM}/{PAGE_COUNT}", "helvetica", 12, array(0,0,0)); //header
+    $canvas->page_text(170, 820, "Este relatório foi gerado no dia ". $data = strftime("%d/%m/%Y ás %T"), "helvetica", 12, array(0,0,0));//footer
+    $canvas->page_text(30, 792, "Usuário: ".$_SESSION["nome"], "helvetica", 12, array(0,0,0));//footer
+    
+    
+    
+    header("Content-type: application/pdf");    
+    
+    echo $dompdf->output();//Mostra na tela
+    
+    //$dompdf->stream("relatorio-pf.pdf"); //realiza o download
+    
+  
 
-	//Renderizar o html
-	$dompdf->render();
-
-	//Exibir a página
-	$dompdf->stream(
-		"relatorio_pf.pdf", 
-		array(
-			"Attachment" => false //Para realizar o download somente alterar para true
-		)
-	);
 ?>
