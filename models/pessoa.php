@@ -247,11 +247,22 @@ class Pessoa {
                 . "WHERE email='" . $this->email . "' AND senha='" . $this->senha . "' limit 1";
         $resultado = mysqli_query($link, $query);
         $dados = mysqli_fetch_array($resultado);
+        
+        
         if (!empty($dados)) {
+            $query_acessos = "SELECT c.descricao_controle, c.id_controle FROM Controle_pessoa cp "
+                       . "INNER JOIN Controle c ON (cp.id_controle = c.id_controle) "
+                       . "WHERE cp.id_pessoa =".$dados["id_pessoa"];
+        
+            $resultado_acessos = mysqli_query($link, $query_acessos);
+            $dados_acessos= mysqli_fetch_all($resultado_acessos);
+            foreach ($dados_acessos as $item){
+                $_SESSION[''.$item[0].''] = $item[1];
+            }
             $_SESSION['nome'] = $dados["nome"];
             $_SESSION['id_pessoa'] = $dados["id_pessoa"];
             $_SESSION['email'] = $dados['email'];
-            $_SESSION['img_user'] = $dados['img_user'];
+            $_SESSION['img_user'] = $dados['img_user'];            
             $db->DBclose($link);
             return true;
         } else {
@@ -420,8 +431,12 @@ class Pessoa {
                     <td>"
             ?>
             <a class="btn btn-sm btn-default" href="#" title="Detalhes"><i class="fa fa-search-plus"></i></a>
+            <?php
+            if(isset($_SESSION['Clientes-Editar'])){
+            ?>
             <a class="btn btn-sm btn-success" href="<?= $ulr ?>" title="Editar"><i class="fa fa-edit"></i></a>
             <?php
+            }
             "</td>  
                  </tr>";
         }
@@ -448,8 +463,12 @@ class Pessoa {
                     <td>"
             ?>
             <a class="btn btn-sm btn-default" href="#" title="Detalhes"><i class="fa fa-search-plus"></i></a>
+            <?php
+            if(isset($_SESSION['Clientes-Editar'])){
+            ?>
             <a class="btn btn-sm btn-success" href="<?= $ulr ?>" title="Editar"><i class="fa fa-edit"></i></a>
             <?php
+            }
             "</td>  
                  </tr>";
         }
@@ -476,8 +495,12 @@ class Pessoa {
                     <td>"
             ?>
             <a class="btn btn-sm btn-default" href="#" title="Detalhes"><i class="fa fa-search-plus"></i></a>
+            <?php
+            if(isset($_SESSION['Funcionário-Editar'])){
+            ?>
             <a class="btn btn-sm btn-success" href="<?= $ulr ?>" title="Editar"><i class="fa fa-edit"></i></a>
             <?php
+            }
             "</td>  
                  </tr>";
         }

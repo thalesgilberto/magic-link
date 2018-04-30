@@ -161,6 +161,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- Optionally, you can add icons to the links -->
 
                         <li class=""><a href="home.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                        <?php
+                        if(isset($_SESSION['Clientes-Listar']) || isset($_SESSION['Clientes-Cadastrar']) || isset($_SESSION['Clientes-Editar'])){
+                        ?>
                         <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-users"></i> <span>Clientes</span>
@@ -169,6 +172,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </span>
                             </a>
                             <ul class="treeview-menu">
+                                <?php
+                                if(isset($_SESSION['Clientes-Listar'])){
+                                ?>
                                 <li class="treeview">
                                     <a href="#"><i class="fa fa-list"></i> Listar Clientes
                                         <span class="pull-right-container">
@@ -180,6 +186,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <li><a href="listar_pessoa_juridica.php"><i class="fa fa-circle-o"></i>Pessoa Jurídica</a></li>
                                     </ul>
                                 </li>
+                                <?php
+                                }
+                                if(isset($_SESSION['Clientes-Cadastrar'])){
+                                ?>
                                 <li class="treeview">
                                     <a href="#"><i class="fa fa-user-plus"></i> Cadastrar Clientes
                                         <span class="pull-right-container">
@@ -191,8 +201,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <li><a href="cadastro_pessoa_juridica.php"><i class="fa fa-circle-o"></i>Pessoa Jurídica</a></li>
                                     </ul>
                                 </li>
+                                <?php
+                                }
+                                ?>
                             </ul>
                         </li>
+                        <?php
+                        }
+                        if(isset($_SESSION['Funcionário-Editar']) || isset($_SESSION['Funcionário-Listar']) ||isset($_SESSION['Funcionário-Cadastrar'])){
+                        ?>
                         <li class="treeview">
                             <a href="#"><i class="fa fa-street-view"></i> <span>Funcionários</span>
                                 <span class="pull-right-container">
@@ -200,10 +217,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </span>
                             </a>
                             <ul class="treeview-menu">
+                                <?php
+                                if(isset($_SESSION['Funcionário-Listar'])){
+                                ?>
                                 <li><a href="listar_funcionario.php"><i class="fa fa-list"></i>Listar Funcionários</a></li>
+                                <?php
+                                }
+                                if(isset($_SESSION['Funcionário-Cadastrar'])){
+                                ?>
                                 <li><a href="cadastro_funcionario.php"><i class="fa fa-user-plus"></i>Cadastrar Funcionário</a></li>
+                                <?php
+                                }
+                                ?>    
                             </ul>
-                        </li>   
+                        </li>
+                        <?php
+                        }
+                        if(isset($_SESSION['Gerar_Relatórios'])){
+                        ?>
                         <li class="treeview">
                             <a href="#"><i class="fa  fa-pie-chart"></i> <span> Gerar Relatórios</span>
                                 <span class="pull-right-container">
@@ -215,7 +246,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <li><a href="relatorios/cliente_pj.php" target="_blank"><i class="fa fa-circle-o"></i>Cliente (Jurídico)</a></li>
                                 <li><a href="relatorios/funcionarios.php" target="_blank"><i class="fa fa-circle-o"></i>Funcionários</a></li>
                             </ul>
-                        </li>   
+                        </li>
+                        <?php
+                        }
+                        ?>
                         <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
                     </ul>
                     <!-- /.sidebar-menu -->

@@ -97,7 +97,7 @@ class Controle_pessoa {
                 echo "<input type=\"checkbox\" id=\"controle\" name=\"controle[]\" value=\"" . $dados[$i][0] . "\" > <span>" . $dados[$i][1] . "</span> <br>";
             }
         }
-
+        
         $db->DBclose($link);
     }
 
