@@ -1,6 +1,6 @@
 <?php
 require '../controller/seguranca.php';
-require '../models/pessoa.php';
+require '';
 include 'header.php';
 ?>
 <div class="content-header">
@@ -33,10 +33,10 @@ if (isset($_SESSION["erro"])) {
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="cpf_cnpj">CPF do cliente*</label>
-                                    <input type="text" name="cpf_cnpj" id="cpf_cnpj" class="form-control mask-cpf" placeholder="000.000.000-00"/>
-                                </div>                   
+                                <div class="form-group col-md-2">
+                                    <label for="tempo_servico">Plano de dados*</label>
+                                    
+                                </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-2">

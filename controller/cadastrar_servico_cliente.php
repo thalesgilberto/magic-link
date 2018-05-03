@@ -7,6 +7,7 @@ if ($_POST["dia_pagamento"] < 10) {
 } else {
     $dia = $_POST["dia_pagamento"];
 }
+
 $mes = date("m");
 $ano = date("Y");
 
