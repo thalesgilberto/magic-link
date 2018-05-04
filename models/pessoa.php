@@ -240,6 +240,7 @@ class Pessoa {
             }
         }
     }
+
     public function validar_usuario() {
         $db = new DB();
         $link = $db->DBconnect();
@@ -247,22 +248,22 @@ class Pessoa {
                 . "WHERE email='" . $this->email . "' AND senha='" . $this->senha . "' limit 1";
         $resultado = mysqli_query($link, $query);
         $dados = mysqli_fetch_array($resultado);
-        
-        
+
+
         if (!empty($dados)) {
             $query_acessos = "SELECT c.descricao_controle, c.id_controle FROM Controle_pessoa cp "
-                       . "INNER JOIN Controle c ON (cp.id_controle = c.id_controle) "
-                       . "WHERE cp.id_pessoa =".$dados["id_pessoa"];
-        
+                    . "INNER JOIN Controle c ON (cp.id_controle = c.id_controle) "
+                    . "WHERE cp.id_pessoa =" . $dados["id_pessoa"];
+
             $resultado_acessos = mysqli_query($link, $query_acessos);
-            $dados_acessos= mysqli_fetch_all($resultado_acessos);
-            foreach ($dados_acessos as $item){
-                $_SESSION[''.$item[0].''] = $item[1];
+            $dados_acessos = mysqli_fetch_all($resultado_acessos);
+            foreach ($dados_acessos as $item) {
+                $_SESSION['' . $item[0] . ''] = $item[1];
             }
             $_SESSION['nome'] = $dados["nome"];
             $_SESSION['id_pessoa'] = $dados["id_pessoa"];
             $_SESSION['email'] = $dados['email'];
-            $_SESSION['img_user'] = $dados['img_user'];            
+            $_SESSION['img_user'] = $dados['img_user'];
             $db->DBclose($link);
             return true;
         } else {
@@ -410,103 +411,47 @@ class Pessoa {
             return false;
         }
     }
-
-    public function listar_pessoa_fisica() {
+    public function listar_pessoa($flg_pessoa_juridica, $flg_funcionario, $acao_link) {
         $db = new DB();
         $link = $db->DBconnect();
-        $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_pessoa_juridica = 0 ORDER BY P.id_pessoa");
-
+        if ($flg_pessoa_juridica == 0 && empty($flg_funcionario)) {
+            $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_pessoa_juridica = " . $flg_pessoa_juridica . " ORDER BY P.id_pessoa");
+        } else if ($flg_pessoa_juridica == 1 && empty($flg_funcionario)) {
+            $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_pessoa_juridica = " . $flg_pessoa_juridica . " ORDER BY P.id_pessoa");
+        } else if (empty($flg_pessoa_juridica) && $flg_funcionario == 1) {
+            $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_funcionario = " . $flg_funcionario . " ORDER BY P.id_pessoa");
+        }
         foreach ($query as $row) {
-            if ($row["flg_pessoa_juridica"] == 0) {
-                $ulr = "../views/editar_pessoa_fisica.php?id=" . $row["id_pessoa"];
-            } else {
-                $ulr = "../views/editar_pessoa_juridica.php?id=" . $row["id_pessoa"];
+            if ($acao_link == 1) {
+                $ulr = "../views/planos_servicos.php?id=" . $row["id_pessoa"];
+            } else if ($acao_link == 2) {
+                if ($row["flg_pessoa_juridica"] == 0) {
+                    $ulr = "../views/editar_pessoa_fisica.php?id=" . $row["id_pessoa"];
+                } else {
+                    $ulr = "../views/editar_pessoa_juridica.php?id=" . $row["id_pessoa"];
+                }
+            } else if ($acao_link == 3) {
+                if ($row["flg_funcionario"] != 0) {
+                    $ulr = "../views/editar_funcionario.php?id=" . $row["id_pessoa"];
+                }
             }
             echo "<tr> 
                     <td>" . $row["id_pessoa"] . "</td>
                     <td>" . $row["nome"] . "</td>  
                     <td>" . $row["email"] . "</td>  
-                    <td>" . @date('d/m/Y', strtotime($row["data_nascimento"])) . "</td>  
+                    <td>" . $row["cpf_cnpj"] . "</td>  
                    
                     <td>"
             ?>
-            <a class="btn btn-sm btn-default" href="#" title="Detalhes"><i class="fa fa-search-plus"></i></a>
-            <?php
-            if(isset($_SESSION['Clientes-Editar'])){
-            ?>
+            <!--            <a class="btn btn-sm btn-default" href="#" title="Detalhes"><i class="fa fa-search-plus"></i></a>-->
             <a class="btn btn-sm btn-success" href="<?= $ulr ?>" title="Editar"><i class="fa fa-edit"></i></a>
             <?php
-            }
             "</td>  
                  </tr>";
         }
         $db->DBclose($link);
     }
-
-    public function listar_pessoa_juridica() {
-        $db = new DB();
-        $link = $db->DBconnect();
-        $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_pessoa_juridica = 1 ORDER BY P.id_pessoa");
-
-        foreach ($query as $row) {
-            if ($row["flg_pessoa_juridica"] == 0) {
-                $ulr = "../views/editar_pessoa_fisica.php?id=" . $row["id_pessoa"];
-            } else {
-                $ulr = "../views/editar_pessoa_juridica.php?id=" . $row["id_pessoa"];
-            }
-            echo "<tr> 
-                    <td>" . $row["id_pessoa"] . "</td>
-                    <td>" . $row["nome"] . "</td>  
-                    <td>" . $row["email"] . "</td>  
-                    <td>" . @date('d/m/Y', strtotime($row["data_nascimento"])) . "</td>  
-                   
-                    <td>"
-            ?>
-            <a class="btn btn-sm btn-default" href="#" title="Detalhes"><i class="fa fa-search-plus"></i></a>
-            <?php
-            if(isset($_SESSION['Clientes-Editar'])){
-            ?>
-            <a class="btn btn-sm btn-success" href="<?= $ulr ?>" title="Editar"><i class="fa fa-edit"></i></a>
-            <?php
-            }
-            "</td>  
-                 </tr>";
-        }
-        $db->DBclose($link);
-    }
-
-    public function listar_funcionario() {
-        $db = new DB();
-        $link = $db->DBconnect();
-        $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_funcionario = 1 ORDER BY P.id_pessoa");
-
-        foreach ($query as $row) {
-            if ($row["flg_funcionario"] != 0) {
-                $ulr = "../views/editar_funcionario.php?id=" . $row["id_pessoa"];
-            } else {
-                $ulr = "../views/editar_pessoa_juridica.php?id=" . $row["id_pessoa"];
-            }
-            echo "<tr> 
-                    <td>" . $row["id_pessoa"] . "</td>
-                    <td>" . $row["nome"] . "</td>  
-                    <td>" . $row["email"] . "</td>  
-                    <td>" . @date('d/m/Y', strtotime($row["data_nascimento"])) . "</td>  
-                   
-                    <td>"
-            ?>
-            <a class="btn btn-sm btn-default" href="#" title="Detalhes"><i class="fa fa-search-plus"></i></a>
-            <?php
-            if(isset($_SESSION['Funcionário-Editar'])){
-            ?>
-            <a class="btn btn-sm btn-success" href="<?= $ulr ?>" title="Editar"><i class="fa fa-edit"></i></a>
-            <?php
-            }
-            "</td>  
-                 </tr>";
-        }
-        $db->DBclose($link);
-    }
-
+    
     public function mostrar_dados_pessoa($id) {
         $db = new DB();
         $link = $db->DBconnect();
@@ -534,4 +479,5 @@ class Pessoa {
             return $dados["img_user"];
         }
     }
+
 }

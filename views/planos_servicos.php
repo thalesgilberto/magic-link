@@ -1,11 +1,13 @@
 <?php
 require '../controller/seguranca.php';
-require '';
+require '../models/pessoa.php';
 include 'header.php';
+$pessoa = new Pessoa();
+$dados = $pessoa->mostrar_dados_pessoa($_GET['id']);
 ?>
 <div class="content-header">
     <h1>
-        Serviços da empresa
+        <?=$dados['nome']?>
         <small>Serviços para clientes</small>
     </h1>
 </div>
@@ -25,7 +27,7 @@ if (isset($_SESSION["erro"])) {
 <form enctype="multipart/form-data" action="../controller/cadastrar_servico_cliente.php" method="POST">
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li id="lidados" class="active"><a href="#dados-principais" data-toggle="tab">Dados da pessoa</a></li>
+            <li id="lidados" class="active"><a href="#dados-principais" data-toggle="tab">Adquirir plano</a></li>
         </ul>
         <div class="tab-content">
             <div class="active tab-pane" id="dados-principais">

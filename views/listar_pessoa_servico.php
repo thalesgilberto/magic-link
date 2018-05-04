@@ -4,8 +4,8 @@ include 'header.php';
 ?>
 <div class="content-header">
     <h1>
-        Lista de Usuários
-        <small>Pessoa Jurídica</small>
+        Lista de Clientes
+        <small>Pessoa Física</small>
     </h1>
 </div>
 <br/>
@@ -19,14 +19,14 @@ include 'header.php';
                 <thead>  
                     <tr>  
                         <th style="font-weight: bold">#</th>
-                        <th style="font-weight: bold">Nome fantasia</th>  
+                        <th style="font-weight: bold">Nome</th>  
                         <th style="font-weight: bold">Email</th>  
-                        <th style="font-weight: bold">CNPJ</th>  
+                        <th style="font-weight: bold">CPF</th>  
                         <th></th>  
                     </tr>  
                 </thead> 
                     <?php
-                    include '../controller/listar_pessoa_juridica.php';
+                    include '../controller/listar_pessoa_servico.php';
                     ?>               
             </table>  
         </div>  

@@ -4,8 +4,8 @@ include 'header.php';
 ?>
 <div class="content-header">
     <h1>
-        Lista de Usuários
-        <small>Usuários Cadastrados</small>
+        Lista de Funcionários
+        <small>Funcionários Cadastrados</small>
     </h1>
 </div>
 <br/>
@@ -21,7 +21,7 @@ include 'header.php';
                         <th style="font-weight: bold">#</th>
                         <th style="font-weight: bold">Nome</th>  
                         <th style="font-weight: bold">Email</th>  
-                        <th style="font-weight: bold">Data de Nascimento</th>  
+                        <th style="font-weight: bold">CPF</th>  
                         <th></th>  
                     </tr>  
                 </thead> 
