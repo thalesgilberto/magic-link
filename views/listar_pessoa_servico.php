@@ -1,11 +1,36 @@
 <?php
-require '../controller/seguranca.php';
 
+require '../controller/seguranca.php';
 require_once'../models/planos.php';
+require_once'../models/pessoa.php';
 include 'header.php';
 
+$pessoa = new Pessoa();
 $planos = new Planos();
-//$pessoa = new Pessoa();
+
+?>
+<?php
+if (isset($_SESSION["erro"])) {
+    ?>
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-ban"></i> Alerta!</h4>
+        <?= $_SESSION["erro"] ?>
+    </div>
+    <?php
+    unset($_SESSION["erro"]);
+}
+
+if (isset($_SESSION['sucesso'])) {
+    ?>
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-check"></i> Concluído!</h4>
+        <?= $_SESSION['sucesso'] ?>
+    </div>
+    <?php
+    unset($_SESSION["sucesso"]);
+}
 ?>
 <div class="content-header">
     <h1>
@@ -50,6 +75,7 @@ $planos = new Planos();
             <div class="modal-body">
                 <form action="../controller/cadastrar_servico_cliente.php" method="POST">
                     <input type="hidden" name="id_pessoa" id="id_pessoa"/>
+                    <input type="hidden" name="pessoa" id="pessoa" value="<?= $_GET['pessoa'] ?>"/>
                     <div class="form-group">
                         <label for="id_plano" class="col-form-label">Plano de dados*</label>
                         <?php
@@ -105,7 +131,7 @@ include 'footer.php';
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this);
         modal.find('#id_pessoa').val(id_pessoa);
-        modal.find('#nome_pessoa').text(nome);
+        modal.find('#nome_pessoa').text(id_pessoa+" - "+nome);
     });
 </script>
 

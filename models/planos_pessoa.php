@@ -66,7 +66,7 @@ class Planos_pessoa {
                     $data_pagamento = $ano . "/" . str_pad($mes, 2, 0, STR_PAD_LEFT) . "/" . $dia;
                 }
             } else {
-                $data_pagamento = $ano . "/" . $mes . "/" . $dia . "<br>";
+                $data_pagamento = $ano . "/" . $mes . "/" . $dia;
             }
 
             $query = "INSERT INTO Planos_pessoa (id_pessoa, id_plano, data_pagamento, flg_pagamento) "
@@ -81,11 +81,13 @@ class Planos_pessoa {
         $num_linhas_depois = mysqli_query($link, $num_linhas_depois);
         $num_linhas_depois = mysqli_num_rows($num_linhas_depois);
         
-        
-        
-        
-        echo $num_linhas_depois - $num_linhas_antes;
+        if(($num_linhas_depois - $num_linhas_antes) == $tempo_servico){
+          $db->DBclose($link);
+          $_SESSION['sucesso'] = 'Dados salvos com sucesso!';
+        }else{
+            $db->DBclose($link);
+          $_SESSION['erro'] = 'Erro ao adquirir o plano de dados!'; 
+        }
         
     }
-
 }

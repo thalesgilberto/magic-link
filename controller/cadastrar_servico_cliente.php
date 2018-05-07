@@ -15,3 +15,5 @@ $planos_pessoa->setId_plano($_POST['id_plano']);
 $tempo_servico = $_POST['tempo_servico'];
 
 $planos_pessoa->cadastrar_plano_pessoa($dia, $tempo_servico);
+
+header("Location: ../views/listar_pessoa_servico.php?pessoa=".$_POST['pessoa']);
