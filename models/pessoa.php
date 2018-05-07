@@ -411,6 +411,7 @@ class Pessoa {
             return false;
         }
     }
+
     public function listar_pessoa($flg_pessoa_juridica, $flg_funcionario, $acao_link) {
         $db = new DB();
         $link = $db->DBconnect();
@@ -422,9 +423,7 @@ class Pessoa {
             $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_funcionario = " . $flg_funcionario . " ORDER BY P.id_pessoa");
         }
         foreach ($query as $row) {
-            if ($acao_link == 1) {
-                $ulr = "../views/planos_servicos.php?id=" . $row["id_pessoa"];
-            } else if ($acao_link == 2) {
+            if ($acao_link == 2) {
                 if ($row["flg_pessoa_juridica"] == 0) {
                     $ulr = "../views/editar_pessoa_fisica.php?id=" . $row["id_pessoa"];
                 } else {
@@ -441,17 +440,22 @@ class Pessoa {
                     <td>" . $row["email"] . "</td>  
                     <td>" . $row["cpf_cnpj"] . "</td>  
                    
-                    <td>"
-            ?>
-            <!--            <a class="btn btn-sm btn-default" href="#" title="Detalhes"><i class="fa fa-search-plus"></i></a>-->
-            <a class="btn btn-sm btn-success" href="<?= $ulr ?>" title="Editar"><i class="fa fa-edit"></i></a>
-            <?php
+                    <td>";
+            if ($acao_link == 1) {
+                ?>
+                <button type="button" class="btn btn-sm btn-success" title="Adquirir Plano" data-toggle="modal" data-target="#modal_planos_serviços" data-whatever="<?= $row["id_pessoa"] ?>" data-whatevernome="<?= $row["nome"] ?>"><i class = "fa fa-cart-plus"></i></button>
+                <?php
+            } else {
+                ?>
+                <a class = "btn btn-sm btn-success" href = "<?= $ulr ?>" title = "Adquirir Planos"><i class = "fa fa-edit"></i></a>
+                <?php
+            }
             "</td>  
                  </tr>";
         }
         $db->DBclose($link);
     }
-    
+
     public function mostrar_dados_pessoa($id) {
         $db = new DB();
         $link = $db->DBconnect();

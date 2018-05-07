@@ -1,12 +1,12 @@
 <?php
-
 require_once 'config.php';
 
 class Planos {
+
     private $id_plano;
     private $descricao_plano;
     private $valor_plano;
-    
+
     public function getId_plano() {
         return $this->id_plano;
     }
@@ -34,23 +34,24 @@ class Planos {
         return $this;
     }
 
-    public function mostrar_planos(){
+    public function mostrar_planos() {
         $db = new DB();
         $link = $db->DBconnect();
         $query = "SELECT * FROM Planos";
         $resultado = mysqli_query($link, $query);
-        $dados = mysqli_fetch_array($resultado);
+        $dados = mysqli_fetch_all($resultado);
         ?>
-        <select class="form-control" name="tempo_servico" id="tempo_servico"> 
-            <option value="">Selecione</option>
+        <select class="form-control" name="id_plano" id="id_plano" required="required"> 
+            <option value="">Selecione</option>-->
+            <?php
+            foreach ($dados as $item) {
+                ?>
+                <option value="<?= $item[0] ?>"><?= $item[1] . " - R$" . $item[2] ?></option>
+                <?php
+            }
+            ?>
+        </select>
         <?php
-        foreach ($dados as $item){
-         ?>
-            <option value="<?=$item['id_plano']?>"><?=$item['descricao_plano']."-R$".$item['valor_plano']?></option>
-         <?php
-        }        
-?>
-      </select>
-<?php         
     }
+
 }

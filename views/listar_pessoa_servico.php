@@ -1,17 +1,22 @@
 <?php
 require '../controller/seguranca.php';
+
+require_once'../models/planos.php';
 include 'header.php';
+
+$planos = new Planos();
+//$pessoa = new Pessoa();
 ?>
 <div class="content-header">
     <h1>
         Lista de Clientes
-        <small>Pessoa Física</small>
+        <small><?= $_GET['pessoa'] == 0 ? 'Pessoa Física' : 'Pessoa Jurídica' ?></small>
     </h1>
 </div>
 <br/>
 <div class="box">  
     <div class="box-header">
-        
+
     </div>
     <div class="box-body">
         <div class="table" style="max-width: 100%; height: auto; overflow-x:scroll">  
@@ -25,39 +30,107 @@ include 'header.php';
                         <th></th>  
                     </tr>  
                 </thead> 
-                    <?php
-                    include '../controller/listar_pessoa_servico.php';
-                    ?>               
+                <?php
+                include '../controller/listar_pessoa_servico.php';
+                ?>               
             </table>  
         </div>  
     </div>
 </div>  
 
+<div class="modal fade" id="modal_planos_serviços" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="nome_pessoa"></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="../controller/cadastrar_servico_cliente.php" method="POST">
+                    <input type="hidden" name="id_pessoa" id="id_pessoa"/>
+                    <div class="form-group">
+                        <label for="id_plano" class="col-form-label">Plano de dados*</label>
+                        <?php
+                        $planos->mostrar_planos();
+                        ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="tempo_servico">Tempo de serviço*</label>
+                        <select class="form-control" name="tempo_servico" id="tempo_servico" required="required">
+                            <option value="">Selecione</option>
+                            <?php
+                            for ($i = 1; $i <= 12; $i++) {
+                                ?>
+                                <option value="<?= $i ?>"><?= $i ?> <?= $i == 1 ? 'mês' : 'meses' ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dia_pagamento">Dia de pagamento*</label>
+                        <select class="form-control" name="dia_pagamento" id="dia_pagamento" required="required">
+                            <option value="">Selecione</option>
+                            <?php
+                            for ($i = 1; $i <= 30; $i++) {
+                                ?>
+                                <option value="<?= $i ?>"><?= $i ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php
 include 'footer.php';
 ?>
-<script>  
- $(document).ready(function(){  
-      $('#employee_data').DataTable({
-          "oLanguage": {
-              "sProcessing": "Processando...",
-              "sLengthMenu": "Mostrar _MENU_ registros",
-              "sZeroRecords": "Nenhum registro correspondente encontrado",
-              "sEmptyTable": "Não há dados para serem mostrados",
-              "sLoadingRecords": "Carregando...",
-              "sInfo": "Mostrando de _START_ a _END_ de _TOTAL_ registros",
-              "sInfotEmpty": "Mostrando 0 até 0 de 0 registros",
-              "sInfoFiltered": "(filtro aplicado em _MAX_ registros)",
-              "sInfoThousands": ".",
-              "sSearch": "Pesquisar:",
-              "sUrl": "",
+
+<script>
+    $('#modal_planos_serviços').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var id_pessoa = button.data('whatever');
+        var nome = button.data('whatevernome');
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this);
+        modal.find('#id_pessoa').val(id_pessoa);
+        modal.find('#nome_pessoa').text(nome);
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#employee_data').DataTable({
+            "oLanguage": {
+                "sProcessing": "Processando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "Nenhum registro correspondente encontrado",
+                "sEmptyTable": "Não há dados para serem mostrados",
+                "sLoadingRecords": "Carregando...",
+                "sInfo": "Mostrando de _START_ a _END_ de _TOTAL_ registros",
+                "sInfotEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(filtro aplicado em _MAX_ registros)",
+                "sInfoThousands": ".",
+                "sSearch": "Pesquisar:",
+                "sUrl": "",
                 "oPaginate": {
                     "sFirst": "Primeiro",
                     "sPrevious": "Anterior",
                     "sNext": "Próximo",
                     "sLast": "Último"
                 }
-          }
-      });  
- });  
- </script>  
+            }
+        });
+    });
+</script>  
