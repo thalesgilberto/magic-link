@@ -1,5 +1,4 @@
 <?php
-
 require '../controller/seguranca.php';
 require_once'../models/planos.php';
 require_once'../models/pessoa.php';
@@ -7,7 +6,6 @@ include 'header.php';
 
 $pessoa = new Pessoa();
 $planos = new Planos();
-
 ?>
 <?php
 if (isset($_SESSION["erro"])) {
@@ -118,9 +116,50 @@ if (isset($_SESSION['sucesso'])) {
     </div>
 </div>
 
+
+<div class="modal fade" id="modal_listar_boleto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div id="listar_boleto"  class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="nome_pessoa"></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="../controller/cadastrar_servico_cliente.php" method="POST">
+                    <input type="hidden" name="id_pessoa" id="id_pessoa"/>
+                    <input type="hidden" name="pessoa" id="pessoa" value="<?= $_GET['pessoa'] ?>"/>
+                    <div id="listar_boleto" class="form-group">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <?php
 include 'footer.php';
 ?>
+<script>
+    function listar_boleto(id) {
+        $.ajax({
+            url: 'listar_boleto.php',
+            type: 'POST',
+            data: {id_pessoa: id, pessoa: <?=$_GET['pessoa']?>}
+        }).done(function (data) {
+            $('#listar_boleto').html(data);
+        });
+        
+        $('#modal_listar_boleto').modal('show');
+    }
+</script>
 
 <script>
     $('#modal_planos_serviços').on('show.bs.modal', function (event) {
@@ -131,7 +170,7 @@ include 'footer.php';
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this);
         modal.find('#id_pessoa').val(id_pessoa);
-        modal.find('#nome_pessoa').text(id_pessoa+" - "+nome);
+        modal.find('#nome_pessoa').text(id_pessoa + " - " + nome);
     });
 </script>
 

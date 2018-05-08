@@ -443,6 +443,7 @@ class Pessoa {
                     <td>";
             if ($acao_link == 1) {
                 ?>
+                <button type="button" onclick="listar_boleto(<?= $row["id_pessoa"] ?>)" title="Listar Boletos" class="btn btn-sm btn-warning"><i class="fa fa-file-text"></i></button>
                 <button type="button" class="btn btn-sm btn-success" title="Adquirir Plano" data-toggle="modal" data-target="#modal_planos_serviços" data-whatever="<?= $row["id_pessoa"] ?>" data-whatevernome="<?= $row["nome"] ?>"><i class = "fa fa-cart-plus"></i></button>
                 <?php
             } else {
