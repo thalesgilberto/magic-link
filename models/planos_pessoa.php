@@ -41,14 +41,42 @@ class Planos_pessoa {
         $this->flg_pagamento = $flg_pagamento;
     }
 
+    public function dados_boleto($id_servico) {
+        $db = new DB();
+        $link = $db->DBconnect();
+        $query = "SELECT p.nome, p.nome_fantasia, e.endereco, e.cep, c.nome as cidade, es.nome as estado, pl.*, plp.*  FROM magiclink.Planos_pessoa plp "
+                . "INNER JOIN Planos pl ON (plp.id_plano = pl.id_plano) "
+                . "INNER JOIN Pessoa p ON (plp.id_pessoa = p.id_pessoa) "
+                . "INNER JOIN Endereco e ON (e.id_pessoa = p.id_pessoa) "
+                . "INNER JOIN Cidade c ON (c.id_cidade = e.cidade_id) "
+                . "INNER JOIN Estado es ON (c.id_estado = es.id_estado) "
+                . "WHERE plp.id_servico = " . $id_servico . " order by data_pagamento";
+        $resultado = mysqli_query($link, $query);
+        $dados = mysqli_fetch_array($resultado);
+        $db->DBclose($link);
+        return $dados;
+    }
+
+    public function listar_boleto_pessoa($id_pessoa) {
+        $db = new DB();
+        $link = $db->DBconnect();
+        $query = "SELECT * FROM magiclink.Planos_pessoa plp "
+                . "INNER JOIN Planos p ON (plp.id_plano = p.id_plano) "
+                . "WHERE id_pessoa = " . $id_pessoa . " ORDER BY data_pagamento";
+        $resultado = mysqli_query($link, $query);
+        $dados = mysqli_fetch_all($resultado);
+        $db->DBclose($link);
+        return $dados;
+    }
+
     public function cadastrar_plano_pessoa($dia, $tempo_servico) {
         $db = new DB();
         $link = $db->DBconnect();
-        
+
         $num_linhas_antes = "SELECT * FROM Planos_pessoa";
         $num_linhas_antes = mysqli_query($link, $num_linhas_antes);
         $num_linhas_antes = mysqli_num_rows($num_linhas_antes);
-        
+
         $mes = date("m");
         $ano = date("Y");
 
@@ -71,23 +99,23 @@ class Planos_pessoa {
 
             $query = "INSERT INTO Planos_pessoa (id_pessoa, id_plano, data_pagamento, flg_pagamento) "
                     . "VALUES (" . $this->id_pessoa . ", " . $this->id_plano . ", '" . $data_pagamento . "', " . 0 . ")";
-            
+
             mysqli_query($link, $query);
-            
+
             $i += 1;
         }
-        
+
         $num_linhas_depois = "SELECT * FROM Planos_pessoa";
         $num_linhas_depois = mysqli_query($link, $num_linhas_depois);
         $num_linhas_depois = mysqli_num_rows($num_linhas_depois);
-        
-        if(($num_linhas_depois - $num_linhas_antes) == $tempo_servico){
-          $db->DBclose($link);
-          $_SESSION['sucesso'] = 'Dados salvos com sucesso!';
-        }else{
+
+        if (($num_linhas_depois - $num_linhas_antes) == $tempo_servico) {
             $db->DBclose($link);
-          $_SESSION['erro'] = 'Erro ao adquirir o plano de dados!'; 
+            $_SESSION['sucesso'] = 'Dados salvos com sucesso!';
+        } else {
+            $db->DBclose($link);
+            $_SESSION['erro'] = 'Erro ao adquirir o plano de dados!';
         }
-        
     }
+
 }

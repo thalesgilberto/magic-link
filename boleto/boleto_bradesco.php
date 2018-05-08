@@ -31,10 +31,17 @@
 // Os valores abaixo podem ser colocados manualmente ou ajustados p/ formul�rio c/ POST, GET ou de BD (MySql,Postgre,etc)	//
 
 // DADOS DO BOLETO PARA O SEU CLIENTE
+
+require_once '../models/planos_pessoa.php';
+$planos_pessoa = new Planos_pessoa();
+
+$dados = $planos_pessoa->dados_boleto($_POST['id_servico']);
+
 $dias_de_prazo_para_pagamento = 5;
-$taxa_boleto = 2.95;
-$data_venc = date("d/m/Y", time() + ($dias_de_prazo_para_pagamento * 86400));  // Prazo de X dias OU informe data: "13/04/2006";
-$valor_cobrado = "2950,00"; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
+$taxa_boleto = 0;
+$data_pagamento = date_create($dados["data_pagamento"]);
+$data_venc = date_format($data_pagamento, "d/m/Y");  // Prazo de X dias OU informe data: "13/04/2006";
+$valor_cobrado = $dados["valor_plano"]; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
 $valor_cobrado = str_replace(",", ".",$valor_cobrado);
 $valor_boleto=number_format($valor_cobrado+$taxa_boleto, 2, ',', '');
 
@@ -46,9 +53,9 @@ $dadosboleto["data_processamento"] = date("d/m/Y"); // Data de processamento do 
 $dadosboleto["valor_boleto"] = $valor_boleto; 	// Valor do Boleto - REGRA: Com v�rgula e sempre com duas casas depois da virgula
 
 // DADOS DO SEU CLIENTE
-$dadosboleto["sacado"] = "Nome do seu Cliente";
-$dadosboleto["endereco1"] = "Endereço do seu Cliente";
-$dadosboleto["endereco2"] = "Cidade - Estado -  CEP: 00000-000";
+$dadosboleto["sacado"] = $dados["nome"];
+$dadosboleto["endereco1"] = $dados["endereco"];
+$dadosboleto["endereco2"] = $dados["cidade"]." - ".$dados["estado"]." - CEP: ".$dados["cep"];
 
 // INFORMACOES PARA O CLIENTE
 $dadosboleto["demonstrativo1"] = "Pagamento de Compra na Loja Nonononono";
@@ -82,13 +89,13 @@ $dadosboleto["conta_cedente_dv"] = "4"; // Digito da ContaCedente do Cliente
 $dadosboleto["carteira"] = "06";  // C�digo da Carteira: pode ser 06 ou 03
 
 // SEUS DADOS
-$dadosboleto["identificacao"] = "BoletoPhp - Código Aberto de Sistema de Boletos";
-$dadosboleto["cpf_cnpj"] = "";
-$dadosboleto["endereco"] = "Coloque o endereço da sua empresa aqui";
-$dadosboleto["cidade_uf"] = "Cidade / Estado";
-$dadosboleto["cedente"] = "Coloque a Razão Social da sua empresa aqui";
+$dadosboleto["identificacao"] = "Magic LINK";
+$dadosboleto["cpf_cnpj"] = "00.000.000/0000-00";
+$dadosboleto["endereco"] = "Cachoeira";
+$dadosboleto["cidade_uf"] = "Cachoeira / Bahia";
+$dadosboleto["cedente"] = "Magic Link";
 
 // N�O ALTERAR!
-include("include/funcoes_bradesco.php");
-include("include/layout_bradesco.php");
+include("funcoes_bradesco.php");
+include("layout_bradesco.php");
 ?>
