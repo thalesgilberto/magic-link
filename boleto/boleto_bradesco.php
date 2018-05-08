@@ -58,9 +58,9 @@ $dadosboleto["endereco1"] = $dados["endereco"];
 $dadosboleto["endereco2"] = $dados["cidade"]." - ".$dados["estado"]." - CEP: ".$dados["cep"];
 
 // INFORMACOES PARA O CLIENTE
-$dadosboleto["demonstrativo1"] = "Pagamento de Compra na Loja Nonononono";
-$dadosboleto["demonstrativo2"] = "Mensalidade referente a nonon nonooon nononon<br>Taxa bancária - R$ ".number_format($taxa_boleto, 2, ',', '');
-$dadosboleto["demonstrativo3"] = "BoletoPhp - http://www.boletophp.com.br";
+$dadosboleto["demonstrativo1"] = "Pagamento de compra de plano de internet de ".$dados["descricao_plano"];
+$dadosboleto["demonstrativo2"] = "";
+$dadosboleto["demonstrativo3"] = "";
 $dadosboleto["instrucoes1"] = "- Sr. Caixa, cobrar multa de 2% após o vencimento";
 $dadosboleto["instrucoes2"] = "- Receber até 10 dias após o vencimento";
 $dadosboleto["instrucoes3"] = "- Em caso de dúvidas entre em contato conosco: xxxx@xxxx.com.br";
