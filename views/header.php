@@ -243,7 +243,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     //if(isset($_SESSION['Clientes-Listar'])){
                                     ?>
                                     <li class="treeview">
-                                        <a href="#"><i class="fa fa-list"></i> Adquirir Serviço
+                                        <a href="#"><i class="fa fa-list"></i> Listar Clientes
                                             <span class="pull-right-container">
                                                 <i class="fa fa-angle-left pull-right"></i>
                                             </span>
