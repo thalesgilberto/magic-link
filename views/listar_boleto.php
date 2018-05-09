@@ -1,4 +1,5 @@
 <?php
+require '../controller/seguranca.php';
 require_once '../models/pessoa.php';
 require_once '../models/planos_pessoa.php';
 $p = new Pessoa();
