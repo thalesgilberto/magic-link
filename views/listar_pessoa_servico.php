@@ -49,7 +49,7 @@ if (isset($_SESSION['sucesso'])) {
                         <th style="font-weight: bold">#</th>
                         <th style="font-weight: bold">Nome</th>  
                         <th style="font-weight: bold">Email</th>  
-                        <th style="font-weight: bold">CPF</th>  
+                        <th style="font-weight: bold"><?= $_GET["pessoa"] == 0 ? "CPF" : "CNPJ" ?></th>  
                         <th></th>  
                     </tr>  
                 </thead> 

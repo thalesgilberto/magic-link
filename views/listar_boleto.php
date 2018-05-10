@@ -61,7 +61,8 @@ $dados = $p->mostrar_dados_pessoa($_POST["id_pessoa"]);
                                     ?> 
                                 </td>
                                 <td>
-                                    <a href="#" target="blank" onclick="sendPost('../boleto/boleto_bradesco.php', {id_servico: <?=$item[0]?>});" class="btn btn-sm btn-default" title="Imprimir boleto"><i class="fa fa-print"></i></a>
+                                    <a href="../boleto/boleto_bradesco.php?b=<?= $item[0] ?>" target="_blank" class="btn btn-sm btn-default" title="Imprimir boleto"><i class="fa fa-print"></i></a>
+                                    <button class="btn btn-sm btn-success" title="Pagar boleto"><i class="fa fa-money"></i></button>
                                 </td>
                             </tr>
                             <?php
@@ -77,29 +78,6 @@ $dados = $p->mostrar_dados_pessoa($_POST["id_pessoa"]);
         </div>
     </form>
 </div>
-
-<script>
-        if(!window.sendPost){
-            window.sendPost = function(url, obj){
-                //Define o formulário
-                var myForm = document.createElement("form");
-                myForm.action = url;
-                myForm.method = "post";
- 
-	        for(var key in obj) {
-		     var input = document.createElement("input");
-		     input.type = "text";
-		     input.value = obj[key];
-		     input.name = key;
-		     myForm.appendChild(input);			
-	        }
-                //Adiciona o form ao corpo do documento
-                document.body.appendChild(myForm);
-                //Envia o formulário
-                myForm.submit();
-            };    
-        }  
-    </script>
 
 <script>
     $(document).ready(function () {

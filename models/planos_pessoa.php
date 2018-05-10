@@ -44,7 +44,7 @@ class Planos_pessoa {
     public function dados_boleto($id_servico) {
         $db = new DB();
         $link = $db->DBconnect();
-        $query = "SELECT p.nome, p.nome_fantasia, e.endereco, e.cep, c.nome as cidade, es.nome as estado, pl.*, plp.*  FROM magiclink.Planos_pessoa plp "
+        $query = "SELECT p.nome, p.cpf_cnpj, p.flg_pessoa_juridica,p.nome_fantasia, e.endereco, e.cep, c.nome as cidade, es.nome as estado, pl.*, plp.*  FROM magiclink.Planos_pessoa plp "
                 . "INNER JOIN Planos pl ON (plp.id_plano = pl.id_plano) "
                 . "INNER JOIN Pessoa p ON (plp.id_pessoa = p.id_pessoa) "
                 . "INNER JOIN Endereco e ON (e.id_pessoa = p.id_pessoa) "
