@@ -284,7 +284,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <?php
                         }
                         ?>
-                        <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+                            <li><a href="https://painel.tomticket.com" target="_blank"><i class="fa fa-bullhorn"></i> <span>Ordem de Serviço</span></a></li>
                     </ul>
                     <!-- /.sidebar-menu -->
                 </section>

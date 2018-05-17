@@ -435,7 +435,7 @@ class Pessoa {
                 }
             }
 
-            if ($dados["flg_pessoa_juridica"] == 0) {
+            if ($flg_pessoa_juridica == 0) {
                 $parte_um = substr($row["cpf_cnpj"], 0, 3);
                 $parte_dois = substr($row["cpf_cnpj"], 3, 3);
                 $parte_tres = substr($row["cpf_cnpj"], 6, 3);
