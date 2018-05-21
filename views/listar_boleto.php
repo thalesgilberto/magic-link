@@ -74,7 +74,6 @@ $dados = $p->mostrar_dados_pessoa($_POST["id_pessoa"]);
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-            <button type="submit" class="btn btn-primary">Salvar</button>
         </div>
     </form>
 </div>
