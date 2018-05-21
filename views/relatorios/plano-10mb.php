@@ -26,10 +26,9 @@
    <table>
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>CNPJ</th>
+            <th>Cód. Serviço</th>
+            <th>Cód. Cliente</th>
+            
             
         </tr>
     </thead>
@@ -38,16 +37,14 @@
             <?php 
             $db = new DB();
         $link = $db->DBconnect();
-        $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_pessoa_juridica = 1 ORDER BY P.id_pessoa");
-
-            while($row = mysqli_fetch_assoc($query)){
-            echo  "<tr><td>".$row['id_pessoa']; "</td></tr>";
-            echo  "<td>".$row['nome'] . "</td>";
-	    echo  "<td>".$row['email'] . "</td>";
-            echo  "<td>".$row['cpf_cnpj'] . "</td>";
+        
+        $query = mysqli_query($link, "SELECT DISTINCT id_pessoa, id_servico FROM magiclink.Planos_pessoa P WHERE id_plano = 3 GROUP BY P.id_pessoa");  
+        while($row = mysqli_fetch_assoc($query)){
+            echo  "<tr><td>".$row['id_servico']; "</td></tr>";
+            echo  "<td>".$row['id_pessoa']; "</td>";
             
+        }    
             
-            }
             ?>
 	
 	</tbody>
@@ -68,8 +65,8 @@ use Dompdf\Dompdf;
     
     // Carrega seu HTML
     $dompdf->load_html('<div><div style="float:left"><img src="../img/logo_magic.png" style="width: 20%;"></div>
-		<h1 style="text-align: center;">Relatório de Clientes</h1>
-                <h3 style="text-align: center;">Pessoa Jurídica</h3></div><br>
+		<h1 style="text-align: center;">Relatório de Serviços</h1>
+                <h3 style="text-align: center;">Plano - 10Mb</h3></div><br>
                 '.$html);
     $dompdf->set_base_path("../");
     $dompdf->set_paper("A4");
