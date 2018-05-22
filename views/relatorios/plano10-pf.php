@@ -39,7 +39,7 @@
             $db = new DB();
         $link = $db->DBconnect();
         
-        $query = mysqli_query($link, "SELECT DISTINCT Planos_pessoa.id_pessoa, Pessoa.cpf_cnpj, Planos_pessoa.data_pagamento, Pessoa.nome, Planos.descricao_plano FROM ((magiclink.Planos_pessoa INNER JOIN Pessoa ON Planos_pessoa.id_pessoa = Pessoa.id_pessoa) INNER JOIN Planos ON Planos_pessoa.id_plano = Planos.id_plano) where descricao_plano = '3 MB'  GROUP BY Planos_pessoa.id_pessoa;");  
+        $query = mysqli_query($link, "SELECT DISTINCT Planos_pessoa.id_pessoa, Pessoa.cpf_cnpj, Planos_pessoa.data_pagamento, Pessoa.nome, Planos.descricao_plano FROM ((magiclink.Planos_pessoa INNER JOIN Pessoa ON Planos_pessoa.id_pessoa = Pessoa.id_pessoa) INNER JOIN Planos ON Planos_pessoa.id_plano = Planos.id_plano) where descricao_plano = '10 MB' AND flg_pessoa_juridica = 0 GROUP BY Planos_pessoa.id_pessoa;");  
         while($row = mysqli_fetch_assoc($query)){
             echo  "<tr><td>".$row['nome']; "</td></tr>";
             echo  "<td>".$row['cpf_cnpj']; "</td>";
@@ -69,7 +69,7 @@ use Dompdf\Dompdf;
     // Carrega seu HTML
     $dompdf->load_html('<div><div style="float:left"><img src="../img/logo_magic.png" style="width: 20%;"></div>
 		<h1 style="text-align: center;">Relatório de Serviços</h1>
-                <h3 style="text-align: center;">Plano - 3Mb</h3></div><br>
+                <h3 style="text-align: center;">Plano 10MB - Pessoa Física</h3></div><br>
                 '.$html);
     $dompdf->set_base_path("../");
     $dompdf->set_paper("A4");

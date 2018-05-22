@@ -26,7 +26,7 @@
    <table>
     <thead>
         <tr>
-            <th>Id</th>
+            
             <th>Nome</th>
             <th>Email</th>
             <th>CNPJ</th>
@@ -38,13 +38,14 @@
             <?php 
             $db = new DB();
         $link = $db->DBconnect();
-        $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_pessoa_juridica = 1 ORDER BY P.id_pessoa");
+        $query = mysqli_query($link, "SELECT DISTINCT Planos_pessoa.id_pessoa,Pessoa.email, Pessoa.cpf_cnpj, Planos_pessoa.data_pagamento, Planos_pessoa.flg_pagamento, Pessoa.nome, Planos.descricao_plano FROM ((magiclink.Planos_pessoa INNER JOIN Pessoa ON Planos_pessoa.id_pessoa = Pessoa.id_pessoa) INNER JOIN Planos ON Planos_pessoa.id_plano = Planos.id_plano) WHERE flg_pessoa_juridica = 1 GROUP BY Pessoa.id_pessoa");
 
             while($row = mysqli_fetch_assoc($query)){
-            echo  "<tr><td>".$row['id_pessoa']; "</td></tr>";
-            echo  "<td>".$row['nome'] . "</td>";
-	    echo  "<td>".$row['email'] . "</td>";
-            echo  "<td>".$row['cpf_cnpj'] . "</td>";
+            
+            echo  "<tr><td>".$row['nome']; "</td></tr>";
+            //echo  "<td>".$row['id_pessoa']; "</td>";
+	    echo  "<td>".$row['email']; "</td>";
+            echo  "<td>".$row['cpf_cnpj']; "</td>";
             
             
             }

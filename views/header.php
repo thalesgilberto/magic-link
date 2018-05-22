@@ -273,8 +273,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </span>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li><a href="relatorios/cliente_pf.php" target="_blank"><i class="fa fa-circle-o"></i>Cliente (Físico)</a></li>
-                                    <li><a href="relatorios/cliente_pj.php" target="_blank"><i class="fa fa-circle-o"></i>Cliente (Jurídico)</a></li>
+                                    <li><a href="relatorios/cliente_pf.php" target="_blank"><i class="fa fa-circle-o"></i>Clientes - Pessoa Física</a></li>
+                                    <li><a href="relatorios/cliente_pj.php" target="_blank"><i class="fa fa-circle-o"></i>Clientes - Pessoa Jurídica</a></li>
+                                    <li><a href="relatorios/plano3-pf.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 3MB - Pessoa Física</a></li>
+                                    <li><a href="relatorios/plano3-pj.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 3MB - Pessoa Jurídica</a></li>
+                                    <li><a href="relatorios/plano5-pf.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 5MB - Pessoa Física</a></li>
+                                    <li><a href="relatorios/plano5-pj.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 5MB - Pessoa Jurídica</a></li>
+                                    <li><a href="relatorios/plano10-pf.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 10MB - Pessoa Física</a></li>
+                                    <li><a href="relatorios/plano10-pj.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 10MB - Pessoa Jurídica</a></li>
+                                    <li><a href="relatorios/pag-realizado.php" target="_blank"><i class="fa fa-circle-o"></i>Pagamentos Realizados</a></li>
+                                    <li><a href="relatorios/pag-atrasado.php" target="_blank"><i class="fa fa-circle-o"></i>Pagamentos Atrasados</a></li>
                                     <li><a href="relatorios/funcionarios.php" target="_blank"><i class="fa fa-circle-o"></i>Funcionários</a></li>
                                 </ul>
                             </li>

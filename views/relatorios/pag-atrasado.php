@@ -43,12 +43,14 @@
         $link = $db->DBconnect();
                                                                                
         
-        $query = mysqli_query($link, "SELECT DISTINCT Planos_pessoa.id_pessoa, Pessoa.cpf_cnpj, Planos_pessoa.data_pagamento, Planos_pessoa.flg_pagamento, Pessoa.nome, Planos.descricao_plano FROM ((magiclink.Planos_pessoa INNER JOIN Pessoa ON Planos_pessoa.id_pessoa = Pessoa.id_pessoa) INNER JOIN Planos ON Planos_pessoa.id_plano = Planos.id_plano) WHERE flg_pagamento = 0 AND data_pagamento < date(now()) GROUP BY Pessoa.id_pessoa");  
+        $query = mysqli_query($link, "SELECT DISTINCT Planos_pessoa.id_pessoa,Pessoa.email, Pessoa.cpf_cnpj, Planos_pessoa.data_pagamento, Planos_pessoa.flg_pagamento, Pessoa.nome, Planos.descricao_plano FROM ((magiclink.Planos_pessoa INNER JOIN Pessoa ON Planos_pessoa.id_pessoa = Pessoa.id_pessoa) INNER JOIN Planos ON Planos_pessoa.id_plano = Planos.id_plano) WHERE flg_pagamento = 0 AND data_pagamento < date(now()) GROUP BY Pessoa.id_pessoa");  
         while($row = mysqli_fetch_assoc($query)){
             echo  "<tr><td>".$row['nome']; "</td></tr>";
             echo  "<td>".$row['cpf_cnpj']; "</td>";
             echo  "<td>".$row['descricao_plano']; "</td>";
             echo  "<td>".$row['data_pagamento']; "</td>";
+         
+            
             
         }    
             
@@ -92,6 +94,8 @@ use Dompdf\Dompdf;
     header("Content-type: application/pdf");    
     
     echo $dompdf->output();//Mostra na tela
+    
+file_put_contents("arquivo.pdf", $pdf);
     
     //$dompdf->stream("relatorio-pf.pdf"); //realiza o download
     
