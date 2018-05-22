@@ -4,7 +4,7 @@ include 'header.php';
 ?>
 <div class="content-header">
     <h1>
-        Dashbord
+        Dashboard
         <small>Painel de Controle</small>
     </h1>
 </div>
@@ -66,7 +66,7 @@ include 'footer.php';
                 
                 var options = {
                     title : {
-                        text: "Pessoa Cadastradas - 2018",
+                        text: "Pessoas Cadastradas - 2018",
                         display: true,
                         fontSize: 18
                     }

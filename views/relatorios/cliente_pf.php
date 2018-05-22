@@ -1,9 +1,11 @@
+
 <?php
     
     session_start();
     
     include '../../models/pessoa.php';
-  ?>  
+    setlocale(LC_TIME, 'Pt_BR', 'Pt_BR.utf-8', 'Pt_BR.utf-8', 'Portuguese');
+?>  
    
    <style>
       table, td, th {    
@@ -13,7 +15,10 @@
       tr:nth-child(even){
         background-color: #f2f2f2;
       }
-      
+      table {
+        border-collapse: collapse;
+        
+      }
 
       th, td {
         padding: 5px;
@@ -23,11 +28,12 @@
    <table>
     <thead>
         <tr>
-            <th>Id</th>
             <th>Nome</th>
             <th>Email</th>
             <th>CPF</th>
             <th>Data de Nascimento</th>
+            
+            
         </tr>
     </thead>
     <tbody>
@@ -35,14 +41,14 @@
             <?php 
             $db = new DB();
         $link = $db->DBconnect();
-        $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_pessoa_juridica = 0 ORDER BY P.id_pessoa");
+        $query = mysqli_query($link, "SELECT DISTINCT Planos_pessoa.id_pessoa,Pessoa.email, Pessoa.cpf_cnpj, Planos_pessoa.data_pagamento, Planos_pessoa.flg_pagamento, Pessoa.nome, Planos.descricao_plano FROM ((magiclink.Planos_pessoa INNER JOIN Pessoa ON Planos_pessoa.id_pessoa = Pessoa.id_pessoa) INNER JOIN Planos ON Planos_pessoa.id_plano = Planos.id_plano) WHERE flg_pessoa_juridica = 0 GROUP BY Pessoa.id_pessoa");
 
             while($row = mysqli_fetch_assoc($query)){
-            echo  "<tr><td>".$row['id_pessoa']; "</td></tr>";
-            echo  "<td>".$row['nome'] . "</td>";
-	    echo  "<td>".$row['email'] . "</td>";
-            echo  "<td>".$row['cpf_cnpj'] . "</td>";
-            echo  "<td>".@date('d/m/Y', strtotime($row["data_nascimento"])) . "</td>";
+            
+            echo  "<tr><td>".$row['nome']; "</td></tr>";
+	    echo  "<td>".$row['email']; "</td>";
+            echo  "<td>".$row['cpf_cnpj']; "</td>";
+            echo  "<td>".@date('d/m/Y', strtotime($row["data_nascimento"])); "</td>";
             
             }
             ?>
