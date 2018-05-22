@@ -77,7 +77,7 @@ $endereco->setNumero($_POST['numero']);
 $endereco->setCidade_id($_POST['cidade']);
 $endereco->setCep(preg_replace("/[^0-9]/", "", $_POST['cep']));
 
-if (isset($_POST['flg_funcionario']) && $_POST['flg_funcionario'] == 1) {
+if (isset($_POST['flg_funcionario']) && $_POST['flg_funcionario'] == 1 && !empty($_POST['controle'])) {
     $controle_pessoa = new Controle_pessoa();
     $controle_pessoa->setId_controle($_POST['controle']);
     $controle_pessoa->setId_pessoa($_POST['id_pessoa']);
@@ -88,7 +88,7 @@ if ($pessoa->editar_pessoa() && $telefone->editar_telefone_pessoa() && $endereco
     if (isset($arquivo)) {
         move_uploaded_file($arquivo, $destino);
     }
-    if (isset($_POST['flg_funcionario']) && $_POST['flg_funcionario'] == 1) {
+    if (isset($_POST['flg_funcionario']) && $_POST['flg_funcionario'] == 1 && !empty($_POST['controle'])) {
         $controle_pessoa->cadastrar_acesso_pessoa();
     }
     if (isset($_POST['flg_pessoa_juridica']) && $_POST['flg_pessoa_juridica'] == 0) {

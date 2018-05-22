@@ -458,8 +458,12 @@ class Pessoa {
                    
                     <td>";
             if ($acao_link == 1) {
+                if ($this->verificar_existe_boleto($row["id_pessoa"])) {
+                    ?>
+                    <button type="button" onclick="listar_boleto(<?= $row["id_pessoa"] ?>)" title="Listar Boletos" class="btn btn-sm btn-warning"><i class="fa fa-file-text"></i></button>
+                    <?php
+                }
                 ?>
-                <button type="button" onclick="listar_boleto(<?= $row["id_pessoa"] ?>)" title="Listar Boletos" class="btn btn-sm btn-warning"><i class="fa fa-file-text"></i></button>
                 <button type="button" class="btn btn-sm btn-success" title="Adquirir Plano" data-toggle="modal" data-target="#modal_planos_serviços" data-whatever="<?= $row["id_pessoa"] ?>" data-whatevernome="<?= $row["nome"] ?>"><i class = "fa fa-cart-plus"></i></button>
                 <?php
             } else {
@@ -498,6 +502,21 @@ class Pessoa {
         } else {
             $db->DBclose($link);
             return $dados["img_user"];
+        }
+    }
+
+    private function verificar_existe_boleto($id_pessoa) {
+        $db = new DB();
+        $link = $db->DBconnect();
+        $query = "SELECT distinct id_pessoa FROM Planos_pessoa WHERE id_pessoa= " . $id_pessoa;
+        $resultado = mysqli_query($link, $query);
+        $dados = mysqli_fetch_all($resultado);
+        if (!empty($dados)) {
+            $db->DBclose($link);
+            return true;
+        } else {
+            $db->DBclose($link);
+            return false;
         }
     }
 
