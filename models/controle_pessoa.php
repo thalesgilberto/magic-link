@@ -70,7 +70,7 @@ class Controle_pessoa {
         $db->DBclose($link);
     }
 
-    private function in_array_r($valor, $array, $strict = false) {
+    public function in_array_r($valor, $array, $strict = false) {
         foreach ($array as $item) {
             if (($strict ? $item === $valor : $item == $valor) || (is_array($item) && $this->in_array_r($valor, $item, $strict))) {
                 return true;

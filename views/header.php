@@ -84,34 +84,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <!--Menu Toggle Button--> 
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <!--The user image in the navbar-->
-                                    <?php
-                                    if ($_SESSION['img_user'] != null) {
-                                        ?>
-                                        <img src="../img/<?= $_SESSION['img_user'] ?>" class="user-image" alt="User Image">
-                                        <?php
-                                    } else {
-                                        ?>
-                                        <img src="../img/default.jpg" class="user-image" alt="User Image">
-                                        <?php
-                                    }
-                                    ?>
+                                    <img src="../img/default.jpg" class="user-image" alt="User Image">
                                     <!--hidden-xs hides the username on small devices so only the image appears.--> 
                                     <span class="hidden-xs"><?= $_SESSION['nome'] ?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!--The user image in the menu--> 
                                     <li class="user-header">
-                                        <?php
-                                        if ($_SESSION['img_user'] != null) {
-                                            ?>
-                                            <img src="../img/<?= $_SESSION['img_user'] ?>" class="img-circle" alt="User Image">
-                                            <?php
-                                        } else {
-                                            ?>
-                                            <img src="../img/default.jpg" class="img-circle" alt="User Image">
-                                            <?php
-                                        }
-                                        ?>
+                                        <img src="../img/default.jpg" class="img-circle" alt="User Image">
                                         <p>
                                             <?= $_SESSION['nome'] ?>
                                             <small><?= $_SESSION['email'] ?></small>
@@ -253,11 +233,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <?php
                                     //}
                                     //if (isset($_SESSION['Clientes-Cadastrar'])) {
-                                        ?>
-                                        <li class="treeview">
-                                            <a href="#"><i class="fa fa-user-plus"></i> Cadastrar Serviços </a>
-                                        </li>
-                                        <?php
+                                    ?>
+                                    <li class="treeview">
+                                        <a href="#"><i class="fa fa-user-plus"></i> Cadastrar Serviços </a>
+                                    </li>
+                                    <?php
                                     //}
                                     ?>
                                 </ul>
@@ -288,8 +268,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </li>
                             <?php
                         }
-                        ?>
+                        if (isset($_SESSION['Ordem-Servico'])) {
+                            ?>
                             <li><a href="https://painel.tomticket.com" target="_blank"><i class="fa fa-bullhorn"></i> <span>Ordem de Serviço</span></a></li>
+                            <?php
+                        }
+                        ?>            
                     </ul>
                     <!-- /.sidebar-menu -->
                 </section>

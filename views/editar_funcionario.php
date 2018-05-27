@@ -135,7 +135,7 @@ if (isset($_SESSION['sucesso'])) {
                                 </div>
                             </div>
                             <input type="hidden" value="1" name="flg_funcionario"/>
-                            <div class="form-row">
+<!--                            <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label for="img_user">Foto de Perfil</label>
                                     <div class="" id="divImg" style="height: 100px; width: 100px">
@@ -146,7 +146,7 @@ if (isset($_SESSION['sucesso'])) {
                                     <br/>
                                     <input type="file" class="btn-file" name="img_user" id="img_user"/>
                                 </div>                               
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <div class="box-footer ">

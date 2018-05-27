@@ -1,5 +1,6 @@
 <?php
 require_once 'config.php';
+require_once 'controle_pessoa.php';
 
 class Pessoa {
 
@@ -415,8 +416,13 @@ class Pessoa {
     public function listar_pessoa($flg_pessoa_juridica, $flg_funcionario, $acao_link) {
         $db = new DB();
         $link = $db->DBconnect();
+
+        $query_id_pessoas_planos = "SELECT distinct id_pessoa FROM Planos_pessoa";
+        $resultado = mysqli_query($link, $query_id_pessoas_planos);
+        $id_pessoa_plano = mysqli_fetch_all($resultado);
+
         if ($flg_pessoa_juridica == 0 && empty($flg_funcionario)) {
-            $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_pessoa_juridica = " . $flg_pessoa_juridica . " ORDER BY P.id_pessoa");
+            $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_pessoa_juridica = " . $flg_pessoa_juridica . " AND flg_funcionario = 0 " . $flg_funcionario . " ORDER BY P.id_pessoa");
         } else if ($flg_pessoa_juridica == 1 && empty($flg_funcionario)) {
             $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_pessoa_juridica = " . $flg_pessoa_juridica . " ORDER BY P.id_pessoa");
         } else if (empty($flg_pessoa_juridica) && $flg_funcionario == 1) {
@@ -434,6 +440,8 @@ class Pessoa {
                     $ulr = "../views/editar_funcionario.php?id=" . $row["id_pessoa"];
                 }
             }
+
+            $controle_pessoa = new Controle_pessoa();
 
             if ($flg_pessoa_juridica == 0) {
                 $parte_um = substr($row["cpf_cnpj"], 0, 3);
@@ -458,7 +466,7 @@ class Pessoa {
                    
                     <td>";
             if ($acao_link == 1) {
-                if ($this->verificar_existe_boleto($row["id_pessoa"])) {
+                if ($controle_pessoa->in_array_r($row["id_pessoa"], $id_pessoa_plano)) {
                     ?>
                     <button type="button" onclick="listar_boleto(<?= $row["id_pessoa"] ?>)" title="Listar Boletos" class="btn btn-sm btn-warning"><i class="fa fa-file-text"></i></button>
                     <?php
@@ -468,8 +476,13 @@ class Pessoa {
                 <?php
             } else {
                 ?>
-                <a class = "btn btn-sm btn-success" href = "<?= $ulr ?>" title = "Adquirir Planos"><i class = "fa fa-edit"></i></a>
+                <a class = "btn btn-sm btn-success" href = "<?= $ulr ?>" title = "Editar Cliente"><i class = "fa fa-edit"></i></a>
                 <?php
+                if (!$controle_pessoa->in_array_r($row["id_pessoa"], $id_pessoa_plano)) {
+                    ?>
+                    <button type="button" class="btn btn-sm btn-danger" title="Ecluir Cliente"><i class="fa fa-trash"></i></button>
+                    <?php
+                }
             }
             "</td>  
                  </tr>";
@@ -502,21 +515,6 @@ class Pessoa {
         } else {
             $db->DBclose($link);
             return $dados["img_user"];
-        }
-    }
-
-    private function verificar_existe_boleto($id_pessoa) {
-        $db = new DB();
-        $link = $db->DBconnect();
-        $query = "SELECT distinct id_pessoa FROM Planos_pessoa WHERE id_pessoa= " . $id_pessoa;
-        $resultado = mysqli_query($link, $query);
-        $dados = mysqli_fetch_all($resultado);
-        if (!empty($dados)) {
-            $db->DBclose($link);
-            return true;
-        } else {
-            $db->DBclose($link);
-            return false;
         }
     }
 

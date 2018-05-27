@@ -1,9 +1,8 @@
-
 <?php
     
-    session_start();
-    
-    include '../../models/pessoa.php';
+   ob_start();
+    require '../../controller/seguranca.php';
+    require_once '../../models/pessoa.php';
     setlocale(LC_TIME, 'Pt_BR', 'Pt_BR.utf-8', 'Pt_BR.utf-8', 'Portuguese');
 ?>  
    
@@ -94,8 +93,7 @@ use Dompdf\Dompdf;
     header("Content-type: application/pdf");    
     
     echo $dompdf->output();//Mostra na tela
-    
-file_put_contents("arquivo.pdf", $pdf);
+
     
     //$dompdf->stream("relatorio-pf.pdf"); //realiza o download
     
