@@ -118,4 +118,19 @@ class Planos_pessoa {
         }
     }
 
+    public function pagar_boleto() {
+        $db = new DB();
+        $link = $db->DBconnect();
+        $query = "UPDATE Planos_pessoa SET flg_pagamento = 1 WHERE id_servico = $this->id_plano";
+        if (mysqli_query($link, $query)) {
+            $_SESSION['sucesso'] = "Boleto pago com sucesso!";
+            $db->DBclose($link);
+            return true;
+        } else {
+            $_SESSION['erro'] = "Ocorreu um erro inesperado!";
+            $db->DBclose($link);
+            return false;
+        }
+    }
+
 }

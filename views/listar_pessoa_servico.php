@@ -33,7 +33,17 @@ if (isset($_SESSION['sucesso'])) {
 <div class="content-header">
     <h1>
         Lista de Clientes
-        <small><?= $_GET['pessoa'] == 0 ? 'Pessoa Física' : 'Pessoa Jurídica' ?></small>
+        <small>
+            <?php
+            if($_GET['pessoa'] == "0"){
+                echo "Pessoa Física";
+            }else if ($_GET["pessoa"] == "1"){
+                echo "Pessoa Jurídica";
+            }else if ($_GET['pessoa'] == "" && $_GET["funcionario"] == "1"){
+                echo "Funcionário";
+            }
+            ?>
+        </small>
     </h1>
 </div>
 <br/>
@@ -49,7 +59,7 @@ if (isset($_SESSION['sucesso'])) {
                         <th style="font-weight: bold">#</th>
                         <th style="font-weight: bold">Nome</th>  
                         <th style="font-weight: bold">Email</th>  
-                        <th style="font-weight: bold"><?= $_GET["pessoa"] == 0 ? "CPF" : "CNPJ" ?></th>  
+                        <th style="font-weight: bold"><?= $_GET["pessoa"] == 0 || $_GET["funcionario"] == 1 ? "CPF" : "CNPJ" ?></th>  
                         <th></th>  
                     </tr>  
                 </thead> 
@@ -74,6 +84,7 @@ if (isset($_SESSION['sucesso'])) {
                 <form action="../controller/cadastrar_servico_cliente.php" method="POST">
                     <input type="hidden" name="id_pessoa" id="id_pessoa"/>
                     <input type="hidden" name="pessoa" id="pessoa" value="<?= $_GET['pessoa'] ?>"/>
+                    <input type="hidden" name="funcionario" id="funcionario" value="<?= $_GET['funcionario'] ?>"/>
                     <div class="form-group">
                         <label for="id_plano" class="col-form-label">Plano de dados*</label>
                         <?php
@@ -134,7 +145,7 @@ include 'footer.php';
         $.ajax({
             url: 'listar_boleto.php',
             type: 'POST',
-            data: {id_pessoa: id, pessoa: <?= $_GET['pessoa'] ?>}
+            data: {id_pessoa: id}
         }).done(function (data) {
             $('#listar_boleto').html(data);
         });

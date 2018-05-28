@@ -9,7 +9,29 @@ include 'header.php';
     </h1>
 </div>
 <br/>
+<?php
+if (isset($_SESSION["erro"])) {
+    ?>
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-ban"></i> Alerta!</h4>
+        <?= $_SESSION["erro"] ?>
+    </div>
+    <?php
+    unset($_SESSION["erro"]);
+}
 
+if (isset($_SESSION['sucesso'])) {
+    ?>
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-check"></i> Concluído!</h4>
+        <?= $_SESSION['sucesso'] ?>
+    </div>
+    <?php
+    unset($_SESSION["sucesso"]);
+}
+?>
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title"></h3>

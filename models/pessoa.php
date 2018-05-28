@@ -280,17 +280,17 @@ class Pessoa {
         if ($pessoa->cpf_cnpj_email_verificarIgual_Cadastrar($this->cpf_cnpj, $this->email)) {
             if ($this->flg_pessoa_juridica == '0') {
                 $query = "INSERT INTO Pessoa (nome,data_nascimento,sexo,cpf_cnpj,"
-                        . "email,flg_pessoa_juridica,senha,img_user,data_cadastro)"
+                        . "email,flg_pessoa_juridica, flg_funcionario,senha,img_user,data_cadastro)"
                         . " VALUES('" . $this->nome . "','" . $this->data_nascimento . "','" . $this->sexo . "','"
-                        . $this->cpf_cnpj . "','" . $this->email . "'," . $this->flg_pessoa_juridica . ",'"
+                        . $this->cpf_cnpj . "','" . $this->email . "'," . $this->flg_pessoa_juridica . "," . 0 . ",'"
                         . $this->senha . "','" . $this->img_user . "','" . $this->data_cadastro . "')";
             } else if ($this->flg_pessoa_juridica == 1) {
                 if ($pessoa->insc_municipal_estadual_verificarIgual_Cadastrar($this->inscricao_estadual, $this->inscricao_municipal)) {
                     $query = "INSERT INTO Pessoa (nome,nome_fantasia,cpf_cnpj,inscricao_estadual,inscricao_municipal,"
-                            . "email,flg_pessoa_juridica,senha,img_user,data_cadastro)"
+                            . "email,flg_pessoa_juridica, flg_funcionario,senha,img_user,data_cadastro)"
                             . " VALUES('" . $this->nome . "','" . $this->nome_fantasia . "','" . $this->cpf_cnpj . "','"
                             . $this->inscricao_estadual . "','" . $this->inscricao_municipal . "','" . $this->email . "',"
-                            . $this->flg_pessoa_juridica . ",'" . $this->senha . "','" . $this->img_user . "','" . $this->data_cadastro . "')";
+                            . $this->flg_pessoa_juridica . ",0,'" . $this->senha . "','" . $this->img_user . "','" . $this->data_cadastro . "')";
                 } else {
                     $_SESSION['erro'] = "Inscrição estadual ou Inscrição municipal invalidos pois já estão cadastrados!";
                     $db->DBclose($link);
@@ -399,15 +399,59 @@ class Pessoa {
     public function excluir_usuario() {
         $db = new DB();
         $link = $db->DBconnect();
+        $query_id_pessoa_controle = "SELECT distinct id_pessoa FROM Controle_pessoa WHERE id_pessoa = $this->id_pessoa";
+        $resultado = mysqli_query($link, $query_id_pessoa_controle);
+        $id_pessoa_controle = mysqli_fetch_all($resultado);
 
-//Teste ==>
-        $id = $_GET["id_pessoa"];
-        $query = "Delete from Pessoa where id_pessoa = $id";
+        $controle_pessoa = new Controle_pessoa();
 
-        if (mysqli_query($link, $query)) {
-            $db->DBclose($link);
-            return true;
+        if (!empty($id_pessoa_controle)) {
+            $query_controle_pessoa = "DELETE FROM Controle_pessoa WHERE id_pessoa = $this->id_pessoa";
+            if (mysqli_query($link, $query_controle_pessoa)) {
+                
+            } else {
+                $_SESSION['erro'] = "Ocorreu algum erro inesperado!";
+                $db->DBclose($link);
+                return false;
+            }
+        }
+
+        $query_id_pessoa_plano = "SELECT distinct id_pessoa FROM Planos_pessoa WHERE id_pessoa = $this->id_pessoa";
+        $resultado_plano = mysqli_query($link, $query_id_pessoa_plano);
+        $id_pessoa_plano = mysqli_fetch_all($resultado_plano);
+
+        if (!empty($id_pessoa_plano)) {
+            $query_plano_pessoa = "DELETE FROM Planos_pessoa WHERE id_pessoa = $this->id_pessoa";
+            if (mysqli_query($link, $query_plano_pessoa)) {
+                
+            } else {
+                $_SESSION['erro'] = "Ocorreu algum erro inesperado!";
+                $db->DBclose($link);
+                return false;
+            }
+        }
+
+        $query_telefone = "DELETE FROM Telefone WHERE id_pessoa = $this->id_pessoa";
+        if (mysqli_query($link, $query_telefone)) {
+            $query_endereco = "DELETE FROM Endereco WHERE id_pessoa = $this->id_pessoa";
+            if (mysqli_query($link, $query_endereco)) {
+                $query_pessoa = "DELETE FROM Pessoa WHERE id_pessoa = $this->id_pessoa";
+                if (mysqli_query($link, $query_pessoa)) {
+                    $_SESSION['sucesso'] = "Usuário deletado com sucesso!";
+                    $db->DBclose($link);
+                    return true;
+                } else {
+                    $_SESSION['erro'] = "Ocorreu algum erro inesperado!";
+                    $db->DBclose($link);
+                    return false;
+                }
+            } else {
+                $_SESSION['erro'] = "Ocorreu algum erro inesperado!";
+                $db->DBclose($link);
+                return false;
+            }
         } else {
+            $_SESSION['erro'] = "Ocorreu algum erro inesperado!";
             $db->DBclose($link);
             return false;
         }
@@ -422,7 +466,7 @@ class Pessoa {
         $id_pessoa_plano = mysqli_fetch_all($resultado);
 
         if ($flg_pessoa_juridica == 0 && empty($flg_funcionario)) {
-            $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_pessoa_juridica = " . $flg_pessoa_juridica . " AND flg_funcionario = 0 " . $flg_funcionario . " ORDER BY P.id_pessoa");
+            $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_pessoa_juridica = " . $flg_pessoa_juridica . " AND flg_funcionario = 0 ORDER BY P.id_pessoa");
         } else if ($flg_pessoa_juridica == 1 && empty($flg_funcionario)) {
             $query = mysqli_query($link, "SELECT P.* FROM magiclink.Pessoa P WHERE flg_pessoa_juridica = " . $flg_pessoa_juridica . " ORDER BY P.id_pessoa");
         } else if (empty($flg_pessoa_juridica) && $flg_funcionario == 1) {
@@ -474,14 +518,31 @@ class Pessoa {
                 ?>
                 <button type="button" class="btn btn-sm btn-success" title="Adquirir Plano" data-toggle="modal" data-target="#modal_planos_serviços" data-whatever="<?= $row["id_pessoa"] ?>" data-whatevernome="<?= $row["nome"] ?>"><i class = "fa fa-cart-plus"></i></button>
                 <?php
-            } else {
-                ?>
-                <a class = "btn btn-sm btn-success" href = "<?= $ulr ?>" title = "Editar Cliente"><i class = "fa fa-edit"></i></a>
-                <?php
-                if (!$controle_pessoa->in_array_r($row["id_pessoa"], $id_pessoa_plano)) {
+            } else if ($acao_link == 2) {
+                if (isset($_SESSION["Clientes-Editar"])) {
                     ?>
-                    <button type="button" class="btn btn-sm btn-danger" title="Ecluir Cliente"><i class="fa fa-trash"></i></button>
+                    <a class = "btn btn-sm btn-success" href = "<?= $ulr ?>" title = "Editar Usuário"><i class = "fa fa-edit"></i></a>
                     <?php
+                }
+                if (isset($_SESSION['Administrador'])) {
+                    //if (!$controle_pessoa->in_array_r($row["id_pessoa"], $id_pessoa_plano)) {
+                    ?>
+                    <button type="button" onclick="excluir_usuario(<?= $row["id_pessoa"] ?>)" class="btn btn-sm btn-danger" title="Excluir Cliente"><i class="fa fa-trash"></i></button>
+                    <?php
+                    //}
+                }
+            } else if ($acao_link == 3) {
+                if (isset($_SESSION["Funcionário-Editar"])) {
+                    ?>
+                    <a class = "btn btn-sm btn-success" href = "<?= $ulr ?>" title = "Editar Usuário"><i class = "fa fa-edit"></i></a>
+                    <?php
+                }
+                if (isset($_SESSION['Administrador'])) {
+                    //if (!$controle_pessoa->in_array_r($row["id_pessoa"], $id_pessoa_plano)) {
+                    ?>
+                    <button type="button" onclick="excluir_usuario(<?= $row["id_pessoa"] ?>)" class="btn btn-sm btn-danger" title="Excluir Cliente"><i class="fa fa-trash"></i></button>
+                    <?php
+                    //}
                 }
             }
             "</td>  
@@ -494,8 +555,10 @@ class Pessoa {
         $db = new DB();
         $link = $db->DBconnect();
         $query = "SELECT P.*, T.*, E.*, concat(C.nome,' (',ES.uf,')') cidade FROM magiclink.Pessoa P "
-                . "INNER JOIN Telefone T ON (P.id_pessoa = T.id_pessoa) INNER JOIN Endereco E ON (P.id_pessoa = E.id_pessoa) "
-                . "INNER JOIN Cidade C ON (E.cidade_id = C.id_cidade) INNER JOIN Estado ES ON (C.id_estado = ES.id_estado) "
+                . "INNER JOIN Telefone T ON (P.id_pessoa = T.id_pessoa) "
+                . "INNER JOIN Endereco E ON (P.id_pessoa = E.id_pessoa) "
+                . "INNER JOIN Cidade C ON (E.cidade_id = C.id_cidade) "
+                . "INNER JOIN Estado ES ON (C.id_estado = ES.id_estado) "
                 . "WHERE P.id_pessoa = " . $id;
         $resultado = mysqli_query($link, $query);
         $dados = mysqli_fetch_array($resultado);

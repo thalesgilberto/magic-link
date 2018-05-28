@@ -9,6 +9,29 @@ include 'header.php';
     </h1>
 </div>
 <br/>
+<?php
+if (isset($_SESSION["erro"])) {
+    ?>
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-ban"></i> Alerta!</h4>
+        <?= $_SESSION["erro"] ?>
+    </div>
+    <?php
+    unset($_SESSION["erro"]);
+}
+
+if (isset($_SESSION['sucesso'])) {
+    ?>
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-check"></i> Concluído!</h4>
+        <?= $_SESSION['sucesso'] ?>
+    </div>
+    <?php
+    unset($_SESSION["sucesso"]);
+}
+?>
 <div class="box">  
     <div class="box-header">
         
@@ -32,7 +55,16 @@ include 'header.php';
         </div>  
     </div>
 </div>  
+<form action="../controller/excluir_usuario.php" method="POST">
+<input type="hidden" id="lista" name="lista" value="listar_pessoa_juridica.php"/>
+<div class="modal fade" id="modal_excluir_usuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div id="excluir_usuario"  class="modal-content">
 
+        </div>
+    </div>
+</div>
+</form>
 <?php
 include 'footer.php';
 ?>

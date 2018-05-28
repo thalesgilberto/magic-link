@@ -1,5 +1,5 @@
 <?php
-if($pessoa->listar_pessoa($_GET['pessoa'],NULL, 1)){    
+if($pessoa->listar_pessoa($_GET['pessoa'],$_GET['funcionario'], 1)){    
     header("Location: ../views/listar_pessoa_servico.php");
 }
 else{
