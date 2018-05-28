@@ -1,8 +1,8 @@
 <?php
     
-    session_start();
-    
-    include '../../models/pessoa.php';
+   ob_start();
+    require '../../controller/seguranca.php';
+    require_once '../../models/pessoa.php';
   ?>  
    
    <style>

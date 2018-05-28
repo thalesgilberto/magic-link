@@ -324,7 +324,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </ul>
                                 <li><a href="relatorios/funcionarios.php" target="_blank"><i class="fa fa-circle-o"></i>Funcionários</a></li>
 
-                            </li>
+                            </li></ul>
                             <?php
                         }
                         ?>
