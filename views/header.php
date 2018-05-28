@@ -246,8 +246,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             </span>
                                         </a>
                                         <ul class="treeview-menu">
-                                            <li><a href="listar_pessoa_servico.php?pessoa=0"><i class="fa fa-circle-o"></i>Pessoa Fisica</a></li>
-                                            <li><a href="listar_pessoa_servico.php?pessoa=1"><i class="fa fa-circle-o"></i>Pessoa Jurídica</a></li>
+                                            <li><a href="listar_pessoa_servico.php?pessoa=0&funcionario="><i class="fa fa-circle-o"></i>Pessoa Fisica</a></li>
+                                            <li><a href="listar_pessoa_servico.php?pessoa=1&funcionario="><i class="fa fa-circle-o"></i>Pessoa Jurídica</a></li>
+                                            <li><a href="listar_pessoa_servico.php?pessoa=&funcionario=1"><i class="fa fa-circle-o"></i>Funcionário</a></li>
                                         </ul>
                                     </li>
                                     <?php

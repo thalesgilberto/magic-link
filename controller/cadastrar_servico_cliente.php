@@ -16,4 +16,4 @@ $tempo_servico = $_POST['tempo_servico'];
 
 $planos_pessoa->cadastrar_plano_pessoa($dia, $tempo_servico);
 
-header("Location: ../views/listar_pessoa_servico.php?pessoa=".$_POST['pessoa']);
+header("Location: ../views/listar_pessoa_servico.php?pessoa=".$_POST['pessoa']."&funcionario=".$_POST["funcionario"]);

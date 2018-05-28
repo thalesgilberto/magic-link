@@ -36,10 +36,24 @@
        $(".mask-insc-municipal").mask("999.999.99-9");
     });
 </script>
+<script>
+    function excluir_usuario(id) {
+        $.ajax({
+            url: 'excluir_usuario.php',
+            type: 'POST',
+            data: {id_pessoa: id}
+        }).done(function (data) {
+            $('#excluir_usuario').html(data);
+        });
 
+        $('#modal_excluir_usuario').modal('show');
+    }
+</script>
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
 </body>
 </html>
-
+<?php
+echo sha1("123");
+?>

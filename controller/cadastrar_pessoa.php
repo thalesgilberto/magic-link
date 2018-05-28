@@ -16,7 +16,7 @@ if ((isset($_POST['flg_pessoa_juridica']) && $_POST['flg_pessoa_juridica'] == 0)
     $pessoa->setSenha(sha1($_POST['senha']));
     if(isset($_POST['flg_pessoa_juridica'])) {
         $pessoa->setFlg_pessoa_juridica($_POST['flg_pessoa_juridica']);
-    }else if ($_POST['flg_funcionario']){
+    }else if (isset($_POST['flg_funcionario'])){
         $pessoa->setFlg_funcionario($_POST['flg_funcionario']);
     }
     $pessoa->setData_cadastro(date("Y/m/d H:i:s"));

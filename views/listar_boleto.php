@@ -15,67 +15,69 @@ $dados = $p->mostrar_dados_pessoa($_POST["id_pessoa"]);
     </button>
 </div>
 <div class="modal-body">
-    <form action="../controller/cadastrar_servico_cliente.php" method="POST">
-        <input type="hidden" name="id_pessoa" id="id_pessoa"/>
-        <input type="hidden" name="pessoa" id="pessoa" value="<?= $_POST['pessoa'] ?>"/>
-        <div class="form-group">
-            <div class="table" style="height: 400px; width: auto ; overflow-y: scroll">
-                <table id="listar_boleto_tabela" class="table table-striped table-responsive">
-                    <thead>
-                        <tr>
-                            <th>
-                                Plano - Valor R$
-                            </th>
-                            <th>
-                                Data de vencimento
-                            </th>
-                            <th>
-                                Status do boleto
-                            </th>
-                            <th>
+    <div class="form-group">
+        <div class="table" style="height: 400px; width: auto ; overflow-y: scroll">
+            <table id="listar_boleto_tabela" class="table table-striped table-responsive">
+                <thead>
+                    <tr>
+                        <th>
+                            Plano - Valor R$
+                        </th>
+                        <th>
+                            Data de vencimento
+                        </th>
+                        <th>
+                            Status do boleto
+                        </th>
+                        <th>
 
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        foreach ($dados_boleto as $item) {
-                            $data_vencimento_boleto = date_create($item[3]);
-                            ?>
-                            <tr>
-                                <td>
-                                    <?= $item[6] . " - R$" . $item[7] ?>
-                                </td>
-                                <td>
-                                    <?= date_format($data_vencimento_boleto, 'd/m/Y') ?>
-                                </td>
-                                <td>
-                                    <?php
-                                    if ($item[4] == 0 && date("d/m/Y") <= $data_vencimento_boleto) {
-                                        echo 'Não pago';
-                                    } else if ($item[4] == 0 && date("d/m/Y") > $data_vencimento_boleto) {
-                                        echo 'Vencido';
-                                    } else if ($item[4] == 1) {
-                                        echo 'Pago';
-                                    }
-                                    ?> 
-                                </td>
-                                <td>
-                                    <a href="../boleto/boleto_bradesco.php?b=<?= $item[0] ?>" target="_blank" class="btn btn-sm btn-default" title="Imprimir boleto"><i class="fa fa-print"></i></a>
-                                    <button class="btn btn-sm btn-success" title="Pagar boleto"><i class="fa fa-money"></i></button>
-                                </td>
-                            </tr>
-                            <?php
-                        }
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($dados_boleto as $item) {
+                        $data_vencimento_boleto = date_create($item[3]);
                         ?>
-                    </tbody>
-                </table>
-            </div>           
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        </div>
-    </form>
+                        <tr>
+                            <td>
+                                <?= $item[6] . " - R$" . $item[7] ?>
+                            </td>
+                            <td>
+                                <?= date_format($data_vencimento_boleto, 'd/m/Y') ?>
+                            </td>
+                            <td>
+                                <?php
+                                if ($item[4] == 0 && date("d/m/Y") <= $data_vencimento_boleto) {
+                                    echo 'Não pago';
+                                } else if ($item[4] == 0 && date("d/m/Y") > $data_vencimento_boleto) {
+                                    echo 'Vencido';
+                                } else if ($item[4] == 1) {
+                                    echo 'Pago';
+                                }
+                                ?> 
+                            </td>
+                            <td>
+                                <a href="../boleto/boleto_bradesco.php?b=<?= $item[0] ?>" target="_blank" class="btn btn-sm btn-default" title="Imprimir boleto"><i class="fa fa-print"></i></a>
+                                <?php
+                                if (($item[4] == 0 && date("d/m/Y") <= $data_vencimento_boleto) || ($item[4] == 0 && date("d/m/Y") > $data_vencimento_boleto)) {
+                                    ?>
+                                <a href="../controller/pagar_boleto.php?b=<?= $item[0] ?>" class="btn btn-sm btn-success" title="Pagar boleto"><i class="fa fa-money"></i></a>
+                                    <?php
+                                }
+                                ?>        
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>           
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+    </div>
 </div>
 
 <script>

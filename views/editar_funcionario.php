@@ -1,7 +1,7 @@
 <?php
 require '../controller/seguranca.php';
 require '../models/pessoa.php';
-require '../models/controle_pessoa.php';
+require_once '../models/controle_pessoa.php';
 include 'header.php';
 ?>
 <div class="content-header">
