@@ -98,7 +98,7 @@ use Dompdf\Dompdf;
     
     echo $dompdf->output();//Mostra na tela
     
-    $dompdf->stream("relatorio-pf.pdf"); //realiza o download
+    //$dompdf->stream("relatorio-pf.pdf"); //realiza o download
     
   
 

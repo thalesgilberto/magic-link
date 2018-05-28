@@ -5,16 +5,6 @@
     setlocale(LC_TIME, 'Pt_BR', 'Pt_BR.utf-8', 'Pt_BR.utf-8', 'Portuguese');
 ?>  
    
-   <style>
-      table, td, th {    
-        border: 1px solid #ddd;
-        
-      }
-      tr:nth-child(even){
-        background-color: #f2f2f2;
-      }
-      
-   </style>
    
    <table>
     <thead>
@@ -36,8 +26,8 @@
 
             while($row = mysqli_fetch_assoc($query)){
             
-            echo  "<tr><td>".$row['nome']; "</td></tr>";
-	    echo  "<td>".$row['email']; "</td>";
+           echo  "<tr><td>".$row['nome']; "</td></tr>";
+	   // echo  "<td>".$row['email']; "</td>";
             echo  "<td>".$row['cpf_cnpj']; "</td>";
             echo  "<td>".@date('d/m/Y', strtotime($row["data_nascimento"])); "</td>";
             
