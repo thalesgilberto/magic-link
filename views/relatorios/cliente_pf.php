@@ -66,7 +66,7 @@ use Dompdf\Dompdf;
     $canvas->page_text(170, 820, "Este relatório foi gerado no dia ". $data = strftime("%d/%m/%Y ás %T"), "helvetica", 12, array(0,0,0));//footer
     $canvas->page_text(30, 792, "Usuário: ".$_SESSION["nome"], "helvetica", 12, array(0,0,0));//footer
     
-    
+   
     
     header("Content-type: application/pdf");    
     
