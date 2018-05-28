@@ -48,7 +48,7 @@
             echo  "<tr><td>".$row['nome']; "</td></tr>";
             echo  "<td>".$row['cpf_cnpj']; "</td>";
             echo  "<td>".$row['descricao_plano']; "</td>";
-            echo  "<td>".$row['data_pagamento']; "</td>";
+            echo  "<td>".@date('d/m/Y', strtotime($row['data_pagamento'])); "</td>";
             
         }    
             

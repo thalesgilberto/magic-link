@@ -8,19 +8,12 @@
    <style>
       table, td, th {    
         border: 1px solid #ddd;
-        text-align: left;
+        
       }
       tr:nth-child(even){
         background-color: #f2f2f2;
       }
-      table {
-        border-collapse: collapse;
-        
-      }
-
-      th, td {
-        padding: 5px;
-      }
+      
    </style>
    
    <table>

@@ -84,14 +84,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <!--Menu Toggle Button--> 
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <!--The user image in the navbar-->
-                                    <img src="../img/default.jpg" class="user-image" alt="User Image">
+                                    <?php
+                                    if ($_SESSION['img_user'] != null) {
+                                        ?>
+                                        <img src="../img/<?= $_SESSION['img_user'] ?>" class="user-image" alt="User Image">
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <img src="../img/default.jpg" class="user-image" alt="User Image">
+                                        <?php
+                                    }
+                                    ?>
                                     <!--hidden-xs hides the username on small devices so only the image appears.--> 
                                     <span class="hidden-xs"><?= $_SESSION['nome'] ?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!--The user image in the menu--> 
                                     <li class="user-header">
-                                        <img src="../img/default.jpg" class="img-circle" alt="User Image">
+                                        <?php
+                                        if ($_SESSION['img_user'] != null) {
+                                            ?>
+                                            <img src="../img/<?= $_SESSION['img_user'] ?>" class="img-circle" alt="User Image">
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <img src="../img/default.jpg" class="img-circle" alt="User Image">
+                                            <?php
+                                        }
+                                        ?>
                                         <p>
                                             <?= $_SESSION['nome'] ?>
                                             <small><?= $_SESSION['email'] ?></small>
@@ -233,11 +253,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <?php
                                     //}
                                     //if (isset($_SESSION['Clientes-Cadastrar'])) {
-                                    ?>
-                                    <li class="treeview">
-                                        <a href="#"><i class="fa fa-user-plus"></i> Cadastrar Serviços </a>
-                                    </li>
-                                    <?php
+                                        ?>
+                                        <li class="treeview">
+                                            <a href="#"><i class="fa fa-user-plus"></i> Cadastrar Serviços </a>
+                                        </li>
+                                        <?php
                                     //}
                                     ?>
                                 </ul>
@@ -253,27 +273,62 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </span>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li><a href="relatorios/cliente_pf.php" target="_blank"><i class="fa fa-circle-o"></i>Clientes - Pessoa Física</a></li>
-                                    <li><a href="relatorios/cliente_pj.php" target="_blank"><i class="fa fa-circle-o"></i>Clientes - Pessoa Jurídica</a></li>
-                                    <li><a href="relatorios/plano3-pf.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 3MB - Pessoa Física</a></li>
-                                    <li><a href="relatorios/plano3-pj.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 3MB - Pessoa Jurídica</a></li>
-                                    <li><a href="relatorios/plano5-pf.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 5MB - Pessoa Física</a></li>
-                                    <li><a href="relatorios/plano5-pj.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 5MB - Pessoa Jurídica</a></li>
-                                    <li><a href="relatorios/plano10-pf.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 10MB - Pessoa Física</a></li>
-                                    <li><a href="relatorios/plano10-pj.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 10MB - Pessoa Jurídica</a></li>
-                                    <li><a href="relatorios/pag-realizado.php" target="_blank"><i class="fa fa-circle-o"></i>Pagamentos Realizados</a></li>
-                                    <li><a href="relatorios/pag-atrasado.php" target="_blank"><i class="fa fa-circle-o"></i>Pagamentos Atrasados</a></li>
-                                    <li><a href="relatorios/funcionarios.php" target="_blank"><i class="fa fa-circle-o"></i>Funcionários</a></li>
+                                    <li class="treeview">
+                                        <a href="#"><i class="fa fa-list"></i> Clientes
+                                            <span class="pull-right-container">
+                                                <i class="fa fa-angle-left pull-right"></i>
+                                            </span>
+                                        </a>
+                                        <ul class="treeview-menu">
+                                            <li class="treeview">
+                                                <a href="#"><i class="fa fa-list"></i> Pessoa Física
+                                                    <span class="pull-right-container">
+                                                        <i class="fa fa-angle-left pull-right"></i>
+                                                    </span>
+                                                </a>
+                                                <ul class="treeview-menu">
+                                                    <li><a href="relatorios/cliente_pf.php" target="_blank"><i class="fa fa-circle-o"></i>Lista Completa</a></li>
+                                                    <li><a href="relatorios/plano3-pf.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 3MB</a></li>
+                                                    <li><a href="relatorios/plano5-pf.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 5MB</a></li>
+                                                    <li><a href="relatorios/plano10-pf.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 10MB</a></li>
+
+                                                </ul>
+                                            </li>
+                                            <li class="treeview">
+                                                <a href="#"><i class="fa fa-list"></i> Pessoa Jurídica
+                                                    <span class="pull-right-container">
+                                                        <i class="fa fa-angle-left pull-right"></i>
+                                                    </span>
+                                                </a>
+                                                <ul class="treeview-menu">
+                                                    <li><a href="relatorios/cliente_pj.php" target="_blank"><i class="fa fa-circle-o"></i>Lista Completa</a></li>
+                                                    <li><a href="relatorios/plano3-pj.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 3MB</a></li>
+                                                    <li><a href="relatorios/plano5-pj.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 5MB</a></li>
+                                                    <li><a href="relatorios/plano10-pj.php" target="_blank"><i class="fa fa-circle-o"></i>Plano 10MB</a></li>
+
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        
+                                    </li>
+                                    <li class="treeview">
+                                        <a href="#"><i class="fa fa-list"></i> Pagamentos
+                                            <span class="pull-right-container">
+                                                <i class="fa fa-angle-left pull-right"></i>
+                                            </span>
+                                        </a>
+                                        <ul class="treeview-menu">
+
+                                            <li><a href="relatorios/pag-realizado.php" target="_blank"><i class="fa fa-circle-o"></i>Realizados</a></li>
+                                            <li><a href="relatorios/pag-atrasado.php" target="_blank"><i class="fa fa-circle-o"></i>Atrasados</a></li>
                                 </ul>
+                                <li><a href="relatorios/funcionarios.php" target="_blank"><i class="fa fa-circle-o"></i>Funcionários</a></li>
+
                             </li>
                             <?php
                         }
-                        if (isset($_SESSION['Ordem-Servico'])) {
-                            ?>
+                        ?>
                             <li><a href="https://painel.tomticket.com" target="_blank"><i class="fa fa-bullhorn"></i> <span>Ordem de Serviço</span></a></li>
-                            <?php
-                        }
-                        ?>            
                     </ul>
                     <!-- /.sidebar-menu -->
                 </section>

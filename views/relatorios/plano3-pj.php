@@ -41,9 +41,15 @@
         
         $query = mysqli_query($link, "SELECT DISTINCT Planos_pessoa.id_pessoa, Pessoa.cpf_cnpj, Planos_pessoa.data_pagamento, Pessoa.nome, Planos.descricao_plano FROM ((magiclink.Planos_pessoa INNER JOIN Pessoa ON Planos_pessoa.id_pessoa = Pessoa.id_pessoa) INNER JOIN Planos ON Planos_pessoa.id_plano = Planos.id_plano) where descricao_plano = '3 MB' AND flg_pessoa_juridica = 1 GROUP BY Planos_pessoa.id_pessoa;");  
         while($row = mysqli_fetch_assoc($query)){
+                $parte_um = substr($row["cpf_cnpj"], 0, 2);
+                $parte_dois = substr($row["cpf_cnpj"], 2, 3);
+                $parte_tres = substr($row["cpf_cnpj"], 5, 3);
+                $parte_quatro = substr($row["cpf_cnpj"], 8, 4);
+                $parte_cinco = substr($row["cpf_cnpj"], 12, 2);
+                $monta_cpf_cnpj = "$parte_um.$parte_dois.$parte_tres/$parte_quatro-$parte_cinco";
             echo  "<tr><td>".$row['nome']; "</td></tr>";
-            echo  "<td>".$row['cpf_cnpj']; "</td>";
-            echo  "<td>".$row['data_pagamento']; "</td>";
+            echo  "<td>".$monta_cpf_cnpj; "</td>";
+            echo  "<td>".@date('d/m/Y', strtotime($row['data_pagamento'])); "</td>";
            
             
         }    
@@ -67,7 +73,10 @@ use Dompdf\Dompdf;
     
     
     // Carrega seu HTML
-    $dompdf->load_html('<div><div style="float:left"><img src="../img/logo_magic.png" style="width: 20%;"></div>
+    $dompdf->load_html('<div><div style="float:right"><img src="../img/logo_magic.png" style="width: 25%; float:right"></div></div>
+                <p>Magic Link</p>
+                <p>Rua Teste, Cachoeira-BA, 44.300-000</p>
+                <p><strong>Tel</strong> - 0000-0000</p><br><br>
 		<h1 style="text-align: center;">Relatório de Serviços</h1>
                 <h3 style="text-align: center;">Plano 3MB - Pessoa Jurídica</h3></div><br>
                 '.$html);
