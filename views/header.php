@@ -33,8 +33,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-        <!-- Google Font -->
+        <!-- Google Font 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        -->
     </head>
     <!--
     BODY TAG OPTIONS:
@@ -236,9 +237,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </span>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <?php
-                                    //if(isset($_SESSION['Clientes-Listar'])){
-                                    ?>
                                     <li class="treeview">
                                         <a href="#"><i class="fa fa-list"></i> Listar Clientes
                                             <span class="pull-right-container">
@@ -251,16 +249,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <li><a href="listar_pessoa_servico.php?pessoa=&funcionario=1"><i class="fa fa-circle-o"></i>Funcionário</a></li>
                                         </ul>
                                     </li>
-                                    <?php
-                                    //}
-                                    //if (isset($_SESSION['Clientes-Cadastrar'])) {
-                                        ?>
-                                        <li class="treeview">
-                                            <a href="#"><i class="fa fa-user-plus"></i> Cadastrar Serviços </a>
-                                        </li>
-                                        <?php
-                                    //}
-                                    ?>
+                                    <li>
+                                        <a href="listar_servico.php"><i class="fa fa-user-plus"></i> Cadastrar Serviços </a>
+                                    </li>
                                 </ul>
                             </li>
                             <?php
@@ -310,7 +301,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 </ul>
                                             </li>
                                         </ul>
-                                        
                                     </li>
                                     <li class="treeview">
                                         <a href="#"><i class="fa fa-list"></i> Pagamentos
@@ -322,14 +312,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                                             <li><a href="relatorios/pag-realizado.php" target="_blank"><i class="fa fa-circle-o"></i>Realizados</a></li>
                                             <li><a href="relatorios/pag-atrasado.php" target="_blank"><i class="fa fa-circle-o"></i>Atrasados</a></li>
+                                        </ul>
+                                    </li>    
+                                    <li><a href="relatorios/funcionarios.php" target="_blank"><i class="fa fa-circle-o"></i>Funcionários</a></li>
                                 </ul>
-                                <li><a href="relatorios/funcionarios.php" target="_blank"><i class="fa fa-circle-o"></i>Funcionários</a></li>
-
-                            </li></ul>
-                            <?php
-                        }
-                        ?>
-                            <li><a href="https://painel.tomticket.com" target="_blank"><i class="fa fa-bullhorn"></i> <span>Ordem de Serviço</span></a></li>
+                                <?php
+                            }
+                            ?>
+                        <li><a href="https://painel.tomticket.com" target="_blank"><i class="fa fa-bullhorn"></i> <span>Ordem de Serviço</span></a></li>
                     </ul>
                     <!-- /.sidebar-menu -->
                 </section>
