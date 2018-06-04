@@ -42,7 +42,7 @@
         $link = $db->DBconnect();
                                                                                
         
-        $query = mysqli_query($link, "SELECT DISTINCT Planos_pessoa.id_pessoa,Pessoa.email, Pessoa.cpf_cnpj, Planos_pessoa.data_pagamento, Planos_pessoa.flg_pagamento, Pessoa.nome, Planos.descricao_plano FROM ((magiclink.Planos_pessoa INNER JOIN Pessoa ON Planos_pessoa.id_pessoa = Pessoa.id_pessoa) INNER JOIN Planos ON Planos_pessoa.id_plano = Planos.id_plano) WHERE flg_pagamento = 0 AND (data_pagamento < date(now()) AND data_pagamento = month(now())) GROUP BY Pessoa.id_pessoa");  
+        $query = mysqli_query($link, "SELECT DISTINCT Planos_pessoa.id_pessoa,Pessoa.email, Pessoa.cpf_cnpj, Planos_pessoa.data_pagamento, Planos_pessoa.flg_pagamento, Pessoa.nome, Planos.descricao_plano FROM ((magiclink.Planos_pessoa INNER JOIN Pessoa ON Planos_pessoa.id_pessoa = Pessoa.id_pessoa) INNER JOIN Planos ON Planos_pessoa.id_plano = Planos.id_plano) WHERE flg_pagamento = 0 AND (data_pagamento < date(now()) AND month(data_pagamento) = month(now())) GROUP BY Pessoa.id_pessoa");  
         while($row = mysqli_fetch_assoc($query)){
             echo  "<tr><td>".$row['nome']; "</td></tr>";
             echo  "<td>".$row['cpf_cnpj']; "</td>";
@@ -72,7 +72,10 @@ use Dompdf\Dompdf;
     
     
     // Carrega seu HTML
-    $dompdf->load_html('<div><div style="float:left"><img src="../img/logo_magic.png" style="width: 20%;"></div>
+    $dompdf->load_html('<div><div style="float:right"><img src="../img/logo_magic.png" style="width: 25%; float:right"></div></div>
+                <p>Magic Link</p>
+                <p>Rua Teste, Cachoeira-BA, 44.300-000</p>
+                <p><strong>Tel</strong> - 0000-0000</p><br><br>
 		<h2 style="text-align: center;">Relatório de Pagamentos Atrasados</h2><br>
                 <h3 style="text-align: center;">'.ucfirst($mes).'</h3></div><br>
                 '.$html);
