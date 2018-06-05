@@ -318,8 +318,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </ul>
                                 <?php
                             }
+                            
+                            if (isset($_SESSION['Ordem-Servico'])) {
                             ?>
                         <li><a href="https://painel.tomticket.com" target="_blank"><i class="fa fa-bullhorn"></i> <span>Ordem de Serviço</span></a></li>
+                    <?php
+                            }
+                    ?>
                     </ul>
                     <!-- /.sidebar-menu -->
                 </section>

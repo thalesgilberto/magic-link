@@ -38,7 +38,7 @@
             <?php 
             $db = new DB();
         $link = $db->DBconnect();
-        $query = mysqli_query($link, "SELECT DISTINCT Planos_pessoa.id_pessoa,Pessoa.email, Pessoa.cpf_cnpj, Planos_pessoa.data_pagamento, Planos_pessoa.flg_pagamento, Pessoa.nome, Planos.descricao_plano FROM ((magiclink.Planos_pessoa INNER JOIN Pessoa ON Planos_pessoa.id_pessoa = Pessoa.id_pessoa) INNER JOIN Planos ON Planos_pessoa.id_plano = Planos.id_plano) WHERE flg_pessoa_juridica = 1 GROUP BY Pessoa.id_pessoa");
+        $query = mysqli_query($link, "SELECT DISTINCT nome, email, cpf_cnpj FROM Pessoa WHERE flg_pessoa_juridica = 1");
         
 
             while($row = mysqli_fetch_assoc($query)){
